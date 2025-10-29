@@ -1,136 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 :root {
-    --primary-color: #30dd59; /* Green */
-    --secondary-color: #f8f9fa; /* Light Gray */
+    --primary-color: #30dd59;
+    --secondary-color: #f8f9fa;
     --text-color: #333;
     --light-text-color: #666;
     --border-color: #dee2e6;
     --bg-color: #f1f2f3;
-    --dark-bg-color: #181a1b; /* Background color for dark mode */
-    --dark-text-color: #e0e0e0; /* Text color for dark mode */
-    --dark-card-bg: #232526; /* Darker background for cards in dark mode */
-    --dark-border-color: #333; /* Darker border color */
-    --dark-hover-color: #2a2d2e; /* Hover color for dark mode */
+    --dark-bg-color: #181a1b;
+    --dark-text-color: #e0e0e0;
+    --dark-card-bg: #232526;
+    --dark-border-color: #333;
 }
 
-/* Dark Mode Styles */
-/* Container do botão dark mode */
-.darkmode-container {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    position: relative;
-}
-
-/* Botão dark mode */
-.btn-dark-mode {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    color: var(--text-color);
-}
-
-.btn-dark-mode:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    transform: scale(1.1);
-}
-
-.btn-dark-mode svg {
-    width: 20px;
-    height: 20px;
-    transition: color 0.3s ease;
-}
-
-/* Estilos do modo escuro */
-body.dark-mode {
-    background-color: var(--dark-bg-color);
-    color: var(--dark-text-color);
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.dark-mode .navbar {
-    background-color: var(--dark-card-bg);
-    border-color: var(--dark-border-color);
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.dark-mode .search-bar input {
-    background-color: var(--dark-bg-color);
-    color: var(--dark-text-color);
-    border-color: var(--dark-border-color);
-    transition: all 0.3s ease;
-}
-
-.dark-mode .product-card {
-    background-color: var(--dark-card-bg);
-    border-color: var(--dark-border-color);
-    transition: all 0.3s ease;
-}
-
-.dark-mode .product-card:hover {
-    background-color: var(--dark-hover-color);
-    transform: translateY(-5px);
-}
-
-.dark-mode .product-title,
-.dark-mode .product-price {
-    color: var(--dark-text-color);
-    transition: color 0.3s ease;
-}
-
-.dark-mode .modal-content {
-    background-color: var(--dark-card-bg);
-    color: var(--dark-text-color);
-    border-color: var(--dark-border-color);
-    transition: all 0.3s ease;
-}
-
-.dark-mode .btn-dark-mode {
-    color: var(--dark-text-color);
-}
-
-.dark-mode .btn-dark-mode:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Melhorias nas transições */
-.navbar,
-.modal-content,
-.product-card,
-.product-title,
-.product-price,
-.btn-dark-mode,
-input,
-button {
-    transition: all 0.3s ease;
-}
-
-.dark-mode .btn-dark-mode {
-    color: var(--dark-text-color);
-    background-color: transparent;
-    border: 1px solid var(--dark-text-color);
-}
-
-.dark-mode .nav-links a {
-    color: var(--dark-text-color);
-}
-
-.dark-mode .product-category {
-    color: var(--primary-color);
-}
-
-.dark-mode .old-price {
-    color: #888;
-}
-
-/* Base */
+/* Reset */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -142,15 +25,10 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--bg-color);
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-a {
-    text-decoration: none;
-    color: #ffffff;
-}
-
-/* Header e Navegação */
+/* Header */
 .top-bar {
     background-color: var(--primary-color);
     color: white;
@@ -167,15 +45,12 @@ a {
     padding: 0 20px;
 }
 
-.right-text i {
-    margin-left: 5px;
-}
-
+/* Navigation */
 .navbar {
     background-color: white;
     padding: 15px 0;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .nav-container {
@@ -187,60 +62,21 @@ a {
     padding: 0 20px;
 }
 
-/* Estilos para os botões do carrossel */
-.new-prev-btn,
-.new-next-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    padding: 15px;
-    cursor: pointer;
-    font-size: 18px;
-    z-index: 2;
-    border-radius: 50%;
-}
-
-.new-prev-btn {
-    left: 10px;
-}
-
-.new-next-btn {
-    right: 10px;
-}
-
-.new-carousel-dots {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px;
-    z-index: 2;
-}
-
-.new-carousel-dot {
-    width: 12px;
-    height: 12px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.new-carousel-dot.active {
-    background: var(--primary-color);
-}
-
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-color);
 }
 
-.logo i {
-    margin-right: 5px;
+.grilo-logo {
+    display: flex;
+    align-items: center;
+}
+
+.grilo-logo img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
 }
 
 .search-bar {
@@ -256,78 +92,15 @@ a {
     border: 1px solid var(--border-color);
     border-radius: 5px;
     outline: none;
+    transition: all 0.3s ease;
 }
 
 .search-bar i {
     position: absolute;
     right: 15px;
-}
-
-/* Estilos do carrossel */
-.new-carousel-section {
-    position: relative;
-    margin-bottom: 40px;
-}
-
-.new-carousel-container {
-    position: relative;
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.new-carousel-track {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    width: 100%;
-}
-
-.new-carousel-slide {
-    flex: 0 0 100%;
-    position: relative;
-}
-
-.new-carousel-slide img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-}
-
-.slide-caption {
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 8px;
-    max-width: 50%;
-}
-
-.slide-caption h3 {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.slide-caption p {
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-.carousel-action-btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background: var(--primary-color);
-    color: white;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-}
-
-.carousel-action-btn:hover {
-    background: #28c14d;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--light-text-color);
 }
 
 .nav-links {
@@ -346,6 +119,7 @@ a {
     color: var(--light-text-color);
     font-size: 0.9rem;
     white-space: nowrap;
+    transition: color 0.3s ease;
 }
 
 .nav-links a i {
@@ -353,31 +127,13 @@ a {
     font-size: 1.1rem;
 }
 
-.cart-link {
-    position: relative;
-}
-
-.cart-badge {
-    position: absolute;
-    top: -8px;
-    right: -8px;
-    background-color: red;
-    color: white;
-    font-size: 0.7rem;
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .btn {
     padding: 8px 15px;
     border-radius: 5px;
     font-weight: 500;
-    transition: background-color 0.3s;
     cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
 }
 
 .btn-primary {
@@ -391,32 +147,80 @@ a {
     color: var(--light-text-color);
 }
 
-/* Botão de Inserir CEP no cabeçalho */
-.cep-link a {
-    color: var(--light-text-color);
-    font-size: 0.9rem;
-    white-space: nowrap;
+/* Dark Mode Toggle - Combinação 🔆🌙 */
+.darkmode-container {
     display: flex;
     align-items: center;
+    margin-left: 20px;
 }
 
-.cep-link i {
-    margin-right: 5px;
-    font-size: 1.1rem;
+.btn-dark-mode {
+    position: relative;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-size: 1.7rem;
+    width: 45px;
+    height: 45px;
+    overflow: hidden;
 }
 
-/* Seções de Conteúdo */
-main {
-    padding: 20px 0;
+.btn-dark-mode:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
 }
 
-/* --- NOVO CARROSSEL CSS --- */
+.sun-icon, .moon-icon {
+    position: absolute;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Modo claro: mostra sol 🔆, esconde lua 🌙 */
+.sun-icon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+.moon-icon {
+    opacity: 0;
+    transform: scale(0.5) rotate(-90deg);
+}
+
+/* Modo escuro: mostra lua 🌙, esconde sol 🔆 */
+body.dark-mode .sun-icon {
+    opacity: 0;
+    transform: scale(0.5) rotate(90deg);
+}
+body.dark-mode .moon-icon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+/* Hover effects - fica verde */
+body.dark-mode .btn-dark-mode:hover .moon-icon {
+    filter: brightness(0) saturate(100%) invert(61%) sepia(90%) saturate(387%) hue-rotate(75deg) brightness(95%) contrast(85%);
+}
+
+.btn-dark-mode:hover .sun-icon {
+    filter: brightness(0) saturate(100%) invert(61%) sepia(90%) saturate(387%) hue-rotate(75deg) brightness(95%) contrast(85%);
+}
+
+/* Carousel */
 .new-carousel-section {
     width: 100%;
     max-width: 1200px;
     margin: 20px auto;
     padding: 0 20px;
-    overflow: hidden;
 }
 
 .new-carousel-container {
@@ -435,9 +239,6 @@ main {
 .new-carousel-slide {
     min-width: 100%;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .new-carousel-slide img {
@@ -489,7 +290,7 @@ main {
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
-    padding: 15px 15px;
+    padding: 15px;
     cursor: pointer;
     font-size: 24px;
     z-index: 10;
@@ -533,9 +334,7 @@ main {
     transform: scale(1.2);
 }
 
-/* --- FIM NOVO CARROSSEL CSS --- */
-
-/* Mega Promoção - ATUALIZADA */
+/* Mega Promoção */
 .mega-promo-section {
     background: linear-gradient(135deg, #000 0%, #333 100%);
     color: white;
@@ -547,19 +346,7 @@ main {
     max-width: 1200px;
     margin: 40px auto;
     border-radius: 15px;
-    overflow: hidden;
     position: relative;
-}
-
-.mega-promo-section::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(48, 221, 89, 0.1);
-    z-index: 1;
 }
 
 .mega-promo-banner {
@@ -606,7 +393,6 @@ main {
     margin-right: 8px;
 }
 
-/* Botão informativo (sem funcionalidade) */
 .btn-promo-info {
     background: rgba(255, 255, 255, 0.2);
     color: white;
@@ -623,38 +409,25 @@ main {
     gap: 8px;
 }
 
-.btn-promo-info:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.4);
-    transform: none;
-}
-
+/* CÍRCULO VAZIO */
 .mega-promo-image {
     width: 220px;
     height: 220px;
     border-radius: 50%;
-    overflow: hidden;
     flex-shrink: 0;
     position: relative;
     z-index: 2;
     border: 4px solid var(--primary-color);
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    background: rgba(255, 255, 255, 0.1);
 }
 
-.mega-promo-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
+/* Products Section */
 .products-highlight {
     max-width: 1200px;
     margin: 60px auto;
     padding: 0 20px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .products-highlight h2 {
@@ -725,6 +498,8 @@ main {
     object-fit: contain;
     margin-bottom: 15px;
     border-radius: 5px;
+    background-color: #f8f9fa;
+    display: block;
 }
 
 .product-category {
@@ -739,6 +514,7 @@ main {
     margin-bottom: 10px;
     height: 2.5em;
     overflow: hidden;
+    color: var(--text-color);
 }
 
 .product-rating {
@@ -752,10 +528,6 @@ main {
 .product-rating i {
     margin-right: 2px;
     color: #FFD700;
-}
-
-.product-rating .far {
-    color: #ccc;
 }
 
 .product-rating span {
@@ -815,55 +587,7 @@ main {
     background-color: #d0d0d0;
 }
 
-.dark-mode-section {
-    background-color: white;
-    padding: 40px 20px;
-    text-align: center;
-    max-width: 1200px;
-    margin: 50px auto;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.dark-mode-section h2 {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.dark-mode-section p {
-    color: var(--light-text-color);
-    margin-bottom: 25px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.btn-dark-mode {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 6px 10px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.3s, color 0.3s;
-    color: #333;
-    font-size: 1.2em;
-}
-
-.btn-dark-mode svg {
-    width: 24px;
-    height: 24px;
-    display: block;
-}
-
-.btn-dark-mode:hover {
-    background-color: #e0e0e0;
-    color: var(--primary-color);
-}
-
-/* Rodapé */
+/* Footer */
 .main-footer {
     background-color: var(--primary-color);
     color: white;
@@ -905,15 +629,6 @@ main {
     transition: color 0.2s;
 }
 
-.footer-column ul li a:hover {
-    color: #d4edda;
-}
-
-.footer-column p {
-    font-size: 0.9rem;
-    line-height: 1.5;
-}
-
 .social-icons {
     display: flex;
     gap: 15px;
@@ -926,11 +641,26 @@ main {
     transition: color 0.2s;
 }
 
-.social-icons a:hover {
-    color: #d4edda;
+/* Help Icon */
+.bottom-right-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--primary-color);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    z-index: 100;
 }
 
-/* Estilo para o Modal (APENAS CEP) */
+/* Modais */
 .modal {
     display: none;
     position: fixed;
@@ -939,14 +669,9 @@ main {
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: auto;
     background-color: rgba(0,0,0,0.5);
     justify-content: center;
     align-items: center;
-}
-
-.modal.show {
-    display: flex;
 }
 
 .modal-content {
@@ -957,13 +682,6 @@ main {
     max-width: 400px;
     width: 90%;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    animation-name: animatetop;
-    animation-duration: 0.4s;
-}
-
-@keyframes animatetop {
-    from {top: -300px; opacity: 0}
-    to {top: 0; opacity: 1}
 }
 
 .close-btn {
@@ -975,18 +693,6 @@ main {
     top: 10px;
     right: 15px;
     cursor: pointer;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: #333;
-    text-decoration: none;
-}
-
-.modal h2 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: #333;
 }
 
 .form-group {
@@ -1007,308 +713,184 @@ main {
     outline: none;
 }
 
-.modal .btn-primary {
-    width: 100%;
-    text-align: center;
-}
-
-/* Estilos do Modo Escuro */
+/* ========== DARK MODE COMPLETO ========== */
 body.dark-mode {
     background-color: var(--dark-bg-color);
     color: var(--dark-text-color);
 }
 
-body.dark-mode .top-bar {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-body.dark-mode .navbar,
-body.dark-mode .modal-content,
-body.dark-mode .product-card,
-body.dark-mode .dark-mode-section,
-body.dark-mode .mega-promo-section,
-body.dark-mode .main-footer {
-    background-color: var(--dark-card-bg);
-    color: var(--dark-text-color);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-}
-
-body.dark-mode .logo {
-    color: var(--primary-color);
-}
-
-body.dark-mode .nav-links a,
-body.dark-mode .nav-links a i,
-body.dark-mode .search-bar i,
-body.dark-mode .top-bar-content,
-body.dark-mode .product-card h3,
-body.dark-mode .dark-mode-section h2,
-body.dark-mode .dark-mode-section p,
-body.dark-mode .main-footer,
-body.dark-mode .footer-column h3,
-body.dark-mode .footer-column p {
-    color: #ffffff;
-}
-
-body.dark-mode .product-card,
-body.dark-mode .dark-mode-section {
-    border: 1px solid var(--dark-border-color);
-}
-
-body.dark-mode .btn,
-body.dark-mode .btn-primary,
-body.dark-mode .btn-add-to-cart,
-body.dark-mode .carousel-action-btn {
-    background-color: var(--primary-color);
-    color: #fff;
-    border: none;
-}
-
-body.dark-mode .btn-secondary {
-    background-color: transparent;
-    color: #ffffff;
-    border: 1px solid #555;
-}
-
+/* Dark Mode Toggle no Dark Mode */
 body.dark-mode .btn-dark-mode {
-    background-color: var(--dark-card-bg);
-    color: #fff;
+    color: var(--dark-text-color);
 }
 
 body.dark-mode .btn-dark-mode:hover {
-    background-color: var(--primary-color);
-    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
-body.dark-mode .search-bar input,
-body.dark-mode .form-group input {
+/* Navbar no Dark Mode */
+body.dark-mode .navbar {
     background-color: var(--dark-card-bg);
+    border-bottom: 1px solid var(--dark-border-color);
+}
+
+/* Links da navegação */
+body.dark-mode .nav-links a {
+    color: var(--dark-text-color) !important;
+}
+
+body.dark-mode .nav-links a i {
+    color: var(--dark-text-color) !important;
+}
+
+/* Botão Inserir CEP */
+body.dark-mode .cep-link a {
+    color: var(--dark-text-color) !important;
+}
+
+body.dark-mode .cep-link a i {
+    color: var(--dark-text-color) !important;
+}
+
+/* Search bar */
+body.dark-mode .search-bar input {
+    background-color: var(--dark-bg-color);
+    color: var(--dark-text-color);
     border-color: var(--dark-border-color);
+}
+
+body.dark-mode .search-bar i {
     color: var(--dark-text-color);
 }
 
-body.dark-mode .cart-badge {
-    background-color: var(--primary-color);
-    color: #fff;
+/* Botões */
+body.dark-mode .btn-secondary {
+    background-color: transparent;
+    color: var(--dark-text-color) !important;
+    border-color: var(--dark-border-color);
 }
 
+body.dark-mode .btn-primary {
+    background-color: var(--primary-color);
+    color: white !important;
+}
+
+/* Product cards */
+body.dark-mode .product-card {
+    background-color: var(--dark-card-bg);
+    border: 1px solid var(--dark-border-color);
+}
+
+body.dark-mode .product-title {
+    color: var(--dark-text-color);
+}
+
+body.dark-mode .product-category {
+    color: var(--primary-color);
+}
+
+body.dark-mode .product-price .old-price {
+    color: #888;
+}
+
+body.dark-mode .product-rating span {
+    color: var(--dark-text-color);
+}
+
+/* Modal */
 body.dark-mode .modal-content {
     background-color: var(--dark-card-bg);
-    color: #ffffff;
+    color: var(--dark-text-color);
     border: 1px solid var(--dark-border-color);
 }
 
-body.dark-mode .main-footer,
-body.dark-mode .footer-content,
-body.dark-mode .footer-column {
-    background-color: var(--dark-card-bg);
+body.dark-mode .form-group input {
+    background-color: var(--dark-bg-color);
     color: var(--dark-text-color);
+    border-color: var(--dark-border-color);
 }
 
-body.dark-mode .footer-column a,
-body.dark-mode .social-icons a {
+body.dark-mode .form-group label {
     color: var(--dark-text-color);
-}
-
-body.dark-mode .footer-column a:hover,
-body.dark-mode .social-icons a:hover {
-    color: var(--primary-color);
-}
-
-body.dark-mode .new-carousel-btn {
-    background-color: rgba(40, 167, 69, 0.2);
-    color: #fff;
-}
-
-body.dark-mode .new-carousel-btn:hover {
-    background-color: rgba(40, 167, 69, 0.4);
-}
-
-body.dark-mode .new-carousel-dot {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
-body.dark-mode .new-carousel-dot.active {
-    background-color: var(--primary-color);
-}
-
-body.dark-mode .product-card .product-price {
-    color: var(--primary-color);
-}
-
-body.dark-mode .product-card .product-price .old-price {
-    color: #ffffff;
-}
-
-body.dark-mode .wishlist-btn {
-    color: #ffffff;
-}
-
-body.dark-mode .wishlist-btn:hover {
-    color: var(--primary-color);
-}
-
-/* Dark Mode para Mega Promoção */
-body.dark-mode .mega-promo-section {
-    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-    border: 1px solid var(--dark-border-color);
-}
-
-body.dark-mode .btn-promo-info {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-}
-
-body.dark-mode .btn-promo-info:hover {
-    background: rgba(255, 255, 255, 0.15);
 }
 
 body.dark-mode .close-btn {
     color: var(--dark-text-color);
 }
 
-body.dark-mode .close-btn:hover,
-body.dark-mode .close-btn:focus {
+body.dark-mode .close-btn:hover {
     color: var(--primary-color);
 }
 
-body.dark-mode .product-category,
-body.dark-mode .product-rating span,
-body.dark-mode .promo-description,
-body.dark-mode .timer {
-    color: #ffffff;
-}
-
-/* Estilo para o container do botão dark mode */
-/* Estilos para o container do botão dark mode */
-.darkmode-container {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-}
-
-/* Estilos para o botão dark mode */
-.btn-dark-mode {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-}
-
-.btn-dark-mode:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    transform: scale(1.1);
-}
-
-.dark-mode .btn-dark-mode:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.btn-dark-mode svg {
-    width: 20px;
-    height: 20px;
-    color: var(--text-color);
-    transition: color 0.3s ease;
-}
-
-.dark-mode .btn-dark-mode svg {
+/* Textos gerais */
+body.dark-mode .products-highlight p {
     color: var(--dark-text-color);
 }
 
-/* Adiciona um efeito suave na transição entre modos */
-body {
-    transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Ajustes para melhor contraste no modo escuro */
-.dark-mode .navbar,
-.dark-mode .modal-content,
-.dark-mode .product-card {
-    transition: background-color 0.3s ease, border-color 0.3s ease;
-
-    display: flex;
-    align-items: center;
-     margin-left: 20px;
-}
-
-/* Estilos específicos para o formulário de CEP */
-#cep-modal .modal-content {
-    max-width: 450px;
-}
-
-#cep-modal h2 {
-    font-size: 1.5rem;
-}
-
-#cep-modal p {
-    text-align: center;
-    color: var(--light-text-color);
-    margin-bottom: 20px;
-}
-
-#cep-modal form .form-group input[type="text"] {
-    background-color: white;
-    border-color: var(--border-color);
-    color: var(--text-color);
-}
-
-body.dark-mode #cep-modal form .form-group input[type="text"] {
-    background-color: var(--dark-card-bg);
-    border-color: var(--dark-border-color);
-    color: var(--dark-text-color);
-}
-
-#cep-modal label {
-    color: var(--text-color);
-}
-
-body.dark-mode #cep-modal label {
-    color: var(--dark-text-color);
-}
-
-/* Botão flutuante de ajuda */
-.bottom-right-icon {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
+/* Footer no dark mode - mantém as cores originais */
+body.dark-mode .main-footer {
     background-color: var(--primary-color);
     color: white;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
+}
+
+body.dark-mode .footer-column a {
+    color: white !important;
+}
+
+body.dark-mode .social-icons a {
+    color: white !important;
+}
+
+/* Mega promoção no dark mode */
+body.dark-mode .mega-promo-section {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    border: 1px solid var(--dark-border-color);
+}
+
+/* Garantir que os modais funcionem */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal.show {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 24px;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    position: relative;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    z-index: 100;
-    transition: background-color 0.3s;
 }
 
-.bottom-right-icon:hover {
-    background-color: #218838;
+.close-btn:hover {
+    color: #333;
 }
 
-body.dark-mode .bottom-right-icon {
-    background-color: var(--primary-color);
-}
-
-/* Logo do grilo */
-.grilo-logo img {
-    width: 15%;
-    height: auto;
-    vertical-align: middle;
-    margin-right: 10px;
-}
-
-/* Responsividade para Mega Promoção */
+/* Responsive */
 @media (max-width: 768px) {
     .mega-promo-section {
         flex-direction: column;
@@ -1319,49 +901,17 @@ body.dark-mode .bottom-right-icon {
     
     .mega-promo-banner {
         text-align: center;
-        max-width: 100%;
-    }
-    
-    .mega-promo-banner h2 {
-        font-size: 2.2rem;
-    }
-    
-    .promo-description {
-        font-size: 1.1rem;
     }
     
     .mega-promo-image {
         width: 180px;
         height: 180px;
     }
-}
-
-@media (max-width: 480px) {
-    .mega-promo-section {
-        padding: 30px 15px;
+    
+    .product-grid {
+        gap: 20px;
     }
     
-    .mega-promo-banner h2 {
-        font-size: 1.8rem;
-    }
-    
-    .promo-description {
-        font-size: 1rem;
-    }
-    
-    .mega-promo-image {
-        width: 150px;
-        height: 150px;
-    }
-    
-    .btn-promo-info {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-}
-
-/* Responsividade Geral */
-@media (max-width: 768px) {
     .nav-container {
         flex-wrap: wrap;
     }
@@ -1370,41 +920,5 @@ body.dark-mode .bottom-right-icon {
         order: 3;
         max-width: 100%;
         margin: 15px 0 0 0;
-    }
-    
-    .nav-links {
-        order: 2;
-    }
-    
-    .product-grid {
-        gap: 20px;
-    }
-    
-    .product-card {
-        width: 100%;
-        max-width: 300px;
-    }
-}
-
-@media (max-width: 480px) {
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    
-    .nav-links li {
-        margin: 5px;
-    }
-    
-    .new-carousel-slide img {
-        height: 300px;
-    }
-    
-    .slide-caption h3 {
-        font-size: 1.4rem;
-    }
-    
-    .slide-caption p {
-        font-size: 1rem;
     }
 }

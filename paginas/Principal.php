@@ -1,13 +1,27 @@
-<?php 
-session_start(); //modificado
-if(isset($_SESSION['erro_login'])) {
+<?php
+session_start();
+
+// Exibir mensagens de erro de login (código original)
+if (isset($_SESSION['erro_login'])) {
     echo "<p style='color:red; text-align:center;'>" . $_SESSION['erro_login'] . "</p>";
     unset($_SESSION['erro_login']);
+}
+
+// Exibir mensagens de sucesso ou erro do CEP (novo)
+if (isset($_SESSION['sucesso'])) {
+    echo "<div class='alert alert-success' style='background: #d4edda; color: #155724; padding: 15px; margin: 10px 0; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center;'>" . $_SESSION['sucesso'] . "</div>";
+    unset($_SESSION['sucesso']);
+}
+
+if (isset($_SESSION['erro'])) {
+    echo "<div class='alert alert-danger' style='background: #f8d7da; color: #721c24; padding: 15px; margin: 10px 0; border: 1px solid #f5c6cb; border-radius: 5px; text-align: center;'>" . $_SESSION['erro'] . "</div>";
+    unset($_SESSION['erro']);
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,6 +31,7 @@ if(isset($_SESSION['erro_login'])) {
     <script src="../script/script-principal.js" defer></script>
     <link rel="icon" href="../imagem-grilo/grilo.png" type="image/x-icon">
 </head>
+
 <body>
 
     <header class="top-bar">
@@ -34,35 +49,34 @@ if(isset($_SESSION['erro_login'])) {
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
-                 <div class="grilo-logo">
-                    <img src="../imagem-grilo/grilo.png"> Grillo Store
+                <div class="grilo-logo">
+                    <img src="../imagem-grilo/grilo.png" alt="Grillo Store"> Grillo Store
                 </div>
             </div>
             <form class="search-bar">
                 <input type="text" placeholder="Buscar produtos...">
                 <i class="fas fa-search"></i>
             </form>
-          <ul class="nav-links">
-           <?php if(isset($_SESSION['usuario_nome'])): ?>
-              <li><a href="#"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
-              <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
-            <?php else: ?>
-              <li><a href="#" rel="account"><i class="fas fa-user"></i> Minha Conta</a></li>
-              <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
-              <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
-           <?php endif; ?>
-           
-           <li class="cart-link"><a href="#"><i class="fas fa-shopping-cart"></i> Carrinho</a></li>
-           
-           <li class="cep-link"><a href="cep.php" id="header-cep-btn"><i class="fas fa-map-marker-alt"></i> Inserir CEP </a></li>
+            <ul class="nav-links">
+                <?php if (isset($_SESSION['usuario_nome'])): ?>
+                    <li><a href="#"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
+                    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                <?php else: ?>
+                    <li><a href="#" rel="account"><i class="fas fa-user"></i> Minha Conta</a></li>
+                    <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
+                    <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
+                <?php endif; ?>
 
-         </ul>
+                <li class="cart-link"><a href="#"><i class="fas fa-shopping-cart"></i> Carrinho</a></li>
+
+                <li class="cep-link"><a href="#" id="header-cep-btn"><i class="fas fa-map-marker-alt"></i> Inserir CEP </a></li>
+
+            </ul>
 
             <div class="darkmode-container">
                 <button id="darkModeToggle" class="btn-dark-mode" aria-label="Alternar modo claro/escuro">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="bi bi-moon" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286"/>
-                    </svg>
+                    <span class="sun-icon">🔆</span>
+                    <span class="moon-icon">🌙</span>
                 </button>
             </div>
         </div>
@@ -71,8 +85,6 @@ if(isset($_SESSION['erro_login'])) {
     <main>
         <section class="new-carousel-section">
             <div class="new-carousel-container">
-                <button class="new-prev-btn" aria-label="Slide anterior">&lt;</button>
-                <button class="new-next-btn" aria-label="Próximo slide">&gt;</button>
                 <div class="new-carousel-track">
                     <div class="new-carousel-slide">
                         <img src="../imagem/eletronicos.png" alt="Destaque 1">
@@ -99,25 +111,24 @@ if(isset($_SESSION['erro_login'])) {
                         </div>
                     </div>
                 </div>
+                <button class="new-carousel-btn new-prev-btn">&#10094;</button>
+                <button class="new-carousel-btn new-next-btn">&#10095;</button>
                 <div class="new-carousel-dots"></div>
             </div>
         </section>
 
-        <!-- SEÇÃO EXPLORE POR CATEGORIA REMOVIDA -->
-
-         <section class="mega-promo-section">
+        <section class="mega-promo-section">
             <div class="mega-promo-banner">
                 <p class="flash-sale-tag">FLASH SALE</p>
                 <h2>Mega Promoção</h2>
                 <p class="promo-description">Até 70% de desconto em produtos selecionados</p>
                 <p class="timer"><i class="fas fa-clock"></i> Oferta válida por tempo limitado!</p>
-                <!-- BOTÃO SEM FUNCIONALIDADE - APENAS INFORMATIVO -->
                 <button class="btn-promo-info" disabled>
                     <i class="fas fa-tag"></i> Ofertas Especiais
                 </button>
             </div>
             <div class="mega-promo-image">
-                <img src="https://via.placeholder.com/200x200.png?text=Promo+Image" >
+                <!-- CÍRCULO VAZIO SEM TEXTO -->
             </div>
         </section>
 
@@ -128,10 +139,11 @@ if(isset($_SESSION['erro_login'])) {
                 <div class="product-card" data-url="produto-5-polaroide.php">
                     <div class="product-badge">-10%</div>
                     <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-                    <img src="../imagens-produtos/pola1.jpg" alt="Polaroide">
+                    <!-- IMAGEM COM FALLBACK -->
+                    <img src="../imagens-produtos/pola1.jpg" alt="Câmera Polaroid Fujifilm" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlBvbGFyb2lkPC90ZXh0Pjwvc3ZnPg=='">
                     <div class="product-info">
                         <p class="product-category">Fotografia</p>
-                        <h3 class="product-title"> Câmera Fujifilm Kit Mini 12 + </h3>
+                        <h3 class="product-title">Câmera Fujifilm Kit Mini 12 + Filmes</h3>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
                             <span>(123 avaliações)</span>
@@ -144,10 +156,10 @@ if(isset($_SESSION['erro_login'])) {
                 <div class="product-card" data-url="produto-16-xbox.php">
                     <div class="product-badge">-40%</div>
                     <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-                    <img src="../imagens-produtos/box1.jpg" alt="Xbox">
+                    <img src="../imagens-produtos/box1.jpg" alt="Xbox 360" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlhib3g8L3RleHQ+PC9zdmc+'">
                     <div class="product-info">
                         <p class="product-category">Games</p>
-                        <h3 class="product-title">Microsoft Xbox 360 Super </h3>
+                        <h3 class="product-title">Microsoft Xbox 360 Super 250GB</h3>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
                             <span>(99 avaliações)</span>
@@ -160,10 +172,10 @@ if(isset($_SESSION['erro_login'])) {
                 <div class="product-card" data-url="produto-1-camiseta-basica.php">
                     <div class="product-badge">-20%</div>
                     <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-                    <img src="../imagens-produtos/camisa1.jpg" alt="Kit Camiseta">
+                    <img src="../imagens-produtos/camisa1.jpg" alt="Kit Camiseta Básica" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNhbWlzZXRhPC90ZXh0Pjwvc3ZnPg=='">
                     <div class="product-info">
                         <p class="product-category">Moda</p>
-                        <h3 class="product-title">Kit Camiseta Básica Masculina</h3>
+                        <h3 class="product-title">Kit Camiseta Básica Masculina - 3 Peças</h3>
                         <div class="product-rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                             <span>(50 avaliações)</span>
@@ -178,78 +190,69 @@ if(isset($_SESSION['erro_login'])) {
                 <button class="btn-view-all">Ver Todos os Produtos</button>
             </a>
         </section>
-
-       
     </main>
 
     <div class="bottom-right-icon">
         <i class="fas fa-question-circle"></i>
     </div>
 
-
-    <div id="cep-modal" class="modal">  
+    <!-- MODAIS (mantidos iguais) -->
+    <div id="cep-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-cep-modal">&times;</span>
             <h2>Inserir Endereço</h2>
             <p>Preencha os campos abaixo para salvar seu endereço.</p>
-            <form id="cep-form" method="POST" action="processa-cep.php" novalidate>  <!-- adicionar method e action aqui -->
+            <form id="cep-form" method="POST" action="processa-cep.php" novalidate>
                 <div class="form-group cep-row">
-                    <label for="principal-cep">CEP</label>
+                    <label for="cep">CEP</label>
                     <div class="cep-input-wrap">
-                        <input type="text" id="principal-cep" name="cep" placeholder="00000-000" maxlength="9" required>
+                        <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9" required>
                         <button type="button" id="buscar-cep-btn" class="btn-small">Buscar</button>
                         <span id="cep-loading" style="display:none;margin-left:8px;font-size:0.9em;color:#666;">Buscando...</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="principal-logradouro">Rua</label>
-                    <input type="text" id="principal-logradouro" name="logradouro" placeholder="Ex: Rua das Flores" readonly>
+                    <label for="logradouro">Rua</label>
+                    <input type="text" id="logradouro" name="logradouro" placeholder="Ex: Rua das Flores" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="principal-numero">Número</label>
-                    <input type="text" id="principal-numero" name="numero" placeholder="Ex: 123" required>
+                    <label for="numero">Número</label>
+                    <input type="text" id="numero" name="numero" placeholder="Ex: 123" required>
                 </div>
                 <div class="form-group">
-                    <label for="principal-bairro">Bairro</label>
-                    <input type="text" id="principal-bairro" name="bairro" placeholder="Ex: Centro">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" id="bairro" name="bairro" placeholder="Ex: Centro">
                 </div>
                 <div class="form-group">
-                    <label for="principal-cidade">Cidade</label>
-                    <input type="text" id="principal-cidade" name="cidade" placeholder="Ex: São Paulo">
+                    <label for="cidade">Cidade</label>
+                    <input type="text" id="cidade" name="cidade" placeholder="Ex: São Paulo">
                 </div>
                 <div class="form-group">
-                    <label for="principal-estado">Estado</label>
-                    <input type="text" id="principal-estado" name="estado" placeholder="Ex: SP">
+                    <label for="estado">Estado</label>
+                    <input type="text" id="estado" name="estado" placeholder="Ex: SP">
                 </div>
-                <input type="hidden" name="tipo" value="principal">  <!-- Adicionar campo tipo -->
+                <input type="hidden" name="tipo" value="principal">
                 <button type="submit" class="btn-primary">Salvar Endereço</button>
             </form>
         </div>
-        
     </div>
 
-    <div id="block-modal" class="modal" style="display:none;"> 
-    <div class="modal-content block-content">
-        <span class="close-btn" id="close-block-modal">&times;</span>
-        <h2>Acesso Restrito</h2>
-        <p>Você precisa estar logado para visualizar todos os produtos da loja.</p>
-        
-        <i class="fas fa-lock" style="font-size: 30px; color: #dc3545; margin: 15px 0;"></i>
-        
-        <p>Faça login ou cadastre-se para continuar navegando.</p>
-        
-        <a href="login.php" class="btn-primary block-login-btn">
-            Fazer Login
-        </a>
-        
+    <div id="block-modal" class="modal" style="display:none;">
+        <div class="modal-content block-content">
+            <span class="close-btn" id="close-block-modal">&times;</span>
+            <h2>Acesso Restrito</h2>
+            <p>Você precisa estar logado para visualizar todos os produtos da loja.</p>
+            <i class="fas fa-lock" style="font-size: 30px; color: #dc3545; margin: 15px 0;"></i>
+            <p>Faça login ou cadastre-se para continuar navegando.</p>
+            <a href="login.php" class="btn-primary block-login-btn">
+                Fazer Login
+            </a>
+        </div>
     </div>
-</div>
 
-<script>
-    // Variável do php que informa ao JS se o usuário está logado na conta
-    const isUserLoggedIn = <?php echo isset($_SESSION['usuario_nome']) ? 'true' : 'false'; ?>;
-</script>
-
+    <script>
+        const isUserLoggedIn = <?php echo isset($_SESSION['usuario_nome']) ? 'true' : 'false'; ?>;
+    </script>
 
     <footer class="main-footer">
         <div class="footer-content">
@@ -270,5 +273,7 @@ if(isset($_SESSION['erro_login'])) {
             </div>
         </div>
     </footer>
+
 </body>
+
 </html>
