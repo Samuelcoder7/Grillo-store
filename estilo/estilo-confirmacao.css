@@ -1,0 +1,362 @@
+/* ==========================================================
+   estilo-confirmacao.css
+   - Cor Primária (Claro): EXATO #61A400
+   - Cor Primária (Escuro): Verde Neon #76ff7a
+   - CABEÇALHO VERDE NO MODO CLARO
+   - NOVOS ESTILOS PARA CARTÕES DE DETALHE
+   ========================================================== */
+
+/* VARIÁVEIS DE COR E ESTILOS GLOBAIS */
+:root {
+    /* Cores Claras (Modo Padrão) */
+    --color-primary: #61A400; /* Seu Verde de marca */
+    --color-text: #333;
+    --color-background: #f4f7f6;
+    --color-card-bg: #ffffff;
+    --color-border: #ddd;
+    --color-shadow: rgba(0, 0, 0, 0.05);
+    --color-header-bg: var(--color-primary); /* Fundo do cabeçalho é verde */
+    --color-header-text: #ffffff; /* Texto do cabeçalho é branco */
+    --color-success: #ffffff; /* Ícones no cabeçalho ficam brancos */
+}
+
+/* DARK MODE */
+.dark-mode {
+    /* Cores Escuras */
+    --color-primary: #76ff7a; 
+    --color-text: #e8eaed;
+    --color-background: #1e1e1e;
+    --color-card-bg: #2d2d2d;
+    --color-border: #444;
+    --color-shadow: rgba(255, 255, 255, 0.08);
+    --color-header-bg: var(--color-card-bg); 
+    --color-header-text: var(--color-text); 
+    --color-success: var(--color-primary); 
+}
+
+/* ==========================================================
+   ESTILOS BASE
+   ========================================================== */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--color-background);
+    color: var(--color-text);
+    line-height: 1.6;
+    transition: background-color 0.3s, color 0.3s;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ==========================================================
+   HEADER
+   ========================================================== */
+
+.header {
+    background-color: var(--color-header-bg); 
+    border-bottom: 1px solid var(--color-border);
+    padding: 15px 0;
+    box-shadow: 0 2px 4px var(--color-shadow);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--color-header-text); 
+    text-decoration: none;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Botões e Ícones no Cabeçalho */
+.dark-mode-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-header-text); 
+    padding: 5px;
+    border-radius: 5px;
+    transition: color 0.3s, background-color 0.3s;
+}
+
+.dark-mode-button svg {
+    stroke: var(--color-header-text); 
+}
+
+.secure-checkout {
+    display: flex;
+    align-items: center;
+    color: var(--color-success); 
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.secure-checkout svg {
+    margin-right: 5px;
+    stroke: var(--color-success);
+}
+
+
+/* ==========================================================
+   LAYOUT PRINCIPAL
+   ========================================================== */
+
+.checkout-container {
+    flex-grow: 1;
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+.checkout-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr; 
+    gap: 30px;
+}
+
+.section-title {
+    font-size: 22px;
+    color: var(--color-primary); 
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 10px;
+}
+
+/* ==========================================================
+   SEÇÃO DE CONFIRMAÇÃO (Coluna Principal)
+   ========================================================== */
+
+.confirmation-section {
+    padding: 20px;
+    background-color: var(--color-card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    height: fit-content;
+}
+
+.confirmation-card {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 30px 20px;
+    border: 1px solid var(--color-primary); 
+    /* Cor de fundo leve com base no verde #61A400 (RGB: 97, 164, 0) */
+    background-color: rgba(97, 164, 0, 0.1); 
+    border-radius: 8px;
+}
+
+.dark-mode .confirmation-card {
+    background-color: rgba(118, 255, 122, 0.15); 
+}
+
+.confirmation-icon {
+    font-size: 40px;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+.confirmation-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 10px;
+}
+
+/* ----------------------------------
+   NOVOS ESTILOS PARA DETALHES E ÍCONES
+   ---------------------------------- */
+.confirmation-detail-card {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    margin-bottom: 25px;
+    background-color: var(--color-background); /* Fundo do bloco é levemente diferente */
+    border-radius: 8px;
+    border-left: 5px solid var(--color-primary); /* Destaque lateral verde */
+    box-shadow: 0 2px 8px var(--color-shadow);
+    transition: background-color 0.3s;
+}
+
+.dark-mode .confirmation-detail-card {
+    background-color: #262626;
+}
+
+.detail-icon-box {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+}
+
+.detail-icon-box svg {
+    stroke: #ffffff; /* Ícones brancos no fundo verde */
+    width: 20px;
+    height: 20px;
+}
+
+.detail-content-box {
+    flex-grow: 1;
+}
+
+.detail-item {
+    margin-bottom: 15px;
+}
+
+.detail-item:last-child {
+    margin-bottom: 0;
+}
+
+.detail-item label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--color-primary); /* Labels verdes */
+    margin-bottom: 3px;
+}
+
+.detail-item p {
+    font-size: 16px;
+    color: var(--color-text);
+}
+
+
+/* ==========================================================
+   RESUMO DO PEDIDO (Coluna Lateral)
+   ========================================================== */
+
+.order-summary-sidebar {
+    padding: 20px;
+    background-color: var(--color-card-bg);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px var(--color-shadow);
+    height: fit-content;
+}
+
+.order-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-border);
+    align-items: center;
+}
+
+.item-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--color-border);
+}
+
+.summary-total {
+    border-top: 2px solid var(--color-border);
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.summary-total h3 {
+    font-size: 20px;
+    color: var(--color-primary); 
+}
+
+
+/* ==========================================================
+   BOTÕES DE AÇÃO
+   ========================================================== */
+.action-buttons {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    background-color: var(--color-primary); 
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.1s;
+}
+
+.submit-button:hover {
+    background-color: #4E8300; 
+    transform: translateY(-1px);
+}
+
+.dark-mode .submit-button {
+    background-color: var(--color-primary);
+}
+.dark-mode .submit-button:hover {
+    background-color: #3f7b41; 
+}
+
+
+/* ==========================================================
+   FOOTER
+   ========================================================== */
+
+.footer {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 14px;
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-card-bg);
+    margin-top: auto;
+}
+
+/* ==========================================================
+   RESPONSIVIDADE
+   ========================================================== */
+
+@media (max-width: 768px) {
+    .checkout-content {
+        grid-template-columns: 1fr; 
+    }
+
+    .header-content {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .confirmation-section, .order-summary-sidebar {
+        margin-top: 0;
+    }
+}
