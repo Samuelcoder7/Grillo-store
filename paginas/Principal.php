@@ -1,5 +1,5 @@
 <?php 
-session_start(); 
+session_start(); //modificado
 if(isset($_SESSION['erro_login'])) {
     echo "<p style='color:red; text-align:center;'>" . $_SESSION['erro_login'] . "</p>";
     unset($_SESSION['erro_login']);
@@ -73,6 +73,8 @@ if(isset($_SESSION['erro_login'])) {
     <main>
         <section class="new-carousel-section">
             <div class="new-carousel-container">
+                <button class="new-prev-btn" aria-label="Slide anterior">&lt;</button>
+                <button class="new-next-btn" aria-label="Próximo slide">&gt;</button>
                 <div class="new-carousel-track">
                     <div class="new-carousel-slide">
                         <img src="../imagem/eletronicos.png" alt="Destaque 1">
@@ -99,8 +101,6 @@ if(isset($_SESSION['erro_login'])) {
                         </div>
                     </div>
                 </div>
-                <button class="new-carousel-btn new-prev-btn">&#10094;</button>
-                <button class="new-carousel-btn new-next-btn">&#10095;</button>
                 <div class="new-carousel-dots"></div>
             </div>
         </section>
@@ -196,33 +196,32 @@ if(isset($_SESSION['erro_login'])) {
             <p>Preencha os campos abaixo para salvar seu endereço.</p>
             <form id="cep-form" method="POST" action="processa-cep.php" novalidate>  <!-- adicionar method e action aqui -->
                 <div class="form-group cep-row">
-                    <label for="cep">CEP</label>
+                    <label for="principal-cep">CEP</label>
                     <div class="cep-input-wrap">
-                        <input type="text" id="cep" name="cep" placeholder="00000-000" maxlength="9" required>
+                        <input type="text" id="principal-cep" name="cep" placeholder="00000-000" maxlength="9" required>
                         <button type="button" id="buscar-cep-btn" class="btn-small">Buscar</button>
                         <span id="cep-loading" style="display:none;margin-left:8px;font-size:0.9em;color:#666;">Buscando...</span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="logradouro">Rua</label>
-                    <!-- Mudar id="rua" para id="logradouro" e name="rua" para name="logradouro" -->
-                    <input type="text" id="logradouro" name="logradouro" placeholder="Ex: Rua das Flores" readonly>
+                    <label for="principal-logradouro">Rua</label>
+                    <input type="text" id="principal-logradouro" name="logradouro" placeholder="Ex: Rua das Flores" readonly>
                 </div>
                 <div class="form-group">
-                    <label for="numero">Número</label>
-                    <input type="text" id="numero" name="numero" placeholder="Ex: 123" required>
+                    <label for="principal-numero">Número</label>
+                    <input type="text" id="principal-numero" name="numero" placeholder="Ex: 123" required>
                 </div>
                 <div class="form-group">
-                    <label for="bairro">Bairro</label>
-                    <input type="text" id="bairro" name="bairro" placeholder="Ex: Centro">
+                    <label for="principal-bairro">Bairro</label>
+                    <input type="text" id="principal-bairro" name="bairro" placeholder="Ex: Centro">
                 </div>
                 <div class="form-group">
-                    <label for="cidade">Cidade</label>
-                    <input type="text" id="cidade" name="cidade" placeholder="Ex: São Paulo">
+                    <label for="principal-cidade">Cidade</label>
+                    <input type="text" id="principal-cidade" name="cidade" placeholder="Ex: São Paulo">
                 </div>
                 <div class="form-group">
-                    <label for="estado">Estado</label>
-                    <input type="text" id="estado" name="estado" placeholder="Ex: SP">
+                    <label for="principal-estado">Estado</label>
+                    <input type="text" id="principal-estado" name="estado" placeholder="Ex: SP">
                 </div>
                 <input type="hidden" name="tipo" value="principal">  <!-- Adicionar campo tipo -->
                 <button type="submit" class="btn-primary">Salvar Endereço</button>
@@ -252,7 +251,7 @@ if(isset($_SESSION['erro_login'])) {
     // Variável do php que informa ao JS se o usuário está logado na conta
     const isUserLoggedIn = <?php echo isset($_SESSION['usuario_nome']) ? 'true' : 'false'; ?>;
 </script>
-<script src="../script/script-principal.js" defer></script>
+
 
     <footer class="main-footer">
         <div class="footer-content">
@@ -273,6 +272,5 @@ if(isset($_SESSION['erro_login'])) {
             </div>
         </div>
     </footer>
-
 </body>
 </html>
