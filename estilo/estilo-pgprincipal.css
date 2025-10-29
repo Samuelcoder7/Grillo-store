@@ -11,6 +11,123 @@
     --dark-text-color: #e0e0e0; /* Text color for dark mode */
     --dark-card-bg: #232526; /* Darker background for cards in dark mode */
     --dark-border-color: #333; /* Darker border color */
+    --dark-hover-color: #2a2d2e; /* Hover color for dark mode */
+}
+
+/* Dark Mode Styles */
+/* Container do botão dark mode */
+.darkmode-container {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    position: relative;
+}
+
+/* Botão dark mode */
+.btn-dark-mode {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: var(--text-color);
+}
+
+.btn-dark-mode:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
+.btn-dark-mode svg {
+    width: 20px;
+    height: 20px;
+    transition: color 0.3s ease;
+}
+
+/* Estilos do modo escuro */
+body.dark-mode {
+    background-color: var(--dark-bg-color);
+    color: var(--dark-text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark-mode .navbar {
+    background-color: var(--dark-card-bg);
+    border-color: var(--dark-border-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.dark-mode .search-bar input {
+    background-color: var(--dark-bg-color);
+    color: var(--dark-text-color);
+    border-color: var(--dark-border-color);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .product-card {
+    background-color: var(--dark-card-bg);
+    border-color: var(--dark-border-color);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .product-card:hover {
+    background-color: var(--dark-hover-color);
+    transform: translateY(-5px);
+}
+
+.dark-mode .product-title,
+.dark-mode .product-price {
+    color: var(--dark-text-color);
+    transition: color 0.3s ease;
+}
+
+.dark-mode .modal-content {
+    background-color: var(--dark-card-bg);
+    color: var(--dark-text-color);
+    border-color: var(--dark-border-color);
+    transition: all 0.3s ease;
+}
+
+.dark-mode .btn-dark-mode {
+    color: var(--dark-text-color);
+}
+
+.dark-mode .btn-dark-mode:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Melhorias nas transições */
+.navbar,
+.modal-content,
+.product-card,
+.product-title,
+.product-price,
+.btn-dark-mode,
+input,
+button {
+    transition: all 0.3s ease;
+}
+
+.dark-mode .btn-dark-mode {
+    color: var(--dark-text-color);
+    background-color: transparent;
+    border: 1px solid var(--dark-text-color);
+}
+
+.dark-mode .nav-links a {
+    color: var(--dark-text-color);
+}
+
+.dark-mode .product-category {
+    color: var(--primary-color);
+}
+
+.dark-mode .old-price {
+    color: #888;
 }
 
 /* Base */
@@ -70,6 +187,52 @@ a {
     padding: 0 20px;
 }
 
+/* Estilos para os botões do carrossel */
+.new-prev-btn,
+.new-next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    z-index: 2;
+    border-radius: 50%;
+}
+
+.new-prev-btn {
+    left: 10px;
+}
+
+.new-next-btn {
+    right: 10px;
+}
+
+.new-carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 2;
+}
+
+.new-carousel-dot {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.new-carousel-dot.active {
+    background: var(--primary-color);
+}
+
 .logo {
     font-size: 1.5rem;
     font-weight: 700;
@@ -98,9 +261,73 @@ a {
 .search-bar i {
     position: absolute;
     right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--light-text-color);
+}
+
+/* Estilos do carrossel */
+.new-carousel-section {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+.new-carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.new-carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+}
+
+.new-carousel-slide {
+    flex: 0 0 100%;
+    position: relative;
+}
+
+.new-carousel-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.slide-caption {
+    position: absolute;
+    bottom: 40px;
+    left: 40px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    max-width: 50%;
+}
+
+.slide-caption h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.slide-caption p {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.carousel-action-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.carousel-action-btn:hover {
+    background: #28c14d;
 }
 
 .nav-links {
@@ -954,10 +1181,60 @@ body.dark-mode .timer {
 }
 
 /* Estilo para o container do botão dark mode */
+/* Estilos para o container do botão dark mode */
 .darkmode-container {
     display: flex;
     align-items: center;
     margin-left: 20px;
+}
+
+/* Estilos para o botão dark mode */
+.btn-dark-mode {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.btn-dark-mode:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    transform: scale(1.1);
+}
+
+.dark-mode .btn-dark-mode:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.btn-dark-mode svg {
+    width: 20px;
+    height: 20px;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.dark-mode .btn-dark-mode svg {
+    color: var(--dark-text-color);
+}
+
+/* Adiciona um efeito suave na transição entre modos */
+body {
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Ajustes para melhor contraste no modo escuro */
+.dark-mode .navbar,
+.dark-mode .modal-content,
+.dark-mode .product-card {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    display: flex;
+    align-items: center;
+     margin-left: 20px;
 }
 
 /* Estilos específicos para o formulário de CEP */
