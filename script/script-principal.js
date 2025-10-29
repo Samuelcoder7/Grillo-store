@@ -110,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
             modalElement.style.display = 'flex';
             modalElement.classList.add('show');
         }
+         console.log('Modal exibido:', modalElement);
     }
 
     function hideModal(modalElement) {
