@@ -68,8 +68,6 @@ if(isset($_SESSION['erro_login'])) {
         </div>
     </nav>
 
-    <!-- BOTÕES DE CATEGORIA REMOVIDOS -->
-
     <main>
         <section class="new-carousel-section">
             <div class="new-carousel-container">
