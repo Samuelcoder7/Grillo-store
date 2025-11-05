@@ -15,12 +15,14 @@ if (isset($_SESSION['carrinho_sucesso'])) {
     unset($_SESSION['remocao_sucesso']); 
 }
 
-// --- Variáveis de Produto (ID 8) ---
-$produto_id = 8;
+// --- Variáveis de Produto (ID 2) ---
+$produto_id = 2; // ⭐️ CORREÇÃO: ID corrigido para 2
 $produto_nome = "Kit 4 Camisetas Femininas Academia - Atacado (Cores Sortidas)";
-$produto_preco = 99.90; // Preço numérico
-$produto_preco_formatado = "R$ 99,90"; // Preço para exibição
+$produto_preco = 53.99; // ⭐️ CORREÇÃO: Preço corrigido conforme JS
+$produto_preco_formatado = "R$ 53,99"; // ⭐️ CORREÇÃO: Preço corrigido
 $imagem_principal_inicial = "../imagens-produtos/camisa1fem.jpg";
+// ⭐️ CORREÇÃO: Slug adicionado
+$produto_slug = "produto-2-camisetas-femininas.php";
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -93,7 +95,7 @@ $imagem_principal_inicial = "../imagens-produtos/camisa1fem.jpg";
                 <div class="price-section">
                     <p class="price-label">À vista</p>
                     <p class="price-value" id="price-value"><?php echo $produto_preco_formatado; ?></p>
-                    <p class="installments" id="installments-text">ou 5x de R$ 20,00 sem juros</p>
+                    <p class="installments" id="installments-text">ou 2x de R$ 29,99 sem juros</p> <!-- ⭐️ CORREÇÃO: Parcelas corrigidas -->
                     <a href="#" class="payment-methods-link">ver meios de pagamento</a>
                 </div>
 
@@ -122,7 +124,7 @@ $imagem_principal_inicial = "../imagens-produtos/camisa1fem.jpg";
                         <p class="free-shipping">Frete Grátis a cima de R$19</p>
                         <p class="delivery-estimate">Chega entre Quarta-feira e Quinta-feira</p>
                         <div class="installments-display">
-                            <span class="installment-amount" id="installment-amount-sidebar">5x de R$ 20,00</span>
+                            <span class="installment-amount" id="installment-amount-sidebar">2x de R$ 29,99</span> <!-- ⭐️ CORREÇÃO: Parcelas corrigidas -->
                             <span class="installment-details" id="installment-details-sidebar">sem juros</span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption">
@@ -144,55 +146,21 @@ $imagem_principal_inicial = "../imagens-produtos/camisa1fem.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <!-- ⭐️ CORREÇÃO: Usando o slug correto -->
+                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
-                        <p>Vendido por: <span class="seller-name" id="seller-name">AtacadoFitness</span></p>
+                        <p>Vendido por: <span class="seller-name" id="seller-name">FORÇA DO SOL</span></p> <!-- ⭐️ CORREÇÃO: Vendedor corrigido -->
                     </div>
 
                 </form> </aside>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                <div class="footer-col">
-                    <h3 class="footer-title">Grillo Store</h3>
-                    <p>Nossa missão é trazer a melhor qualidade com o preço justo.</p>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Institucional</h3>
-                    <ul>
-                        <li><a href="#">Sobre Nós</a></li>
-                        <li><a href="#">Trabalhe Conosco</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Ajuda</h3>
-                    <ul>
-                        <li><a href="#">Fale Conosco</a></li>
-                        <li><a href="#">Trocas e Devoluções</a></li>
-                        <li><a href="#">Rastrear Pedido</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Redes Sociais</h3>
-                    <div class="social-links"> 
-                        <a href="#">Instagram</a> 
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="../script/script-produto8.js"></script>
+    <script src="../script/script-produto2.js"></script> <!-- ⭐️ CORREÇÃO: script correto -->
+     <?php include "../componentes/footer.php"; ?>
     
 </body>
 </html>

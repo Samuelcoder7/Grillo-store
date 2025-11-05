@@ -16,11 +16,12 @@ if (isset($_SESSION['carrinho_sucesso'])) {
 }
 
 // --- Variáveis de Produto (ID 10) ---
-$produto_id = 10;
+$produto_id = 14;
 $produto_nome = "Conjunto Sala de Jantar Cel Móveis com 08 Cadeiras Mesa de Cinamomo/off White/suede Animale";
 $produto_preco = 2632.48; // Preço numérico (baseado no JS)
 $produto_preco_formatado = "R$ 2.632,48"; // Preço para exibição
 $imagem_principal_inicial = "../imagens-produtos/mesa1.jpg";
+$produto_slug = "produto-14-mesa.php";
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -138,7 +139,7 @@ $imagem_principal_inicial = "../imagens-produtos/mesa1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
@@ -150,42 +151,7 @@ $imagem_principal_inicial = "../imagens-produtos/mesa1.jpg";
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                <div class="footer-col">
-                    <h3 class="footer-title">Grillo Store</h3>
-                    <p>Nossa missão é trazer a melhor qualidade com o preço justo.</p>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Institucional</h3>
-                    <ul>
-                        <li><a href="#">Sobre Nós</a></li>
-                        <li><a href="#">Trabalhe Conosco</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Ajuda</h3>
-                    <ul>
-                        <li><a href="#">Fale Conosco</a></li>
-                        <li><a href="#">Trocas e Devoluções</a></li>
-                        <li><a href="#">Rastrear Pedido</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Redes Sociais</h3>
-                    <div class="social-links"> 
-                        <a href="#">Instagram</a> 
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="../script/script-produto10.js"></script>
+    <script src="../script/script-produto14.js"></script>
+     <?php include "../componentes/footer.php"; ?>
 </body>
 </html>

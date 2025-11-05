@@ -23,8 +23,11 @@ const product = {
         "Instantânea",
         "modelo EZSEp487"
     ],
-    seller: "Básicos"
+    seller: "Básicos",
+ // ⭐️ CORREÇÃO: Slug adicionado
+slug: "produto-6-camera.php"
 };
+
 
 
 // ====================================

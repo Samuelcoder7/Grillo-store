@@ -100,39 +100,8 @@
             </div>
         </section>
     </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Ajuda</h3>
-                <ul>
-                    <li><a href="FAQ.php">Perguntas Frequentes</a></li>
-                    <li><a href="contato.php">Fale Conosco</a></li>
-                  
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h3>Institucional</h3>
-                <ul>
-                    <li><a href="sobrenos.php">Sobre Nós</a></li>
-                    <li><a href="contato.php">contato</a></li>
-                    <li><a href="contato.php">FAQ.php</a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h3>Grillo Store</h3>
-                <p>© 2024 Grillo Store</p>
-                <p>Todos os direitos reservados</p>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    
+    <?php include "../componentes/footer.php"; ?>
 
     <script>
         // Dark Mode Toggle

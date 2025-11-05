@@ -23,6 +23,9 @@ $produto_nome = "Macaco Elétrico 2 Toneladas 12v 100w Controle Carro";
 $produto_preco = 379.99; // Preço numérico
 $produto_preco_formatado = "R$ 379,99"; // Preço para exibição
 $imagem_principal_inicial = "../imagens-produtos/macaco1.jpg";
+// ⭐️ CORREÇÃO: Slug correto para o produto 9 (definido no script-checkout.js)
+$produto_slug = "produto7-macacao-eletrico.php";
+
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -146,7 +149,8 @@ $imagem_principal_inicial = "../imagens-produtos/macaco1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <!-- ⭐️ CORREÇÃO: Usando o slug correto definido no JavaScript do checkout -->
+                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
@@ -158,17 +162,8 @@ $imagem_principal_inicial = "../imagens-produtos/macaco1.jpg";
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
     <script src="../script/script-produto7.js"></script>
+    <?php include "../componentes/footer.php"; ?>
     
 </body>
 </html>

@@ -23,7 +23,8 @@ const product = {
         "Cabo de alimentação veicular",
         "manual em inglês",
     ],
-    seller: "HP"
+    seller: "HP",
+    slug: "produto7-macacao-eletrico.php"
 };
 
 

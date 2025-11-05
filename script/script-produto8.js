@@ -22,7 +22,8 @@ const product = {
         "300 amperes",
         "Garantia 1 Ano"
     ],
-    seller: "Básicos"
+    seller: "Básicos",
+    slug: "produto-8-chupeta.php"
 };
 
 

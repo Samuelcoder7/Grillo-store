@@ -19,6 +19,9 @@ if (isset($_SESSION['carrinho_sucesso'])) {
 $produto_id = 11;
 $produto_nome = "Headset Gamer Evolut EG307 Rival, LED, Drivers 40mm, USB, P3, Preto";
 $imagem_principal_inicial = "../imagens-produtos/fone1.jpg";
+$produto_preco = 129.90; // Preço numérico (usado no input hidden)
+$prodduto_slug = "produto-11-fone-de-ouvido.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -120,7 +123,7 @@ $imagem_principal_inicial = "../imagens-produtos/fone1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <a href="checkout.php?produto=<?php echo $prodduto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
@@ -132,42 +135,7 @@ $imagem_principal_inicial = "../imagens-produtos/fone1.jpg";
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                <div class="footer-col">
-                    <h3 class="footer-title">Grillo Store</h3>
-                    <p>Nossa missão é trazer a melhor qualidade com o preço justo.</p>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Institucional</h3>
-                    <ul>
-                        <li><a href="#">Sobre Nós</a></li>
-                        <li><a href="#">Trabalhe Conosco</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Ajuda</h3>
-                    <ul>
-                        <li><a href="#">Fale Conosco</a></li>
-                        <li><a href="#">Trocas e Devoluções</a></li>
-                        <li><a href="#">Rastrear Pedido</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Redes Sociais</h3>
-                    <div class="social-links"> 
-                        <a href="#">Instagram</a>      
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-    
     <script src="../script/script-produto11.js"></script>
+     <?php include "../componentes/footer.php"; ?>
 </body>
 </html>

@@ -23,6 +23,8 @@ $produto_nome = "Câmera instantânea Fujifilm Instax Kit Mini 12 + 10 fotos lil
 $produto_preco = 535.00; // Preço numérico
 $produto_preco_formatado = "R$ 535,00"; // Preço para exibição
 $imagem_principal_inicial = "../imagens-produtos/pola1.jpg";
+// ⭐️ CORREÇÃO: Slug adicionado
+$produto_slug = "produto-5-polaroide.php";
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -100,7 +102,7 @@ $imagem_principal_inicial = "../imagens-produtos/pola1.jpg";
                 </div>
 
                 <div class="product-specs">
-                    <p class="spec-color" id="product-color">Cor: <span class="spec-value" id="product-color-value">Preto e Branco (Cores Variadas)</span></p>
+                    <p class="spec-color" id="product-color">Cor: <span class="spec-value" id="product-color-value">Lilas</span></p> <!-- ⭐️ CORREÇÃO: Cor corrigida -->
                     <h2 class="specs-title">O que você precisa saber sobre este produto</h2>
                     <ul class="specs-list" id="specs-list">
                         </ul>
@@ -146,29 +148,21 @@ $imagem_principal_inicial = "../imagens-produtos/pola1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <!-- ⭐️ CORREÇÃO: Usando o slug correto -->
+                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
-                        <p>Vendido por: <span class="seller-name" id="seller-name">Básicos</span></p>
+                        <p>Vendido por: <span class="seller-name" id="seller-name">Fujifilm</span></p> <!-- ⭐️ CORREÇÃO: Vendedor corrigido -->
                     </div>
 
                 </form> </aside>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
     <script src="../script/script-produto5.js"></script>
+     <?php include "../componentes/footer.php"; ?>
     
 </body>
 </html>

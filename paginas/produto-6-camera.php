@@ -23,6 +23,8 @@ $produto_nome = "Câmera Fotográfica Digital Profissional A6x G Zoom Cor Preto 
 $produto_preco = 163.83; // Preço numérico
 $produto_preco_formatado = "R$ 163,83"; // Preço para exibição
 $imagem_principal_inicial = "../imagens-produtos/camera1.jpg";
+// ⭐️ CORREÇÃO: Slug adicionado
+ $produto_slug = "produto-6-camera.php";
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -146,7 +148,7 @@ $imagem_principal_inicial = "../imagens-produtos/camera1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                         <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
@@ -158,17 +160,8 @@ $imagem_principal_inicial = "../imagens-produtos/camera1.jpg";
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
     <script src="../script/script-produto6.js"></script>
+     <?php include "../componentes/footer.php"; ?>
     
 </body>
 </html>

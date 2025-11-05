@@ -2,29 +2,27 @@
 session_start();
 
 // Lógica para mostrar a notificação (agora gerencia 'sucesso' e 'remocao_sucesso')
-// Essa lógica precisa ser copiada do produto funcional.
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
 if (isset($_SESSION['carrinho_sucesso'])) {
-    // Flag de adição de produto
     $mostrar_notificacao_classe = 'visible success'; 
     $notificacao_mensagem = 'Produto adicionado com sucesso!';
     unset($_SESSION['carrinho_sucesso']); 
 } elseif (isset($_SESSION['remocao_sucesso'])) {
-    // Flag de remoção de produto
     $mostrar_notificacao_classe = 'visible removal'; 
     $notificacao_mensagem = 'Produto removido do carrinho.';
     unset($_SESSION['remocao_sucesso']); 
 }
 
-
 // --- Variáveis de Produto (USANDO DADOS DO JS ORIGINAL para consistência) ---
 $produto_id = 9;
 $produto_nome = "Kit De Jardinagem 10 Peças + Maleta";
-$produto_preco = 155.52; // Preço numérico
-$produto_preco_formatado = "R$ 155,52"; // Preço para exibição
+$produto_preco = 155.52;
+$produto_preco_formatado = "R$ 155,52";
 $imagem_principal_inicial = "../imagens-produtos/maleta .jpg"; 
+// ⭐️ CORREÇÃO: Slug correto para o produto 9 (definido no script-checkout.js)
+$produto_slug = "produto-9-kit-jardinagem.php";
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -129,7 +127,8 @@ $imagem_principal_inicial = "../imagens-produtos/maleta .jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <!-- ⭐️ CORREÇÃO: Usando o slug correto definido no JavaScript do checkout -->
+                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
@@ -141,11 +140,7 @@ $imagem_principal_inicial = "../imagens-produtos/maleta .jpg";
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            </div>
-    </footer>
-
     <script src="../script/script-produto9.js"></script>
+     <?php include "../componentes/footer.php"; ?>
 </body>
 </html>

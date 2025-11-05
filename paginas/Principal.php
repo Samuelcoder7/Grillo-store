@@ -58,14 +58,15 @@ if (isset($_SESSION['erro'])) {
                 <i class="fas fa-search"></i>
             </form>
             <ul class="nav-links">
-                <?php if (isset($_SESSION['usuario_nome'])): ?>
-                    <li><a href="#"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
-                    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
-                <?php else: ?>
-                    <li><a href="#" rel="account"><i class="fas fa-user"></i> Minha Conta</a></li>
-                    <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
-                    <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
-                <?php endif; ?>
+               <?php if (isset($_SESSION['usuario_nome'])): ?>
+    <li><a href="minha_conta.php"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
+    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+<?php else: ?>
+    <li><a href="minha_conta.php" rel="account"><i class="fas fa-user"></i> Minha Conta</a></li>
+    <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
+    <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
+<?php endif; ?>
+
 
                 <li class="cart-link"><a href="#"><i class="fas fa-shopping-cart"></i> Carrinho</a></li>
 

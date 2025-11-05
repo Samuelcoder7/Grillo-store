@@ -1,30 +1,26 @@
 <?php
 session_start();
 
-// Lógica para mostrar a notificação (agora gerencia 'sucesso' e 'remocao_sucesso')
+// Lógica para mostrar a notificação (Copiado da página funcional)
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
 if (isset($_SESSION['carrinho_sucesso'])) {
-    // Flag de adição de produto
-    $mostrar_notificacao_classe = 'visible success'; 
+    $mostrar_notificacao_classe = 'visible success';
     $notificacao_mensagem = 'Produto adicionado com sucesso!';
-    unset($_SESSION['carrinho_sucesso']); 
+    unset($_SESSION['carrinho_sucesso']);
 } elseif (isset($_SESSION['remocao_sucesso'])) {
-    // Flag de remoção de produto
-    $mostrar_notificacao_classe = 'visible removal'; 
+    $mostrar_notificacao_classe = 'visible removal';
     $notificacao_mensagem = 'Produto removido do carrinho.';
-    unset($_SESSION['remocao_sucesso']); 
+    unset($_SESSION['remocao_sucesso']);
 }
 
-
-// --- Variáveis de Produto (Substitua esta seção pelo seu banco de dados real) ---
+// Variáveis do produto (Mantidas, mas o JS é a fonte de verdade agora)
 $produto_id = 16;
 $produto_nome = "Microsoft Xbox 360 Super Slim 250GB Standard cor preto 2010";
-$produto_preco = 1190.00; // Preço numérico
-$produto_preco_formatado = "R$ 1.190,00"; // Preço para exibição
-$imagem_principal_inicial = "../imagens-produtos/box1.jpg"; 
-// --------------------------------------------------------------------------
+$imagem_principal_inicial = "../imagens-produtos/box1.jpg";
+$produto_preco = 1190.00; // Preço numérico (usado no input hidden)
+$prodduto_slug = "produto-16-xbox.php";
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -34,6 +30,7 @@ $imagem_principal_inicial = "../imagens-produtos/box1.jpg";
     <title id="page-title"><?php echo htmlspecialchars($produto_nome); ?> - Grillo Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../estilo/style-produto.css">
+    <link rel="icon" type="image/x-icon" href="../imagens-produtos/box1.jpg">
 </head>
 <body>
     
@@ -58,60 +55,51 @@ $imagem_principal_inicial = "../imagens-produtos/box1.jpg";
     <?php require_once 'flyout_carrinho.php'; ?>
 
     <main class="product-page-container">
-        <a href="listagem-produtos.php" class="back-button">
-            &larr; Voltar para a página de produtos
-        </a>
+        <a href="listagem-produtos.php" class="back-button">&larr; Voltar para a página de produtos</a>
         
         <div class="product-content-wrapper">
             
             <div class="product-images">
-                <div class="thumbnail-gallery" id="thumbnail-gallery">
-                    </div>
+                <div class="thumbnail-gallery" id="thumbnail-gallery"></div>
                 <div class="main-image-container">
                     <img src="<?php echo $imagem_principal_inicial; ?>" alt="<?php echo htmlspecialchars($produto_nome); ?>" class="main-product-image" id="main-product-image">
                 </div>
             </div>
 
             <div class="product-info-details">
-                <h1 class="product-title" id="product-title"><?php echo htmlspecialchars($produto_nome); ?></h1>
+                <h1 class="product-title" id="product-title"></h1>
                 <div class="price-section">
                     <p class="price-label">À vista</p>
-                    <p class="price-value" id="price-value"><?php echo $produto_preco_formatado; ?></p>
-                    <p class="installments" id="installments-text">ou 18x de R$ 66,11 sem juros</p>
+                    <p class="price-value" id="price-value"></p>
+                    <p class="installments" id="installments-text"></p>
                     <a href="#" class="payment-methods-link">ver meios de pagamento</a>
                 </div>
 
                 <div class="product-specs">
-                    <p class="spec-color" id="product-color">Cor:<span class="spec-value" id="product-color-value">acetato(preto)</span></p>
+                    <p class="spec-color" id="product-color">Cor:<span class="spec-value" id="product-color-value"></span></p>
                     <h2 class="specs-title">O que você precisa saber sobre este produto</h2>
-                    <ul class="specs-list" id="specs-list">
-                        <li>Inclui **controle**.</li>
-                        <li>Memória **RAM de 512MB**.</li>
-                        <li>Conta com: 1 cabo de alimentação ca.</li>
-                        <li>A duração da bateria dos controles depende de como o produto é usado.</li>
-                    </ul>
+                    <ul class="specs-list" id="specs-list"></ul>
                 </div>
             </div>
 
             <aside class="purchase-sidebar">
                 <form action="adicionar_carrinho.php" method="POST">
-                    
                     <input type="hidden" name="produto_id" value="<?php echo $produto_id; ?>">
                     <input type="hidden" name="produto_nome" value="<?php echo htmlspecialchars($produto_nome); ?>">
-                    <input type="hidden" name="produto_preco" value="<?php echo $produto_preco; ?>">
+                    <input type="hidden" name="produto_preco" value="1190.00">
                     
                     <div class="sidebar-price-block">
                         <div class="current-price-display">
-                            <span class="current-price" id="current-price-sidebar">R$ 1.190</span>
+                            <span class="current-price" id="current-price-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption" checked>
                             </label>
                         </div>
-                        <p class="free-shipping">Frete Grátis a cima de R$19</p>
+                        <p class="free-shipping">Frete Grátis acima de R$ 19</p>
                         <p class="delivery-estimate">Chega entre Quarta-feira e Quinta-feira</p>
                         <div class="installments-display">
-                            <span class="installment-amount" id="installment-amount-sidebar">18x de R$ 66,11</span>
-                            <span class="installment-details" id="installment-details-sidebar">sem juros</span>
+                            <span class="installment-amount" id="installment-amount-sidebar"></span>
+                            <span class="installment-details" id="installment-details-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption">
                             </label>
@@ -123,7 +111,7 @@ $imagem_principal_inicial = "../imagens-produtos/box1.jpg";
                         <p class="stock-status">Estoque Disponível</p>
                         <div class="quantity-selector">
                             <label for="quantity">Quantidade:</label>
-                            <select id="quantity" name="quantidade">
+                            <select id="quantity" name="quantidade"> 
                                 <option value="1">1 Unidade</option>
                                 <option value="2">2 Unidades</option>
                                 <option value="3">3 Unidades</option>
@@ -132,57 +120,19 @@ $imagem_principal_inicial = "../imagens-produtos/box1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
-                        <button type="submit" class="add-to-cart-button">Adicionar ao Carrinho</button>
+                        <a href="checkout.php?produto=<?php echo $prodduto_slug; ?>" class="buy-now-button">Comprar Agora</a>
+                        <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
-                        <p>Vendido por: <span class="seller-name" id="seller-name">Básicos</span></p>
+                        <p>Vendido por: <span class="seller-name" id="seller-name"></span></p>
                     </div>
-
                 </form>
             </aside>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-columns">
-                <div class="footer-col">
-                    <h3 class="footer-title">Grillo Store</h3>
-                    <p>Nossa missão é trazer a melhor qualidade com o preço justo.</p>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Institucional</h3>
-                    <ul>
-                        <li><a href="#">Sobre Nós</a></li>
-                        <li><a href="#">Trabalhe Conosco</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Ajuda</h3>
-                    <ul>
-                        <li><a href="#">Fale Conosco</a></li>
-                        <li><a href="#">Trocas e Devoluções</a></li>
-                        <li><a href="#">Rastrear Pedido</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h3 class="footer-title">Redes Sociais</h3>
-                    <div class="social-links">
-                        <a href="#">Facebook</a> | 
-                        <a href="#">Instagram</a> | 
-                        <a href="#">Twitter</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
     <script src="../script/script-produto16.js"></script>
+    <?php include "../componentes/footer.php"; ?>
 </body>
 </html>

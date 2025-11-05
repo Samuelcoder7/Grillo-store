@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         { slug: "produto-11-fone-de-ouvido.php", nome: "Headset Gamer", cor: "Preto", preco: 47.99, parcelas: 2, imagem: "../imagens-produtos/fone1.jpg" },
         { slug: "produto-12-caixa-de-som.php", nome: "Caixa de Som Amplificada Portátil, Bluetooth, USB, Microfone, LED RGB", cor: "Preto", preco: 179.90, parcelas: 5, imagem: "../imagens-produtos/caixa1.jpg" },
         { slug: "produto-13-sofa.php", nome: "Sofá Cama Colchão Casal", cor: "Vermelha", preco: 1851.35, parcelas: 12, imagem: "../imagens-produtos/sofa1.jpg" },
-        // ⭐️ ID 14: CORREÇÃO DE PREÇO E PARCELAS (de 5x para 12x)
         { slug: "produto-14-mesa.php", nome: "Conjunto Sala de Jantar Cel Móveis com 08 Cadeiras", cor: "Branco", preco: 2632.48, parcelas: 12, imagem: "../imagens-produtos/mesa1.jpg" },
         // ⭐️ ID 15: CORREÇÃO DE PREÇO
         { slug: "produto-15-game.php", nome: "Sony PlayStation 4 Pro 1TB", cor: "Preto", preco: 2499.00 , parcelas: 18, imagem: "../imagens-produtos/game2.jpg" },

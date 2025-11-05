@@ -513,39 +513,6 @@ function calcular_total_carrinho() {
         </a>
     </main>
 
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <a href="#" class="logo">Grilo Store</a>
-                <p>O seu destino para produtos de alta qualidade e preços imbatíveis.</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                </div>
-            </div>
-            <div class="footer-column">
-                <h3>Institucional</h3>
-                <ul>
-                    <li><a href="#">Sobre Nós</a></li>
-                    <li><a href="#">Trabalhe Conosco</a></li>
-                    <li><a href="#">Política de Privacidade</a></li>
-                    <li><a href="#">Termos de Uso</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Ajuda</h3>
-                <ul>
-                    <li><a href="#">Fale Conosco</a></li>
-                    <li><a href="#">Trocas e Devoluções</a></li>
-                    <li><a href="#">Rastrear Pedido</a></li>
-                    <li><a href="#">Entregas</a></li>
-                </ul>
-            </div>
-        </div>
-    </footer>
-
-
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('cartModal')">&times;</span>
@@ -802,6 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 </script>
+<?php include "../componentes/footer.php"; ?>
 
 
 </body>

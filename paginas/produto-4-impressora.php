@@ -15,12 +15,14 @@ if (isset($_SESSION['carrinho_sucesso'])) {
     unset($_SESSION['remocao_sucesso']); 
 }
 
-// --- Variáveis de Produto (ID 6) ---
-$produto_id = 6;
+// --- Variáveis de Produto (ID 4) ---
+$produto_id = 4; // ⭐️ CORREÇÃO: ID corrigido para 4
 $produto_nome = "Impressora Multifuncional HP Smart Tank 521 Colorida / Via Cabo";
-$produto_preco = 730.00; // Preço numérico
-$produto_preco_formatado = "R$ 730,00"; // Preço para exibição
+$produto_preco = 730.90; // ⭐️ CORREÇÃO: Preço corrigido conforme checkout.js
+$produto_preco_formatado = "R$ 730,90"; // ⭐️ CORREÇÃO: Preço corrigido
 $imagem_principal_inicial = "../imagens-produtos/impre1.jpg";
+// ⭐️ CORREÇÃO: Slug adicionado
+$produto_slug = "produto-4-impressora.php";
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -144,7 +146,8 @@ $imagem_principal_inicial = "../imagens-produtos/impre1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <!-- ⭐️ CORREÇÃO: Usando o slug correto -->
+                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
@@ -156,15 +159,8 @@ $imagem_principal_inicial = "../imagens-produtos/impre1.jpg";
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="../script/script-produto6.js"></script>
+    <script src="../script/script-produto4.js"></script> <!-- ⭐️ CORREÇÃO: script correto -->
+     <?php include "../componentes/footer.php"; ?>
     
 </body>
 </html>

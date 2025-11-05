@@ -15,12 +15,14 @@ if (isset($_SESSION['carrinho_sucesso'])) {
     unset($_SESSION['remocao_sucesso']); 
 }
 
-// --- Variáveis de Produto (ID 7) ---
-$produto_id = 7;
+// --- Variáveis de Produto (ID 3) ---
+$produto_id = 3; // ⭐️ CORREÇÃO: ID corrigido para 3
 $produto_nome = "Notebook Acer Aspire Go Intel Core i5 13420H 8GB RAM 512GB SSD 15,6\" Full HD Windows 11";
 $produto_preco = 2890.00; // Preço numérico
 $produto_preco_formatado = "R$ 2.890,00"; // Preço para exibição
 $imagem_principal_inicial = "../imagens-produtos/note1.jpg";
+// ⭐️ CORREÇÃO: Slug adicionado
+$produto_slug = "produto-3-notebook.php";
 // --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
@@ -144,7 +146,8 @@ $imagem_principal_inicial = "../imagens-produtos/note1.jpg";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <!-- ⭐️ CORREÇÃO: Usando o slug correto -->
+                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
@@ -156,15 +159,8 @@ $imagem_principal_inicial = "../imagens-produtos/note1.jpg";
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-bottom">
-                <p>&copy; 2025 Grillo Store. Todos os direitos reservados. | CNPJ: 00.000.000/0001-00</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="../script/script-produto7.js"></script>
+    <script src="../script/script-produto3.js"></script> <!-- ⭐️ CORREÇÃO: script correto -->
+     <?php include "../componentes/footer.php"; ?>
     
 </body>
 </html>
