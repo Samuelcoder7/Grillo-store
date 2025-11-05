@@ -238,6 +238,9 @@ if (isset($_SESSION['erro'])) {
         </div>
     </div>
 
+    <!-- duplicate malformed modal removed; keep a single block-modal below -->
+
+
     <div id="block-modal" class="modal" style="display:none;">
         <div class="modal-content block-content">
             <span class="close-btn" id="close-block-modal">&times;</span>

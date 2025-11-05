@@ -120,12 +120,28 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Certificar que o blockModal e seus controles existem antes de usar
+    const blockModal = document.getElementById('block-modal');
+    const closeBlockModal = document.getElementById('close-block-modal');
+
     // Evento para abrir modal CEP
     if (headerCepBtn) {
         headerCepBtn.addEventListener('click', function(e) {
             console.log('Botão CEP clicado');
             e.preventDefault();
-            showModal(cepModal);
+            // Se usuário logado: abrir modal de CEP; caso contrário, mostrar modal de bloqueio
+            if (typeof isUserLoggedIn !== 'undefined' && isUserLoggedIn) {
+                showModal(cepModal);
+            } else {
+                console.log('Usuário não logado - mostrando block modal');
+                if (blockModal) {
+                    showModal(blockModal);
+                } else {
+                    // fallback: mostrar o cepModal mesmo (não ideal)
+                    console.warn('blockModal não encontrado; abrindo cepModal como fallback');
+                    showModal(cepModal);
+                }
+            }
         });
     } else {
         console.log('Botão header CEP não encontrado');
@@ -255,15 +271,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- BLOQUEIO DE ACESSO ---
     // -------------------------------------------------------------------------
     const viewAllButton = document.querySelector('.btn-view-all');
-    const blockModal = document.getElementById('block-modal');
-    const closeBlockModal = document.getElementById('close-block-modal');
 
     if (viewAllButton) {
         viewAllButton.addEventListener('click', function(e) {
             if (!isUserLoggedIn) {
                 e.preventDefault();
                 if (blockModal) {
-                    blockModal.style.display = 'flex';
+                    showModal(blockModal);
                 }
             }
         });
@@ -271,12 +285,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (closeBlockModal && blockModal) {
         closeBlockModal.addEventListener('click', function() {
-            blockModal.style.display = 'none';
+            hideModal(blockModal);
         });
 
         blockModal.addEventListener('click', function(e) {
             if (e.target === blockModal) {
-                blockModal.style.display = 'none';
+                hideModal(blockModal);
             }
         });
     }
@@ -319,7 +333,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     e.preventDefault();
                     if (blockModal) {
-                        blockModal.style.display = 'flex';
+                        showModal(blockModal);
                     }
                 }
             });
