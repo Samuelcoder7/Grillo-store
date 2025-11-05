@@ -26,7 +26,7 @@ if (isset($_SESSION['erro'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grillo Store</title>
-    <link rel="stylesheet" href="../estilo/estilo-pgprincipal.css">
+    <link rel="stylesheet" href="../estilo/estilo-pgprincipal.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="../script/script-principal.js" defer></script>
     <link rel="icon" href="../imagem-grilo/grilo.png" type="image/x-icon">
@@ -241,21 +241,48 @@ if (isset($_SESSION['erro'])) {
     <!-- duplicate malformed modal removed; keep a single block-modal below -->
 
 
-    <div id="block-modal" class="modal" style="display:none;">
+    <!-- Modal de bloqueio específico para CEP -->
+    <div id="block-modal-cep" class="modal" style="display:none;">
         <div class="modal-content block-content">
-            <span class="close-btn" id="close-block-modal">&times;</span>
-            <h2>Acesso Restrito</h2>
-            <p>Você precisa estar logado para visualizar todos os produtos da loja.</p>
-            <i class="fas fa-lock" style="font-size: 30px; color: #dc3545; margin: 15px 0;"></i>
-            <p>Faça login ou cadastre-se para continuar navegando.</p>
-            <a href="login.php" class="btn-primary block-login-btn">
-                Fazer Login
-            </a>
+            <span class="close-btn" id="close-block-modal-cep">&times;</span>
+            <h2>Área restrita - CEP</h2>
+            <p>Para calcular o frete e inserir o endereço, você precisa estar logado.</p>
+            <i class="fas fa-lock"></i>
+            <p>Faça login ou crie uma conta para prosseguir:</p>
+            <ul>
+                <li><i class="fas fa-check"></i> Calcular frete</li>
+                <li><i class="fas fa-check"></i> Salvar endereços</li>
+            </ul>
+            <div class="btn-container">
+                <a href="login.php" class="btn-primary">Fazer Login</a>
+                <a href="cadastro.php" class="btn-secondary">Criar Conta</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de bloqueio específico para Produtos / Navegação -->
+    <div id="block-modal-product" class="modal" style="display:none;">
+        <div class="modal-content block-content">
+            <span class="close-btn" id="close-block-modal-product">&times;</span>
+            <h2>Área restrita - Produtos</h2>
+            <p>Para acessar detalhes do produto ou a listagem completa, faça login.</p>
+            <i class="fas fa-lock"></i>
+            <p>Ao criar uma conta você poderá salvar endereços, acompanhar pedidos e finalizar compras.</p>
+            <ul>
+                <li><i class="fas fa-check"></i> Ver detalhes do produto</li>
+                <li><i class="fas fa-check"></i> Acessar listagem completa</li>
+            </ul>
+            <div class="btn-container">
+                <a href="login.php" class="btn-primary">Fazer Login</a>
+                <a href="cadastro.php" class="btn-secondary">Criar Conta</a>
+            </div>
         </div>
     </div>
 
     <script>
-        const isUserLoggedIn = <?php echo isset($_SESSION['usuario_nome']) ? 'true' : 'false'; ?>;
+        // Variável global para controle de login
+        window.isUserLoggedIn = <?php echo isset($_SESSION['usuario_nome']) ? 'true' : 'false'; ?>;
+        console.log('Status de login:', window.isUserLoggedIn);
     </script>
 
     <footer class="main-footer">

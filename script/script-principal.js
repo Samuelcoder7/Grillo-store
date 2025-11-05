@@ -120,28 +120,32 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Certificar que o blockModal e seus controles existem antes de usar
-    const blockModal = document.getElementById('block-modal');
-    const closeBlockModal = document.getElementById('close-block-modal');
+    // Certificar que os modais de bloqueio e seus controles existem antes de usar
+    const blockModalCep = document.getElementById('block-modal-cep');
+    const closeBlockModalCep = document.getElementById('close-block-modal-cep');
+
+    const blockModalProduct = document.getElementById('block-modal-product');
+    const closeBlockModalProduct = document.getElementById('close-block-modal-product');
 
     // Evento para abrir modal CEP
     if (headerCepBtn) {
         headerCepBtn.addEventListener('click', function(e) {
             console.log('Botão CEP clicado');
             e.preventDefault();
-            // Se usuário logado: abrir modal de CEP; caso contrário, mostrar modal de bloqueio
-            if (typeof isUserLoggedIn !== 'undefined' && isUserLoggedIn) {
-                showModal(cepModal);
-            } else {
-                console.log('Usuário não logado - mostrando block modal');
-                if (blockModal) {
-                    showModal(blockModal);
-                } else {
-                    // fallback: mostrar o cepModal mesmo (não ideal)
-                    console.warn('blockModal não encontrado; abrindo cepModal como fallback');
+                // Se usuário logado: abrir modal de CEP; caso contrário, mostrar modal de bloqueio
+                // Usar checagem 'truthy' para ser tolerante a strings 'true'/'false' vindas do servidor
+                if (window.isUserLoggedIn) {
                     showModal(cepModal);
+                } else {
+                    console.log('Usuário não logado - mostrando block modal de CEP');
+                    if (blockModalCep) {
+                        showModal(blockModalCep);
+                    } else {
+                        // fallback: mostrar o cepModal mesmo (não ideal)
+                        console.warn('blockModalCep não encontrado; abrindo cepModal como fallback');
+                        showModal(cepModal);
+                    }
                 }
-            }
         });
     } else {
         console.log('Botão header CEP não encontrado');
@@ -274,23 +278,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (viewAllButton) {
         viewAllButton.addEventListener('click', function(e) {
-            if (!isUserLoggedIn) {
+            if (!window.isUserLoggedIn) {
                 e.preventDefault();
-                if (blockModal) {
-                    showModal(blockModal);
+                if (blockModalProduct) {
+                    showModal(blockModalProduct);
                 }
             }
         });
     }
 
-    if (closeBlockModal && blockModal) {
-        closeBlockModal.addEventListener('click', function() {
-            hideModal(blockModal);
+    // Handlers para fechar e clicar fora do modal de CEP
+    if (closeBlockModalCep && blockModalCep) {
+        closeBlockModalCep.addEventListener('click', function() {
+            hideModal(blockModalCep);
         });
 
-        blockModal.addEventListener('click', function(e) {
-            if (e.target === blockModal) {
-                hideModal(blockModal);
+        blockModalCep.addEventListener('click', function(e) {
+            if (e.target === blockModalCep) {
+                hideModal(blockModalCep);
+            }
+        });
+    }
+
+    // Handlers para fechar e clicar fora do modal de PRODUCT
+    if (closeBlockModalProduct && blockModalProduct) {
+        closeBlockModalProduct.addEventListener('click', function() {
+            hideModal(blockModalProduct);
+        });
+
+        blockModalProduct.addEventListener('click', function(e) {
+            if (e.target === blockModalProduct) {
+                hideModal(blockModalProduct);
             }
         });
     }
@@ -332,8 +350,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     window.location.href = url;
                 } else {
                     e.preventDefault();
-                    if (blockModal) {
-                        showModal(blockModal);
+                    if (blockModalProduct) {
+                        showModal(blockModalProduct);
                     }
                 }
             });
