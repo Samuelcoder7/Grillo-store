@@ -12,6 +12,11 @@
     --card-background-color: #fff;
     --border-color: #ddd;
     --modal-background: rgba(0, 0, 0, 0.5);
+    /* NOVAS VARIAVEIS PARA DARK MODE DO CARRINHO */
+    --modal-content-bg: var(--card-background-color);
+    --modal-content-border: var(--border-color);
+    --modal-close-color: var(--gray-text-color);
+    --cart-item-border: var(--border-color);
 }
 
 /* Modo Escuro */
@@ -21,6 +26,12 @@ body.dark-mode {
     --gray-text-color: #b0b0b0;
     --card-background-color: #2c2c2c;
     --border-color: #444;
+
+    /* REGRAS DARK MODE PARA O CARRINHO (MODAL) */
+    --modal-content-bg: #1e1e1e; /* Fundo do modal mais escuro */
+    --modal-content-border: #444;
+    --modal-close-color: #f0f0f0; /* Botão de fechar branco */
+    --cart-item-border: #3a3a3a; /* Linhas divisórias escuras */
 }
 
 * {
@@ -219,16 +230,26 @@ header {
 .product-card {
     background-color: var(--card-background-color);
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Ajuste de sombra para Dark Mode */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
     padding: 20px;
     position: relative;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+/* Sombra no Dark Mode deve ser mais suave */
+body.dark-mode .product-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
 
 .product-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
+body.dark-mode .product-card:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+}
+
 
 .product-image {
     width: 100%;
@@ -254,6 +275,7 @@ header {
     position: absolute;
     top: 20px;
     right: 20px;
+    /* Ajuste de cor de fundo e ícone para Dark Mode */
     background-color: rgba(255, 255, 255, 0.8);
     border: none;
     border-radius: 50%;
@@ -265,8 +287,16 @@ header {
     transition: background-color 0.3s ease;
 }
 
+body.dark-mode .wishlist-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #ff6b6b; /* Cor de destaque no Dark Mode */
+}
+
 .wishlist-btn:hover {
     background-color: rgba(255, 255, 255, 1);
+}
+body.dark-mode .wishlist-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
 .product-info {
@@ -329,9 +359,74 @@ header {
     background-color: var(--primary-hover-color);
 }
 
+/* ==================================== */
+/* 5. RODAPÉ */
+/* ==================================== */
+
+.main-footer {
+    background-color: #30dd59;
+    color: white;
+    padding: 40px 20px;
+    margin-top: 50px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.footer-column {
+    flex: 1;
+    min-width: 200px;
+}
+
+.footer-column h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: white;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+    text-decoration: none;
+}
+
+.footer-column ul li a:hover {
+    text-decoration: underline;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-icons a {
+    color: white;
+    font-size: 1.5rem;
+    transition: color 0.2s;
+}
+
+.social-icons a:hover {
+    color: #d4fdd4;
+}
 
 /* ==================================== */
-/* 6. MODAIS (POP-UPS) */
+/* 6. MODAIS (POP-UPS) - CORREÇÃO DARK MODE E REFINAMENTO */
 /* ==================================== */
 
 .modal {
@@ -343,24 +438,28 @@ header {
     width: 100%;
     height: 100%;
     background-color: var(--modal-background);
-    justify-content: center;
-    align-items: center;
     backdrop-filter: blur(5px);
 }
 
-.modal.show {
-    display: flex;
+.modal[style*="display: block"] {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
-    background-color: var(--card-background-color);
+    /* USANDO NOVA VARIAVEL PARA DAR SUPORTE AO DARK MODE */
+    background-color: var(--modal-content-bg);
     padding: 30px;
     border-radius: 10px;
     width: 90%;
     max-width: 500px;
+    /* USANDO NOVA VARIAVEL PARA DAR SUPORTE AO DARK MODE */
+    border: 1px solid var(--modal-content-border); 
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     position: relative;
     animation: fadeIn 0.3s ease-out;
+    color: var(--text-color); /* Garante que o texto dentro do modal mude de cor */
 }
 
 @keyframes fadeIn {
@@ -374,6 +473,7 @@ header {
     }
 }
 
+/* CORRIGIDO: Seletor para o botão de fechar no listagem.php */
 .close-btn {
     position: absolute;
     top: 10px;
@@ -381,7 +481,13 @@ header {
     font-size: 2rem;
     font-weight: bold;
     cursor: pointer;
-    color: var(--gray-text-color);
+    /* USANDO NOVA VARIAVEL PARA DAR SUPORTE AO DARK MODE */
+    color: var(--modal-close-color); 
+    transition: color 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--primary-color);
 }
 
 .modal-header h2 {
@@ -408,7 +514,7 @@ header {
     padding: 10px;
     border-radius: 5px;
     border: 1px solid var(--border-color);
-    background-color: var(--background-color);
+    background-color: var(--card-background-color); /* Usa o background do card que já está no dark-mode */
     color: var(--text-color);
 }
 
@@ -418,7 +524,7 @@ header {
 }
 
 /* ==================================== */
-/* 7. ESTILOS DO CARRINHO */
+/* 7. ESTILOS DO CARRINHO (ATUALIZADO PARA BOTÃO DE REMOVER) */
 /* ==================================== */
 
 .cart-items-list {
@@ -432,34 +538,65 @@ header {
     align-items: center;
     gap: 15px;
     padding: 10px;
-    border-bottom: 1px solid var(--border-color);
+    /* USANDO NOVA VARIAVEL PARA DAR SUPORTE AO DARK MODE */
+    border-bottom: 1px solid var(--cart-item-border); 
 }
 
-.cart-item:last-child {
-    border-bottom: none;
+/* NOVO: Estrutura para acomodar nome, preço e botão de remover */
+.cart-item-info-and-remove {
+    flex-grow: 1; 
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 10px;
 }
 
-.cart-item img {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.cart-item-info {
-    flex-grow: 1;
-}
-
-.cart-item-info h4 {
-    margin: 0 0 5px 0;
+.cart-item-name {
+    margin: 0;
     font-size: 1rem;
     color: var(--text-color);
+    flex-grow: 1;
 }
 
 .cart-item-price {
     margin: 0;
     font-weight: 600;
     color: var(--primary-color);
+    white-space: nowrap;
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+/* Estilo do Botão de Remover */
+.form-remove-item {
+    margin-left: 10px;
+    display: inline-block;
+}
+
+.btn-remove-item {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--gray-text-color); /* Cor discreta no modo claro */
+    font-size: 1rem;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-remove-item:hover {
+    color: #d63031; /* Cor de alerta ao passar o mouse */
+    transform: scale(1.1);
+}
+
+/* Dark Mode para o Botão de Remover */
+body.dark-mode .btn-remove-item {
+    color: var(--gray-text-color); /* Cinza claro no dark mode */
+}
+
+body.dark-mode .btn-remove-item:hover {
+    color: #ff6b6b; /* Vermelho claro ao passar o mouse no dark mode */
 }
 
 .empty-cart-message {

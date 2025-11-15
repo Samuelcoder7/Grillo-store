@@ -1,10 +1,6 @@
 <?php 
-// Este arquivo deve ser incluído em todas as páginas após session_start()
 
-// Variável para armazenar o total do carrinho
 $total_carrinho = 0; 
-
-// O HTML do Flyout começa aqui:
 ?>
 <div class="cart-flyout" id="cart-flyout">
     <div class="flyout-content-wrapper">
@@ -15,43 +11,59 @@ $total_carrinho = 0;
         
         <div class="flyout-body">
             <?php 
+          
             if (!empty($_SESSION['carrinho'])) {
                 
-                echo "<ul>";
-                // Loop que lista os itens
+                echo "<ul class='flyout-item-list'>";
+                
                 foreach ($_SESSION['carrinho'] as $chave => $item) { 
-                    // Cálculo e formatação dos valores (necessário aqui dentro do flyout_carrinho.php)
+                  
                     $subtotal = $item['quantidade'] * $item['preco'];
                     $total_carrinho += $subtotal;
                     $preco_unitario_formatado = number_format($item['preco'], 2, ',', '.');
                     $subtotal_formatado = number_format($subtotal, 2, ',', '.');
 
-                    // Exibição do item
-                    echo "<li class='flyout-item'>";
-                    echo "  <p class='item-name'><strong>" . htmlspecialchars($item['nome']) . "</strong></p>";
-                    echo "  <p class='item-details'>" . htmlspecialchars($item['quantidade']) . " x R$ " . $preco_unitario_formatado . "</p>";
-                    echo "  <p class='item-subtotal'>Subtotal: R$ " . $subtotal_formatado . "</p>";
+                
+                    echo "<li class='flyout-item' id='flyout-item-" . htmlspecialchars($chave) . "'>";
+                    echo "  <div class='item-details-block'>";
+                    echo "      <p class='item-name'><strong>" . htmlspecialchars($item['nome']) . "</strong></p>";
+                    echo "      <p class='item-details'>" . htmlspecialchars($item['quantidade']) . " x R$ " . $preco_unitario_formatado . "</p>";
+                    echo "  </div>";
+                    echo "  <div class='item-actions-block'>";
+                    echo "      <p class='item-subtotal'>R$ " . $subtotal_formatado . "</p>";
                     
-                    // Link de remoção que usa a chave para remover_carrinho.php
-                    echo "  <a href='remover_carrinho.php?chave=" . urlencode($chave) . "' class='remove-item-link'>Remover</a>";
+                  
+                    echo "      <button 
+                                        type='button' 
+                                        class='remove-item-button' 
+                                        onclick='removerItemComAjax(\"" . htmlspecialchars($chave) . "\")'>
+                                        Remover
+                                    </button>";
 
+                    echo "  </div>";
                     echo "</li>"; 
                 }
                 echo "</ul>";
-                echo "<p class='flyout-total'><strong>Total: R$ " . number_format($total_carrinho, 2, ',', '.') . "</strong></p>";
                 
             } else {
-                // Mensagem quando o carrinho está realmente vazio
-                echo "<p style='text-align: center; padding: 20px;'>Seu carrinho está vazio.</p>";
+                
+                echo "<p style='text-align: center; padding: 20px; color: var(--text-color);'>Seu carrinho está vazio.</p>";
             }
             ?>
         </div>
         
         <div class="flyout-footer">
-            <div class="flyout-actions">
-                <button class="back-button" id="continue-shopping">Continuar Comprando</button>
-                <a href="carrinho.php" class="checkout-button" id="checkout-flyout-button">Finalizar Compra</a>
-            </div>
+            <?php if (!empty($_SESSION['carrinho'])): ?>
+                <p class='flyout-total'><strong>Total: R$ <?php echo number_format($total_carrinho, 2, ',', '.'); ?></strong></p>
+                <div class="flyout-actions">
+                    <button class="back-button" id="continue-shopping">Continuar Comprando</button>
+                    <a href="carrinho.php" class="checkout-button" id="checkout-flyout-button">Finalizar Compra</a>
+                </div>
+            <?php else: ?>
+                <div class="flyout-actions">
+                    <button class="back-button" id="continue-shopping">Voltar às Compras</button>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

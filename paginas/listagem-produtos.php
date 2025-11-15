@@ -1,16 +1,13 @@
 <?php
 session_start();
 
-// Verifica se a flag de adição existe e define uma variável JS
+
 $abrir_carrinho = false;
 if (isset($_SESSION['carrinho_adicionado']) && $_SESSION['carrinho_adicionado']) {
     $abrir_carrinho = true;
-    // Remove a flag para que o modal só abra desta vez
-    unset($_SESSION['carrinho_adicionado']); 
+    unset($_SESSION['carrinho_adicionado']);
 }
 
-// Array auxiliar para mapear produtos no PHP (simplificando a manutenção dos dados)
-// Nota: Em um site real, você buscaria isso de um banco de dados.
 $produtos = [
     1 => ['nome' => 'Kit Camiseta Básica Masculina', 'preco' => 47.49, 'img' => '../imagens-produtos/camisa1.jpg', 'categoria' => 'Moda'],
     2 => ['nome' => 'Kit 4 Camisetas Feminina de Academia- Atacado', 'preco' => 53.99, 'img' => '../imagens-produtos/camisa1fem.jpg', 'categoria' => 'Moda'],
@@ -30,13 +27,14 @@ $produtos = [
     16 => ['nome' => 'Microsoft Xbox 360 Super Slim 250GB', 'preco' => 1190.00, 'img' => '../imagens-produtos/box1.jpg', 'categoria' => 'Games'],
 ];
 
-// Função para formatar o preço
-function formatar_preco($preco) {
+
+function formatar_preco($preco)
+{
     return number_format($preco, 2, ',', '.');
 }
 
-// Função para calcular o total do carrinho
-function calcular_total_carrinho() {
+function calcular_total_carrinho()
+{
     $total = 0;
     if (isset($_SESSION['carrinho']) && is_array($_SESSION['carrinho'])) {
         foreach ($_SESSION['carrinho'] as $item) {
@@ -49,17 +47,19 @@ function calcular_total_carrinho() {
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Produtos - Grilo Store</title>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+
     <link rel="stylesheet" href="../estilo/style-listagem.css">
     <link rel="icon" href="../imagem-grilo/grilo.png" type="image/x-icon">
-    
-    </head>
+
+</head>
+
 <body>
 
     <header>
@@ -86,22 +86,22 @@ function calcular_total_carrinho() {
                 </div>
 
                 <ul class="nav-links">
-                    <?php if(isset($_SESSION['usuario_nome'])): ?>
-                    <li><a href="#"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
-                    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                    <?php if (isset($_SESSION['usuario_nome'])): ?>
+                        <li><a href="#"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
+                        <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
                     <?php else: ?>
-                    <li><a href="#" rel="account" id="open-login-modal"><i class="fas fa-user"></i> Minha Conta</a></li>
-                    <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
-                    <li><a href="#" class="btn btn-secondary" id="login-btn">Login</a></li>
+                        <li><a href="#" rel="account" id="open-login-modal"><i class="fas fa-user"></i> Minha Conta</a></li>
+                        <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
+                        <li><a href="#" class="btn btn-secondary" id="login-btn">Login</a></li>
                     <?php endif; ?>
-                    
-                    <?php 
-                        $quantidade_carrinho = 0;
-                        if(isset($_SESSION['carrinho'])) {
-                            foreach($_SESSION['carrinho'] as $item) {
-                                $quantidade_carrinho += $item['quantidade'];
-                            }
+
+                    <?php
+                    $quantidade_carrinho = 0;
+                    if (isset($_SESSION['carrinho'])) {
+                        foreach ($_SESSION['carrinho'] as $item) {
+                            $quantidade_carrinho += $item['quantidade'];
                         }
+                    }
                     ?>
                     <li class="cart-link">
                         <a href="#" id="cart-icon" onclick="openModal('cartModal')">
@@ -112,7 +112,7 @@ function calcular_total_carrinho() {
                         </a>
                     </li>
                     <li class="cep-link"><a href="#" id="header-cep-btn" onclick="openModal('cepModal')"><i class="fas fa-map-marker-alt"></i> Inserir CEP</a></li>
-                    
+
                     <li class="darkmode-container">
                         <button id="darkModeToggle" class="btn-dark-mode"><i class="fas fa-moon"></i></button>
                     </li>
@@ -120,7 +120,7 @@ function calcular_total_carrinho() {
             </div>
         </nav>
     </header>
-    
+
 
     <main>
         <section class="product-listing">
@@ -128,9 +128,9 @@ function calcular_total_carrinho() {
                 <h2>Todos os Produtos</h2>
                 <p>Confira nossa seleção de produtos de alta qualidade.</p>
             </div>
-            
+
             <div class="product-grid" id="productGrid">
-                
+
                 <a href="produto-1-camiseta-basica.php" class="product-card-link" data-id="1">
                     <div class="product-card" data-category="moda">
                         <span class="product-badge">NOVO</span>
@@ -144,7 +144,7 @@ function calcular_total_carrinho() {
                                 <span>(4.0)</span>
                             </div>
                             <p class="product-price">R$ <?= formatar_preco($produtos[1]['preco']); ?><span class="old-price">R$ 25,00 </span></p>
-                            
+
                             <form action="adicionar_carrinho.php" method="POST" onclick="event.stopPropagation();">
                                 <input type="hidden" name="produto_id" value="1">
                                 <input type="hidden" name="produto_nome" value="<?= $produtos[1]['nome']; ?>">
@@ -177,7 +177,7 @@ function calcular_total_carrinho() {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="produto-3-notebook.php" class="product-card-link" data-id="3">
                     <div class="product-card" data-category="Tecnologia">
                         <span class="product-badge">OFERTA</span>
@@ -224,7 +224,7 @@ function calcular_total_carrinho() {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="Produto-5-polaroide.php" class="product-card-link" data-id="5">
                     <div class="product-card" data-category="Fotografia">
                         <button class="wishlist-btn"><i class="far fa-heart"></i></button>
@@ -271,7 +271,7 @@ function calcular_total_carrinho() {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="produto7-macacao-eletrico.php" class="product-card-link" data-id="7">
                     <div class="product-card" data-category="Automotivo">
                         <button class="wishlist-btn"><i class="far fa-heart"></i></button>
@@ -317,7 +317,7 @@ function calcular_total_carrinho() {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="produto-9-kit-jardinagem.php" class="product-card-link" data-id="9">
                     <div class="product-card" data-category="Casa e Jardim">
                         <button class="wishlist-btn"><i class="far fa-heart"></i></button>
@@ -434,7 +434,7 @@ function calcular_total_carrinho() {
                         </div>
                     </div>
                 </a>
-                
+
                 <a href="produto-14-mesa.php" class="product-card-link" data-id="14">
                     <div class="product-card" data-category="Casa e Jardim">
                         <button class="wishlist-btn"><i class="far fa-heart"></i></button>
@@ -504,14 +504,16 @@ function calcular_total_carrinho() {
                         </div>
                     </div>
                 </a>
-                
-                </div>
+
+            </div>
         </section>
-        
+
         <a href="https://wa.me/seu-numero-aqui" target="_blank" class="bottom-right-icon">
-            <i class="fab fa-whatsapp"></i>
+            
         </a>
     </main>
+
+
 
     <div id="cartModal" class="modal">
         <div class="modal-content">
@@ -521,38 +523,38 @@ function calcular_total_carrinho() {
             </div>
             <div class="modal-body">
                 <div class="cart-items-list">
-                    <?php 
+                    <?php
                     $total_carrinho = 0;
                     if (isset($_SESSION['carrinho']) && is_array($_SESSION['carrinho']) && !empty($_SESSION['carrinho'])) {
                         foreach ($_SESSION['carrinho'] as $produto_id => $item) {
                             $subtotal = $item['preco'] * $item['quantidade'];
                             $total_carrinho += $subtotal;
                     ?>
-                        <div class="cart-item">
-                            <div class="cart-item-info-and-remove">
-                                <div>
-                                    <h4 class="cart-item-name">
-                                        <?= htmlspecialchars($item['nome']); ?> 
-                                        (x<?= htmlspecialchars($item['quantidade']); ?>)
-                                    </h4>
+                            <div class="cart-item">
+                                <div class="cart-item-info-and-remove">
+                                    <div>
+                                        <h4 class="cart-item-name">
+                                            <?= htmlspecialchars($item['nome']); ?>
+                                            (x<?= htmlspecialchars($item['quantidade']); ?>)
+                                        </h4>
+                                    </div>
+                                    <span class="cart-item-price">
+                                        R$ <?= number_format($subtotal, 2, ',', '.'); ?>
+                                    </span>
+
+                                    <form action="remover_carrinho.php" method="POST" class="form-remove-item">
+                                        <input type="hidden" name="produto_id" value="<?= htmlspecialchars($produto_id); ?>">
+                                        <button type="submit" name="remover" class="btn-remove-item" title="Remover item">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+
                                 </div>
-                                <span class="cart-item-price">
-                                    R$ <?= number_format($subtotal, 2, ',', '.'); ?>
-                                </span>
-                                
-                                <form action="remover_carrinho.php" method="POST" class="form-remove-item">
-                                    <input type="hidden" name="produto_id" value="<?= htmlspecialchars($produto_id); ?>">
-                                    <button type="submit" name="remover" class="btn-remove-item" title="Remover item">
-                                        <i class="fas fa-trash-alt"></i> 
-                                    </button>
-                                </form>
-                                
                             </div>
-                        </div>
-                    <?php
+                        <?php
                         } // Fim do foreach
                     } else {
-                    ?>
+                        ?>
                         <p class="empty-cart-message">Seu carrinho está vazio.</p>
                     <?php
                     }
@@ -587,7 +589,7 @@ function calcular_total_carrinho() {
             </div>
         </div>
     </div>
-    
+
     <div id="accountModal" class="modal">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal('accountModal')">&times;</span>
@@ -658,7 +660,7 @@ function calcular_total_carrinho() {
                 openModal('cartModal');
             });
         }
-        
+
         // Lógica de Abertura do Modal de CEP
         const cepBtn = document.getElementById('header-cep-btn');
         if (cepBtn) {
@@ -667,11 +669,11 @@ function calcular_total_carrinho() {
                 openModal('cepModal');
             });
         }
-        
+
         // Lógica de Abertura do Modal de Login/Conta (Se não estiver logado)
         const loginBtn = document.getElementById('login-btn');
         if (loginBtn && loginBtn.href.includes('login.php')) {
-             loginBtn.addEventListener('click', function(e) {
+            loginBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 openModal('loginModal'); // Se você quer usar o modal de login
                 // Se quiser apenas ir para a página de login:
@@ -684,10 +686,10 @@ function calcular_total_carrinho() {
             accountLink.addEventListener('click', function(e) {
                 e.preventDefault();
                 // Assumindo que este link só aparece se o usuário NÃO está logado
-                openModal('loginModal'); 
+                openModal('loginModal');
             });
         }
-        
+
 
         // Lógica do Dark Mode
         const darkModeToggle = document.getElementById('darkModeToggle');
@@ -718,7 +720,7 @@ function calcular_total_carrinho() {
                 icon.classList.add('fa-sun');
             }
         });
-        
+
         // Lógica para abrir o modal do carrinho automaticamente após adição
         <?php if ($abrir_carrinho): ?>
             document.addEventListener('DOMContentLoaded', () => {
@@ -728,49 +730,50 @@ function calcular_total_carrinho() {
     </script>
 
     <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const formsRemove = document.querySelectorAll('.form-remove-item');
+        document.addEventListener('DOMContentLoaded', () => {
+            const formsRemove = document.querySelectorAll('.form-remove-item');
 
-    formsRemove.forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault(); // Evita recarregar a página
+            formsRemove.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Evita recarregar a página
 
-            const formData = new FormData(form);
+                    const formData = new FormData(form);
 
-            fetch('remover_carrinho.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Remove o item da interface
-                    const cartItem = form.closest('.cart-item');
-                    cartItem.remove();
+                    fetch('remover_carrinho.php', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                // Remove o item da interface
+                                const cartItem = form.closest('.cart-item');
+                                cartItem.remove();
 
-                    // Atualiza o total do carrinho
-                    const totalElement = document.querySelector('.cart-total-info');
-                    totalElement.textContent = 'Total: R$ ' + data.total;
+                                // Atualiza o total do carrinho
+                                const totalElement = document.querySelector('.cart-total-info');
+                                totalElement.textContent = 'Total: R$ ' + data.total;
 
-                    // Atualiza o badge do carrinho
-                    const cartBadge = document.getElementById('cart-badge-count');
-                    if (data.quantidade_carrinho > 0) {
-                        cartBadge.textContent = data.quantidade_carrinho;
-                    } else {
-                        cartBadge.remove();
-                        // Se carrinho vazio, mostra mensagem
-                        const cartBody = document.querySelector('.cart-items-list');
-                        cartBody.innerHTML = '<p class="empty-cart-message">Seu carrinho está vazio.</p>';
-                    }
-                }
-            })
-            .catch(err => console.error('Erro ao remover item:', err));
+                                // Atualiza o badge do carrinho
+                                const cartBadge = document.getElementById('cart-badge-count');
+                                if (data.quantidade_carrinho > 0) {
+                                    cartBadge.textContent = data.quantidade_carrinho;
+                                } else {
+                                    cartBadge.remove();
+                                    // Se carrinho vazio, mostra mensagem
+                                    const cartBody = document.querySelector('.cart-items-list');
+                                    cartBody.innerHTML = '<p class="empty-cart-message">Seu carrinho está vazio.</p>';
+                                }
+                            }
+                        })
+                        .catch(err => console.error('Erro ao remover item:', err));
+                });
+            });
         });
-    });
-});
-</script>
-<?php include "../componentes/footer.php"; ?>
+    </script>
 
+    <?php include "../componentes/footer.php"; ?>
 
 </body>
+
 </html>

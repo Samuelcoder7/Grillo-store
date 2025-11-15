@@ -1,13 +1,13 @@
 <?php
 session_start();
 
-// Exibir mensagens de erro de login (código original)
+// Exibir mensagens de erro de login
 if (isset($_SESSION['erro_login'])) {
     echo "<p style='color:red; text-align:center;'>" . $_SESSION['erro_login'] . "</p>";
     unset($_SESSION['erro_login']);
 }
 
-// Exibir mensagens de sucesso ou erro do CEP (novo)
+// Exibir mensagens de sucesso ou erro do CEP
 if (isset($_SESSION['sucesso'])) {
     echo "<div class='alert alert-success' style='background: #d4edda; color: #155724; padding: 15px; margin: 10px 0; border: 1px solid #c3e6cb; border-radius: 5px; text-align: center;'>" . $_SESSION['sucesso'] . "</div>";
     unset($_SESSION['sucesso']);
@@ -17,6 +17,11 @@ if (isset($_SESSION['erro'])) {
     echo "<div class='alert alert-danger' style='background: #f8d7da; color: #721c24; padding: 15px; margin: 10px 0; border: 1px solid #f5c6cb; border-radius: 5px; text-align: center;'>" . $_SESSION['erro'] . "</div>";
     unset($_SESSION['erro']);
 }
+
+// Inicializa a quantidade de itens no carrinho para o badge
+$cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['carrinho'], 'quantidade')) : 0;
+// Ajuste feito: se o seu carrinho guarda a quantidade, é melhor somar todas as quantidades do que contar apenas os itens únicos (count()).
+
 ?>
 
 <!DOCTYPE html>
@@ -58,18 +63,21 @@ if (isset($_SESSION['erro'])) {
                 <i class="fas fa-search"></i>
             </form>
             <ul class="nav-links">
-               <?php if (isset($_SESSION['usuario_nome'])): ?>
-    <li><a href="minha_conta.php"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
-    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
-<?php else: ?>
-    <li><a href="minha_conta.php" rel="account"><i class="fas fa-user"></i> Minha Conta</a></li>
-    <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
-    <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
-<?php endif; ?>
+                <?php if (isset($_SESSION['usuario_nome'])): ?>
+                    <li><a href="minha_conta.php"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
+                    <li><a href="logout.php"><i class="fas fa-sign-out-alt"></i> Sair</a></li>
+                <?php else: ?>
+                    <li><a href="minha_conta.php" rel="account"><i class="fas fa-user"></i> Minha Conta</a></li>
+                    <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
+                    <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
+                <?php endif; ?>
 
-
-                <li class="cart-link"><a href="#"><i class="fas fa-shopping-cart"></i> Carrinho</a></li>
-
+                <li class="cart-link">
+                    <a href="#" id="cart-btn">
+                        <i class="fas fa-shopping-cart"></i> Carrinho
+                        <span class="cart-badge" id="cart-badge-count" style="display: inline-block; background-color: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.75em;"><?= $cart_count; ?></span>
+                    </a>
+                </li>
                 <li class="cep-link"><a href="#" id="header-cep-btn"><i class="fas fa-map-marker-alt"></i> Inserir CEP </a></li>
 
             </ul>
@@ -129,7 +137,6 @@ if (isset($_SESSION['erro'])) {
                 </button>
             </div>
             <div class="mega-promo-image">
-                <!-- CÍRCULO VAZIO SEM TEXTO -->
             </div>
         </section>
 
@@ -140,7 +147,6 @@ if (isset($_SESSION['erro'])) {
                 <div class="product-card" data-url="produto-5-polaroide.php">
                     <div class="product-badge">-10%</div>
                     <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-                    <!-- IMAGEM COM FALLBACK -->
                     <img src="../imagens-produtos/pola1.jpg" alt="Câmera Polaroid Fujifilm" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlBvbGFyb2lkPC90ZXh0Pjwvc3ZnPg=='">
                     <div class="product-info">
                         <p class="product-category">Fotografia</p>
@@ -150,7 +156,9 @@ if (isset($_SESSION['erro'])) {
                             <span>(123 avaliações)</span>
                         </div>
                         <p class="product-price">R$ 535,00 <span class="old-price">R$ 800,00</span></p>
-                        <button class="btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</button>
+                        <button class="btn-add-to-cart" data-produto-id="5" data-nome="Câmera Fujifilm Kit Mini 12 + Filmes" data-preco="535.00">
+                            <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
 
@@ -166,7 +174,9 @@ if (isset($_SESSION['erro'])) {
                             <span>(99 avaliações)</span>
                         </div>
                         <p class="product-price">R$ 1.190,00 <span class="old-price">R$ 1.400,00</span></p>
-                        <button class="btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</button>
+                        <button class="btn-add-to-cart" data-produto-id="16" data-nome="Microsoft Xbox 360 Super 250GB" data-preco="1190.00">
+                            <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
 
@@ -182,7 +192,9 @@ if (isset($_SESSION['erro'])) {
                             <span>(50 avaliações)</span>
                         </div>
                         <p class="product-price">R$ 47,49 <span class="old-price">R$ 60,49</span></p>
-                        <button class="btn-add-to-cart"><i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho</button>
+                        <button class="btn-add-to-cart" data-produto-id="1" data-nome="Kit Camiseta Básica Masculina - 3 Peças" data-preco="47.49">
+                            <i class="fas fa-shopping-cart"></i> Adicionar ao Carrinho
+                        </button>
                     </div>
                 </div>
             </div>
@@ -197,7 +209,21 @@ if (isset($_SESSION['erro'])) {
         <i class="fas fa-question-circle"></i>
     </div>
 
-    <!-- MODAIS (mantidos iguais) -->
+    <div id="cart-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2><i class="fas fa-shopping-cart"></i> Seu Carrinho</h2>
+            <div id="cart-items-container" class="cart-items">
+                <p id="empty-cart-message" style="text-align: center; color: #666; padding: 20px;">Seu carrinho está vazio.</p>
+            </div>
+            <div class="cart-summary">
+                <p>Total: <span id="cart-total-value">R$ 0,00</span></p>
+            </div>
+            <button class="btn-primary btn-checkout" style="width: 100%; margin-top: 15px;">Finalizar Compra</button>
+        </div>
+    </div>
+
+
     <div id="cep-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-cep-modal">&times;</span>
@@ -238,10 +264,6 @@ if (isset($_SESSION['erro'])) {
         </div>
     </div>
 
-    <!-- duplicate malformed modal removed; keep a single block-modal below -->
-
-
-    <!-- Modal de bloqueio específico para CEP -->
     <div id="block-modal-cep" class="modal" style="display:none;">
         <div class="modal-content block-content">
             <span class="close-btn" id="close-block-modal-cep">&times;</span>
@@ -260,7 +282,6 @@ if (isset($_SESSION['erro'])) {
         </div>
     </div>
 
-    <!-- Modal de bloqueio específico para Produtos / Navegação -->
     <div id="block-modal-product" class="modal" style="display:none;">
         <div class="modal-content block-content">
             <span class="close-btn" id="close-block-modal-product">&times;</span>
@@ -284,27 +305,7 @@ if (isset($_SESSION['erro'])) {
         window.isUserLoggedIn = <?php echo isset($_SESSION['usuario_nome']) ? 'true' : 'false'; ?>;
         console.log('Status de login:', window.isUserLoggedIn);
     </script>
-
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Links Úteis</h3>
-                <ul>
-                    <li><a href="../paginas/sobrenos.php">Sobre Nós</a></li>
-                    <li><a href="../paginas/contato.php">Contato</a></li>
-                    <li><a href="../paginas/FAQ.php">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Redes Sociais</h3>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/grillo_store_oficial/?next=%2F"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    <?php include "../componentes/footer.php"; ?>
 </body>
 
 </html>

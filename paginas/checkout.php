@@ -194,11 +194,11 @@ session_start();
     </main>
     
     <footer class="footer">
-        <div class="footer-content">
-            <p>&copy; 2024 Grillo Store. Todos os direitos reservados.</p>
-        </div>
+        
     </footer>
 
     <script src="../script/script-checkout.js"></script>
+
+    <?php include "../componentes/footer.php"; ?>
 </body>
 </html>

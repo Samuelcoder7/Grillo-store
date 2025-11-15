@@ -1,29 +1,33 @@
 <?php
 session_start();
 
-// Lógica para mostrar a notificação (Copiado do Produto 16)
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
 if (isset($_SESSION['carrinho_sucesso'])) {
-    // Flag de adição de produto
-    $mostrar_notificacao_classe = 'visible success'; 
+   
+    $mostrar_notificacao_classe = 'visible success';
     $notificacao_mensagem = 'Produto adicionado com sucesso!';
-    unset($_SESSION['carrinho_sucesso']); 
+    unset($_SESSION['carrinho_sucesso']);
 } elseif (isset($_SESSION['remocao_sucesso'])) {
-    // Flag de remoção de produto
-    $mostrar_notificacao_classe = 'visible removal'; 
+   
+    $mostrar_notificacao_classe = 'visible removal';
     $notificacao_mensagem = 'Produto removido do carrinho.';
-    unset($_SESSION['remocao_sucesso']); 
+    unset($_SESSION['remocao_sucesso']);
 }
 
-// --- Variáveis de Produto Estáticas (O JS preencherá o resto) ---
 $produto_id = 10;
 $produto_nome = "Mangueira Flexível Tramontina 15m Flex";
-$produto_preco = 60.79; // Preço numérico (usado no input hidden)
-$imagem_principal_inicial = "../imagens-produtos/mangueira_1.jpg"; 
-$prodduto_slug = "produto-10-mangueira.php";
-// --------------------------------------------------------------------------
+$produto_preco = 60.79; 
+$produto_preco_formatado = "R$ 60,79"; 
+$imagem_principal_inicial = "../imagens-produtos/mangueira_1.jpg";
+
+
+$parcela_qtd = 2;
+$parcela_valor_formatado = "R$ 30,40"; 
+$cor_produto = "Verde";
+$vendedor_nome = "Tramontina Oficial";
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -33,7 +37,7 @@ $prodduto_slug = "produto-10-mangueira.php";
     <title id="page-title"><?php echo htmlspecialchars($produto_nome); ?> - Grillo Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../estilo/style-produto.css">
-    <link rel="icon" type="image/x-icon" href="../imagens-produtos/borracha/mangueira_1.jpg">
+    <link rel="icon" type="image/x-icon" href="../imagem/grilo.png">
 </head>
 <body>
     
@@ -55,24 +59,8 @@ $prodduto_slug = "produto-10-mangueira.php";
         </div>
     </header>
 
-    <div class="cart-flyout" id="cart-flyout">
-        <div class="flyout-content-wrapper">
-            <div class="flyout-header">
-                <h3>Meu Carrinho (0 itens)</h3>
-                <button class="close-flyout" id="close-cart-flyout">&times;</button>
-            </div>
-            <div class="flyout-body">
-                <p>O carrinho está vazio. Adicione itens para continuar.</p>
-            </div>
-            <div class="flyout-footer">
-                <div class="flyout-actions">
-                    <button class="back-button-modal" id="continue-shopping">Continuar Comprando</button>
-                    <a href="checkout.php" class="checkout-button" id="checkout-flyout-button">Finalizar Compra</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <?php require_once 'flyout_carrinho.php'; ?>
+    
     <main class="product-page-container">
         <a href="listagem-produtos.php" class="back-button">
             &larr; Voltar para a página de produtos
@@ -84,12 +72,14 @@ $prodduto_slug = "produto-10-mangueira.php";
                 <div class="thumbnail-gallery" id="thumbnail-gallery">
                     </div>
                 <div class="main-image-container">
-                    <img src="<?php echo $imagem_principal_inicial; ?>" alt="<?php echo htmlspecialchars($produto_nome); ?>" class="main-product-image" id="main-product-image">
+                    <img src="<?php echo $imagem_principal_inicial; ?>" 
+                         alt="<?php echo htmlspecialchars($produto_nome); ?>" 
+                         class="main-product-image" id="main-product-image">
                 </div>
             </div>
-              
+
             <div class="product-info-details">
-                <h1 class="product-title" id="product-title">Mangueira Flexível Tramontina 15m Flex</h1>
+                <h1 class="product-title" id="product-title"></h1>
                 <div class="price-section">
                     <p class="price-label">À vista</p>
                     <p class="price-value" id="price-value"></p>
@@ -101,7 +91,7 @@ $prodduto_slug = "produto-10-mangueira.php";
                     <p class="spec-color" id="product-color">Cor: <span class="spec-value" id="product-color-value"></span></p>
                     <h2 class="specs-title">O que você precisa saber sobre este produto</h2>
                     <ul class="specs-list" id="specs-list">
-                         </ul>
+                        </ul>
                 </div>
             </div>
 
@@ -144,19 +134,22 @@ $prodduto_slug = "produto-10-mangueira.php";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=<?php echo $prodduto_slug; ?>" class="buy-now-button">Comprar Agora</a>   
+                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
                         <p>Vendido por: <span class="seller-name" id="seller-name"></span></p>
                     </div>
-                </form>
+
+                </form> 
             </aside>
         </div>
     </main>
+
+    <?php include "../componentes/footer.php"; ?>
+
+    <script src="../script/script-produto10.js"></script> 
     
-    <script src="../script/script-produto10.js"></script>
-     <?php include "../componentes/footer.php"; ?>
 </body>
 </html>

@@ -46,4 +46,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Verifica a cada segundo se o dark mode mudou (para persistência)
     setInterval(applyDarkMode, 1000);
+    
+    // Toggle da senha com mousedown/mouseup
+    const senhaInput = document.getElementById('senhaLogin');
+    const olhoBtn = document.getElementById('olhoLogin');
+    
+    if (senhaInput && olhoBtn) {
+        olhoBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            senhaInput.type = 'text';
+            olhoBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        olhoBtn.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            senhaInput.type = 'password';
+            olhoBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        });
+        
+        olhoBtn.addEventListener('mouseout', () => {
+            senhaInput.type = 'password';
+            olhoBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        });
+    }
 });

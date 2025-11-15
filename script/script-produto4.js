@@ -1,19 +1,19 @@
-//
-// LÓGICA DA PÁGINA DE PRODUTO INDIVIDUAL (Impressora HP Smart Tank 521)
-//
 const product = {
-    id: 4,
+    id: 6,
     name: "Impressora Multifuncional HP Smart Tank 521 Colorida / Via Cabo",
-    price: 730.90, // ⭐️ CORREÇÃO: Preço corrigido conforme checkout.js
+    price: 730.00,
     oldPrice: 0.00,
-    installments: { count: 18, value: 44.33, isInterest: true },
+    installments: { 
+        count: 18, 
+        value: 44.33, 
+        isInterest: true 
+    },
     color: "Preto/Grafite",
     images: [
         "../imagens-produtos/impre1.jpg",
         "../imagens-produtos/impre2.jpg", 
         "../imagens-produtos/impre3.jpg", 
-        "../imagens-produtos/impre4.jpg",
-        "../imagens-produtos/impre2.jpg",
+        "../imagens-produtos/impre4.jpg"
     ],
     specs: [
         "**Funções:** Impressão, Cópia e Digitalização",
@@ -21,80 +21,84 @@ const product = {
         "**Conectividade:** Apenas Via Cabo (1 USB 2.0 de alta velocidade)",
         "**Recursos:** Impressora Colorida (Inclui tintas)",
         "**Não possui Wi-Fi**",
-        "**Inclui:** 1 Impressora Multifuncional HP Smart Tank 521",
+        "**Inclui:** 1 Impressora Multifuncional HP Smart Tank 521"
     ],
-    seller: "HP",
-    // ⭐️ CORREÇÃO: Slug adicionado
-    slug: "produto-4-impressora.php"
+    seller: "HP"
 };
 
-// ====================================
-// FUNÇÕES DE EXIBIÇÃO E GALERIA
-// ====================================
 
+// =====================================================
+// FUNÇÕES DE EXIBIÇÃO DO PRODUTO (REUTILIZADAS)
+// =====================================================
 function displayProductDetails(product) {
     document.getElementById('page-title').textContent = `${product.name} - Grillo Store`;
     document.getElementById('product-title').textContent = product.name;
-    document.getElementById('price-value').textContent = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
-    document.getElementById('current-price-sidebar').textContent = `R$ ${product.price.toFixed(2).replace('.', ',')}`;
+
+    const formatter = new Intl.NumberFormat('pt-BR', {
+        style: 'currency',
+        currency: 'BRL',
+        minimumFractionDigits: 2
+    });
+    const formattedPrice = formatter.format(product.price);
+
+    document.getElementById('price-value').textContent = formattedPrice;
+    document.getElementById('current-price-sidebar').textContent = formattedPrice;
     document.getElementById('seller-name').textContent = product.seller;
 
     if (product.installments) {
-        const installmentType = product.installments.isInterest ? 'com juros' : 'sem juros';
-        const installmentText = `ou ${product.installments.count}x de R$ ${product.installments.value.toFixed(2).replace('.', ',')} ${installmentType}`;
+        // Tolerância de 1% para erro de arredondamento em casos sem juros
+        const hasInterest = product.installments.isInterest || (product.installments.total > (product.price * 1.01)); 
+        const installmentType = hasInterest ? 'com juros' : 'sem juros';
+        const installmentValueFormatted = product.installments.value.toFixed(2).replace('.', ',');
+        let installmentText = `ou ${product.installments.count}x de R$ ${installmentValueFormatted} ${installmentType}`;
         
-        // Texto na área central
+        if (hasInterest && product.installments.total) {
+            const totalFormatted = product.installments.total.toFixed(2).replace('.', ',');
+            installmentText += ` (Total: R$ ${totalFormatted})`;
+        }
+        
         document.getElementById('installments-text').textContent = installmentText;
-        
-        // Texto na Sidebar
-        document.getElementById('installment-amount-sidebar').textContent = `${product.installments.count}x de R$ ${product.installments.value.toFixed(2).replace('.', ',')}`;
-        document.getElementById('installment-details-sidebar').textContent = installmentType;
+        document.getElementById('installment-amount-sidebar').textContent = `${product.installments.count}x de R$ ${installmentValueFormatted}`;
+        document.getElementById('installment-details-sidebar').textContent = installmentType; 
     }
 
-    if (product.color !== "N/A") {
+    if (product.color && product.color !== "N/A") {
         document.getElementById('product-color-value').textContent = product.color;
     } else {
         const colorElement = document.getElementById('product-color');
-        if (colorElement) {
-            colorElement.style.display = 'none';
-        }
+        if (colorElement) colorElement.style.display = 'none';
     }
-    
+
     const specsList = document.getElementById('specs-list');
     if (specsList) {
         specsList.innerHTML = '';
         product.specs.forEach(spec => {
             const li = document.createElement('li');
-            li.innerHTML = spec; 
+            li.textContent = spec;
             specsList.appendChild(li);
         });
     }
 
     const mainImage = document.getElementById('main-product-image');
     const thumbnailGallery = document.getElementById('thumbnail-gallery');
-    
+
     if (mainImage && thumbnailGallery) {
         mainImage.src = product.images[0];
         mainImage.alt = product.name;
-
         thumbnailGallery.innerHTML = '';
         product.images.forEach((imgSrc, index) => {
             const img = document.createElement('img');
             img.src = imgSrc;
             img.alt = `Miniatura do Produto ${index + 1}`;
             img.classList.add('thumbnail-image');
-            if (index === 0) {
-                img.classList.add('active');
-            }
+            if (index === 0) img.classList.add('active');
             thumbnailGallery.appendChild(img);
         });
 
         document.querySelectorAll('.thumbnail-image').forEach(thumbnail => { 
             thumbnail.addEventListener('click', () => {
                 const currentActive = document.querySelector('.thumbnail-image.active');
-                if (currentActive) {
-                    currentActive.classList.remove('active');
-                }
+                if (currentActive) currentActive.classList.remove('active');
                 thumbnail.classList.add('active');
                 mainImage.src = thumbnail.src;
             });
@@ -102,69 +106,95 @@ function displayProductDetails(product) {
     }
 }
 
-// ====================================
-// FUNÇÃO DO POP-UP DE NOTIFICAÇÃO (TOAST)
-// ====================================
-
+// =====================================================
+// NOTIFICAÇÃO E FLIGHT OUT (REUTILIZADAS)
+// =====================================================
 function showNotification(message) {
     const popup = document.getElementById('notification-popup');
     if (popup) {
         popup.textContent = message;
+        popup.classList.remove('removal'); 
+        popup.classList.add('success'); 
         popup.classList.add('visible');
         setTimeout(() => {
             popup.classList.remove('visible');
+            popup.classList.remove('success'); 
+            popup.classList.remove('removal'); 
         }, 3000); 
     }
 }
 
-// ====================================
-// FUNÇÃO PARA REDIRECIONAR PARA CHECKOUT
-// ====================================
-
-function goToCheckout() {
-    // ⭐️ CORREÇÃO: Redireciona para checkout com o slug do produto
-    window.location.href = `checkout.php?produto=${product.slug}`;
+function gerenciarNotificacaoPHP() {
+    const popup = document.getElementById('notification-popup');
+    if (popup && popup.classList.contains('visible')) {
+        setTimeout(() => {
+            popup.classList.remove('visible'); 
+            popup.classList.remove('success'); 
+            popup.classList.remove('removal'); 
+        }, 3000); 
+    }
 }
 
-// ====================================
-// INICIALIZAÇÃO E EVENTOS (FUNCIONAL)
-// ====================================
+// =====================================================
+// REMOÇÃO DE ITEM VIA AJAX (REUTILIZADA)
+// =====================================================
+function removerItemComAjax(produtoId) {
+    if (!produtoId) return;
+    const formData = new FormData();
+    formData.append('produto_id', produtoId);
 
+    fetch('remover_carrinho.php', { method: 'POST', body: formData })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            // Remove o item visualmente
+            const item = document.getElementById(`flyout-item-${produtoId}`); 
+            if (item) item.remove();
+
+            // Lógica para atualizar o total e status de carrinho vazio
+            const flyoutTotal = document.querySelector('.flyout-total strong');
+            if (flyoutTotal) {
+                const totalFormatado = data.total_carrinho
+                    ? Number(data.total_carrinho).toFixed(2).replace('.', ',')
+                    : '0,00';
+                flyoutTotal.textContent = `R$ ${totalFormatado}`;
+            }
+
+            if (document.querySelectorAll('.flyout-item').length === 0) {
+                const body = document.querySelector('.flyout-body');
+                if (body) body.innerHTML = "<p style='text-align: center; padding: 20px; color: var(--text-color);'>Seu carrinho está vazio.</p>";
+                const footer = document.querySelector('.flyout-footer .flyout-actions');
+                if (footer) footer.style.display = 'none';
+            }
+        } else {
+            alert('Erro ao remover o produto: ' + data.message);
+        }
+    })
+    .catch(err => {
+        console.error('Erro AJAX:', err);
+        alert('Erro ao tentar remover o item. Verifique a conexão.');
+    });
+}
+
+// =====================================================
+// INICIALIZAÇÃO DE EVENTOS (REUTILIZADA)
+// =====================================================
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Carrega os detalhes do produto
+
     displayProductDetails(product);
+    gerenciarNotificacaoPHP();
 
-    // 2. Lógica do botão "Adicionar ao Carrinho"
-    const addToCartButton = document.getElementById('add-to-cart-button');
-    if (addToCartButton) {
-        addToCartButton.addEventListener('click', () => {
-            showNotification(`"${product.name}" adicionado ao carrinho!`);
-            
-            addToCartButton.textContent = 'Adicionado! ✅';
-            addToCartButton.disabled = true;
-
-            setTimeout(() => {
-                addToCartButton.textContent = 'Adicionar ao Carrinho';
-                addToCartButton.disabled = false;
-            }, 2000); 
-        });
-    }
-
-    // ⭐️ CORREÇÃO: Botão "Comprar Agora" redireciona para checkout com o produto
+    // Lógica de Checkout / Compra Rápida
     const buyNowButton = document.querySelector('.buy-now-button');
     if (buyNowButton) {
-        // Remove qualquer evento anterior e usa a função goToCheckout
-        buyNowButton.replaceWith(buyNowButton.cloneNode(true));
-        const newBuyNowButton = document.querySelector('.buy-now-button');
-        
-        newBuyNowButton.addEventListener('click', function(e) {
+        buyNowButton.addEventListener('click', (e) => {
             e.preventDefault();
-            goToCheckout();
+            showNotification(`Iniciando Compra Rápida para "${product.name}"...`);
+            setTimeout(() => window.location.href = 'checkout.php', 500);
         });
     }
 
-    // 3. Lógica para o ícone do Carrinho (Modal Centralizado)
+    // Flyout carrinho
     const cartIcon = document.querySelector('.cart-icon'); 
     const cartFlyout = document.getElementById('cart-flyout');
     const closeFlyoutButton = document.getElementById('close-cart-flyout');
@@ -173,78 +203,61 @@ document.addEventListener('DOMContentLoaded', () => {
     function openFlyout() {
         if (cartFlyout) {
             cartFlyout.classList.add('visible');
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
         }
     }
 
     function closeFlyout() {
         if (cartFlyout) {
             cartFlyout.classList.remove('visible');
-            setTimeout(() => {
-                 document.body.style.overflow = '';
-            }, 300);
+            setTimeout(() => document.body.style.overflow = '', 300);
         }
     }
 
-    if (cartIcon) {
-        cartIcon.addEventListener('click', openFlyout);
-    }
+    if (cartIcon) cartIcon.addEventListener('click', openFlyout);
+    if (closeFlyoutButton) closeFlyoutButton.addEventListener('click', closeFlyout);
+    if (continueShoppingButton) continueShoppingButton.addEventListener('click', closeFlyout);
 
-    if (closeFlyoutButton) {
-        closeFlyoutButton.addEventListener('click', closeFlyout);
-    }
-    
-    if (continueShoppingButton) {
-        continueShoppingButton.addEventListener('click', closeFlyout);
-    }
-    
+    // Delegação para remover itens e fechar flyout ao clicar no overlay
     document.addEventListener('click', (event) => {
-        const isVisible = cartFlyout && cartFlyout.classList.contains('visible');
-        const clickedOnIcon = cartIcon && cartIcon.contains(event.target);
-        const clickedOnOverlay = event.target === cartFlyout; 
+        const removeButton = event.target.closest('.remove-item-button');
+        if (removeButton) {
+            event.preventDefault();
+            const produtoId = removeButton.dataset.productId;
+            if (produtoId) removerItemComAjax(produtoId);
+        }
 
-        if (isVisible && (clickedOnOverlay && !clickedOnIcon)) {
+        if (cartFlyout && cartFlyout.classList.contains('visible') && event.target === cartFlyout) {
             closeFlyout();
         }
     });
 
-    // 4. LÓGICA DO MODO ESCURO 
-    const body = document.body;
-    const darkModeToggle = document.getElementById('darkModeToggle');
+    // Dark Mode
+    const bodyElement = document.body;
+    const darkModeButton = document.getElementById('darkModeToggle');
     const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>`;
     const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>`;
 
     function enableDarkMode() {
-        body.classList.add('dark-mode');
-        if (darkModeToggle) {
-            darkModeToggle.innerHTML = sunIcon;
-        }
+        bodyElement.classList.add('dark-mode');
+        if (darkModeButton) darkModeButton.innerHTML = sunIcon;
         localStorage.setItem('darkMode', 'enabled');
     }
 
     function disableDarkMode() {
-        body.classList.remove('dark-mode');
-        if (darkModeToggle) {
-            darkModeToggle.innerHTML = moonIcon;
-        }
+        bodyElement.classList.remove('dark-mode');
+        if (darkModeButton) darkModeButton.innerHTML = moonIcon;
         localStorage.setItem('darkMode', 'disabled');
     }
 
-    if (localStorage.getItem('darkMode') === 'enabled') {
-        enableDarkMode();
-    } else {
-        if (darkModeToggle) {
-            darkModeToggle.innerHTML = moonIcon;
-        }
-    }
+    if (localStorage.getItem('darkMode') === 'enabled') enableDarkMode();
+    else if (darkModeButton) darkModeButton.innerHTML = moonIcon;
 
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', () => {
-            if (body.classList.contains('dark-mode')) {
-                disableDarkMode();
-            } else {
-                enableDarkMode();
-            }
+    if (darkModeButton) {
+        darkModeButton.addEventListener('click', () => {
+            if (bodyElement.classList.contains('dark-mode')) disableDarkMode();
+            else enableDarkMode();
         });
     }
+
 });

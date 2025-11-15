@@ -11,6 +11,9 @@
     --dark-text-color: #e0e0e0;
     --dark-card-bg: #232526;
     --dark-border-color: #333;
+
+    /* Variáveis do Carrinho adaptadas às suas cores */
+    --cart-item-border: var(--border-color);
 }
 
 /* Reset */
@@ -660,11 +663,11 @@ body.dark-mode .btn-dark-mode:hover .moon-icon {
     z-index: 100;
 }
 
-/* Modais */
+/* Modais (CEP, Bloqueio, Carrinho) */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 2000; 
     left: 0;
     top: 0;
     width: 100%;
@@ -672,51 +675,64 @@ body.dark-mode .btn-dark-mode:hover .moon-icon {
     background-color: rgba(0,0,0,0.5);
     justify-content: center;
     align-items: center;
+    -webkit-overflow-scrolling: touch;
+}
+
+.modal.show {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
     background-color: #fff;
-    padding: 30px;
+    padding: 24px;
     border-radius: 8px;
     position: relative;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-width: 600px; 
+    width: calc(100% - 40px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.35);
+    max-height: calc(100vh - 80px); 
+    overflow-y: auto;
+    word-wrap: break-word;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 /* Estilos específicos para o modal de bloqueio */
 .block-content {
     text-align: center;
-    padding: 30px;
+    padding: 18px 10px;
 }
 
 .block-content h2 {
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
+    font-size: 1.25rem;
 }
 
 .block-content p {
     color: #666;
-    margin-bottom: 15px;
-    line-height: 1.5;
+    margin-bottom: 12px;
+    line-height: 1.45;
+    white-space: normal;
 }
 
 .block-content .fa-lock {
-    font-size: 30px;
+    font-size: 28px;
     color: #dc3545;
-    margin: 15px 0;
+    margin: 10px 0;
     display: block;
 }
 
 .block-content ul {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
+    margin: 12px 0;
     text-align: left;
 }
 
 .block-content ul li {
-    margin: 10px 0;
+    margin: 8px 0;
     display: flex;
     align-items: center;
 }
@@ -730,49 +746,39 @@ body.dark-mode .btn-dark-mode:hover .moon-icon {
     display: flex;
     gap: 10px;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 14px;
+    flex-wrap: wrap;
 }
 
 .block-content .btn-primary,
 .block-content .btn-secondary {
     text-decoration: none;
-    border: none;
     padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.3s;
+    transition: all 0.2s ease;
+    min-width: 120px;
+    text-align: center;
 }
 
 .block-content .btn-primary {
-    background-color: #007bff;
+    background-color: #30dd59;
     color: white;
+    border: none;
 }
 
 .block-content .btn-secondary {
-    background-color: #6c757d;
-    color: white;
+    background-color: transparent;
+    color: #30dd59;
+    border: 1px solid #30dd59;
 }
 
 .block-content .btn-primary:hover {
-    background-color: #0056b3;
+    background-color: #28c14e;
 }
 
 .block-content .btn-secondary:hover {
-    background-color: #545b62;
-}
-
-/* Dark mode styles for block modal */
-body.dark-mode .block-content h2 {
-    color: var(--dark-text-color);
-}
-
-body.dark-mode .block-content p {
-    color: var(--dark-text-color);
-}
-
-body.dark-mode .block-content ul li {
-    color: var(--dark-text-color);
+    background-color: #f0f0f0;
 }
 
 .close-btn {
@@ -784,6 +790,11 @@ body.dark-mode .block-content ul li {
     top: 10px;
     right: 15px;
     cursor: pointer;
+    z-index: 2100;
+}
+
+.close-btn:hover {
+    color: #333;
 }
 
 .form-group {
@@ -808,6 +819,7 @@ body.dark-mode .block-content ul li {
 body.dark-mode {
     background-color: var(--dark-bg-color);
     color: var(--dark-text-color);
+    --cart-item-border: var(--dark-border-color); /* Atualiza a variável do carrinho no dark mode */
 }
 
 /* Dark Mode Toggle no Dark Mode */
@@ -938,138 +950,6 @@ body.dark-mode .mega-promo-section {
     border: 1px solid var(--dark-border-color);
 }
 
-/* Garantir que os modais funcionem e suportem mensagens longas */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000; /* maior que a maioria dos elementos para garantir visibilidade */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    -webkit-overflow-scrolling: touch;
-}
-
-.modal.show {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: #fff;
-    padding: 24px;
-    border-radius: 8px;
-    position: relative;
-    max-width: 600px; /* aumentar largura para permitir mais texto */
-    width: calc(100% - 40px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.35);
-    max-height: calc(100vh - 80px); /* permitir rolagem interna */
-    overflow-y: auto;
-    word-wrap: break-word;
-    -ms-overflow-style: -ms-autohiding-scrollbar;
-}
-
-/* Estilos específicos para o modal de bloqueio */
-.block-content {
-    text-align: center;
-    padding: 18px 10px;
-}
-
-.block-content h2 {
-    color: #333;
-    margin-bottom: 12px;
-    font-size: 1.25rem;
-}
-
-.block-content p {
-    color: #666;
-    margin-bottom: 12px;
-    line-height: 1.45;
-    white-space: normal;
-}
-
-.block-content .fa-lock {
-    font-size: 28px;
-    color: #dc3545;
-    margin: 10px 0;
-    display: block;
-}
-
-.block-content ul {
-    list-style: none;
-    padding: 0;
-    margin: 12px 0;
-    text-align: left;
-}
-
-.block-content ul li {
-    margin: 8px 0;
-    display: flex;
-    align-items: center;
-}
-
-.block-content .fa-check {
-    color: #30dd59;
-    margin-right: 8px;
-}
-
-.block-content .btn-container {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 14px;
-    flex-wrap: wrap;
-}
-
-.block-content .btn-primary,
-.block-content .btn-secondary {
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    min-width: 120px;
-    text-align: center;
-}
-
-.block-content .btn-primary {
-    background-color: #30dd59;
-    color: white;
-    border: none;
-}
-
-.block-content .btn-secondary {
-    background-color: transparent;
-    color: #30dd59;
-    border: 1px solid #30dd59;
-}
-
-.block-content .btn-primary:hover {
-    background-color: #28c14e;
-}
-
-.block-content .btn-secondary:hover {
-    background-color: #f0f0f0;
-}
-
-.close-btn {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    cursor: pointer;
-    z-index: 2100;
-}
-
-.close-btn:hover {
-    color: #333;
-}
-
 /* Dark Mode para o modal de bloqueio */
 body.dark-mode .block-content h2 {
     color: var(--dark-text-color);
@@ -1123,4 +1003,188 @@ body.dark-mode .block-content .btn-secondary:hover {
         max-width: 100%;
         margin: 15px 0 0 0;
     }
+}
+
+---
+/* ==================================== */
+/* ESTILOS ESPECÍFICOS DO MODAL DO CARRINHO (NOVO) */
+/* ==================================== */
+
+/* Título e ícone do modal */
+#cart-modal h2 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+#cart-modal .fa-shopping-cart {
+    margin-right: 8px;
+    color: var(--primary-color);
+}
+
+/* Container de Itens */
+.cart-items {
+    max-height: 350px; 
+    overflow-y: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-right: 5px; 
+}
+
+/* Estilo de cada Item do Carrinho */
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    gap: 15px;
+    border-bottom: 1px solid var(--cart-item-border); 
+}
+
+.cart-item:last-child {
+    border-bottom: none;
+}
+
+/* Placeholder ou Imagem do Item (Adaptação) */
+.cart-item-img-placeholder {
+    width: 60px; 
+    height: 60px;
+    background-color: var(--bg-color); 
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--light-text-color);
+    text-align: center;
+}
+body.dark-mode .cart-item-img-placeholder {
+    background-color: var(--dark-bg-color);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-color);
+}
+
+
+.item-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-details h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.item-details p {
+    margin: 3px 0 0 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--primary-color); 
+}
+/* Altera a cor do texto do item no Dark Mode */
+body.dark-mode .item-details h4 {
+    color: var(--dark-text-color);
+}
+
+
+/* Botão de Remover */
+.btn-remover-item {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    color: var(--light-text-color); 
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-remover-item:hover {
+    color: #dc3545; 
+    transform: scale(1.1);
+}
+
+/* Dark Mode para o Botão de Remover */
+body.dark-mode .btn-remover-item {
+    color: #888; 
+}
+
+body.dark-mode .btn-remover-item:hover {
+    color: #ff6b6b; 
+}
+
+/* Sumário do Carrinho */
+.cart-summary {
+    border-top: 1px solid var(--cart-item-border);
+    padding-top: 15px;
+    text-align: right;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.cart-summary span#cart-total-value {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin-left: 10px;
+}
+body.dark-mode .cart-summary {
+    color: var(--dark-text-color);
+}
+
+
+/* Mensagem de carrinho vazio */
+#empty-cart-message {
+    text-align: center;
+    color: var(--light-text-color);
+    padding: 20px 0;
+    font-style: italic;
+    font-size: 1rem;
+}
+body.dark-mode #empty-cart-message {
+    color: #888;
+}
+
+/* Botão de Checkout no modal (Adapta-se ao seu .btn-primary) */
+.btn-checkout {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    font-weight: 700;
+    width: 100%;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+.btn-checkout:hover {
+    background-color: #28c14e; /* Tom mais escuro do verde */
+}
+
+/* Badge de Carrinho (Ajuste final) */
+.cart-link {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: #dc3545; /* Vermelho de aviso para o contador */
+    color: #fff;
+    border-radius: 50%;
+    padding: 3px 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    min-width: 20px;
+    text-align: center;
+    line-height: 1.2;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }

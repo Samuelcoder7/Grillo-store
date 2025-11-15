@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// --- Lógica para Notificação ---
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
@@ -15,15 +14,14 @@ if (isset($_SESSION['carrinho_sucesso'])) {
     unset($_SESSION['remocao_sucesso']); 
 }
 
-// --- Variáveis de Produto (ID 1) ---
-$produto_id = 1; // ⭐️ CORREÇÃO: ID corrigido para 1
+
+$produto_id = 1; 
 $produto_nome = "Kit Camiseta Básica Masculina c/ 5 Peças - Básicos (Cores Variadas)";
-$produto_preco = 47.49; // Preço numérico (baseado no JS original)
-$produto_preco_formatado = "R$ 47,49"; // Preço para exibição
+$produto_preco = 47.49; 
+$produto_preco_formatado = "R$ 47,49"; 
 $imagem_principal_inicial = "../imagens-produtos/camisa1.jpg";
-// ⭐️ CORREÇÃO: Slug adicionado
+
 $produto_slug = "produto-1-camiseta-basica.php";
-// --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -159,7 +157,7 @@ $produto_slug = "produto-1-camiseta-basica.php";
         </div>
     </main>
 
-    <script src="../script/script-produto1.js"></script> <!-- ⭐️ CORREÇÃO: script correto -->
+    <script src="../script/script-produto1.js"></script> 
     <?php include "../componentes/footer.php"; ?>
 
     

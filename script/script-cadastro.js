@@ -140,33 +140,54 @@ limparBtn.addEventListener('click', () => {
     document.getElementById(campos[0].id).focus();
 });
 
-// Toggle de olho nos campos de senha (MANTIDO INTACTO)
-function criarToggleSenha(inputSenha) {
-    if (!inputSenha.parentElement.classList.contains('password-wrapper')) {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'password-wrapper';
-        inputSenha.parentElement.insertBefore(wrapper, inputSenha);
-        wrapper.appendChild(inputSenha);
-    }
-    const wrapper = inputSenha.parentElement;
-    if (wrapper.querySelector('.toggle-senha')) return;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'toggle-senha';
-    btn.innerHTML = '<i class="fas fa-eye"></i>';
-    wrapper.appendChild(btn);
-    btn.addEventListener('click', () => {
-        if (inputSenha.type === 'password') {
-            inputSenha.type = 'text';
-            btn.innerHTML = '<i class="fas fa-eye-slash"></i>';
-        } else {
-            inputSenha.type = 'password';
-            btn.innerHTML = '<i class="fas fa-eye"></i>';
-        }
-    });
-}
-
-
+// Toggle de olho nos campos de senha com mousedown/mouseup
+document.addEventListener('DOMContentLoaded', () => {
+    // Configurar o toggle para o campo de senha
+    const senhaInput = document.getElementById('senha');
+    const olhoBtn = document.getElementById('olho');
+    
+    if (senhaInput && olhoBtn) {
+        olhoBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            senhaInput.type = 'text';
+            olhoBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        olhoBtn.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            senhaInput.type = 'password';
+            olhoBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        });
+        
+        olhoBtn.addEventListener('mouseout', () => {
+            senhaInput.type = 'password';
+            olhoBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        });
+    }
+    
+    // Configurar o toggle para o campo de confirmar senha
+    const confirmaSenhaInput = document.getElementById('confirmaSenha');
+    const olhoConfirmaBtn = document.getElementById('olho-confirma');
+    
+    if (confirmaSenhaInput && olhoConfirmaBtn) {
+        olhoConfirmaBtn.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            confirmaSenhaInput.type = 'text';
+            olhoConfirmaBtn.innerHTML = '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        olhoConfirmaBtn.addEventListener('mouseup', (e) => {
+            e.preventDefault();
+            confirmaSenhaInput.type = 'password';
+            olhoConfirmaBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        });
+        
+        olhoConfirmaBtn.addEventListener('mouseout', () => {
+            confirmaSenhaInput.type = 'password';
+            olhoConfirmaBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        });
+    }
+});
 // Envio do formulário (MODIFICADO PARA REMOVER O POP-UP E ADICIONAR REDIRECIONAMENTO)
 
  // ====================================

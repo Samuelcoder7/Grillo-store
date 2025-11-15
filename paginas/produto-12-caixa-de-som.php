@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Lógica para mostrar a notificação (Copiado da página funcional)
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
@@ -15,12 +14,19 @@ if (isset($_SESSION['carrinho_sucesso'])) {
     unset($_SESSION['remocao_sucesso']);
 }
 
-// Variáveis do produto
+
 $produto_id = 12;
 $produto_nome = "Caixa de Som Amplificada Portátil, Bluetooth, USB, Microfone, LED RGB";
+$produto_preco = 349.90; 
+$produto_preco_formatado = "R$ 349,90"; 
 $imagem_principal_inicial = "../imagens-produtos/caixa1.jpg";
-$produto_preco = 249.90; // Preço numérico (usado no input hidden)
-$prodduto_slug = "produto-12-caixa-de-som.php";
+
+
+$parcela_qtd = 6;
+$parcela_valor_formatado = "R$ 58,32";
+$cor_produto = "Preto (LED RGB)";
+$vendedor_nome = "EletroMania";
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -30,7 +36,7 @@ $prodduto_slug = "produto-12-caixa-de-som.php";
     <title id="page-title"><?php echo htmlspecialchars($produto_nome); ?> - Grillo Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../estilo/style-produto.css">
-    <link rel="icon" type="image/x-icon" href="../imagens-produtos/caixa1.jpg">
+    <link rel="icon" type="image/x-icon" href="../imagem/grilo.png">
 </head>
 <body>
     
@@ -55,14 +61,19 @@ $prodduto_slug = "produto-12-caixa-de-som.php";
     <?php require_once 'flyout_carrinho.php'; ?>
     
     <main class="product-page-container">
-        <a href="listagem-produtos.php" class="back-button">&larr; Voltar para a página de produtos</a>
+        <a href="listagem-produtos.php" class="back-button">
+            &larr; Voltar para a página de produtos
+        </a>
         
         <div class="product-content-wrapper">
             
             <div class="product-images">
-                <div class="thumbnail-gallery" id="thumbnail-gallery"></div>
+                <div class="thumbnail-gallery" id="thumbnail-gallery">
+                    </div>
                 <div class="main-image-container">
-                    <img src="<?php echo $imagem_principal_inicial; ?>" alt="<?php echo htmlspecialchars($produto_nome); ?>" class="main-product-image" id="main-product-image">
+                    <img src="<?php echo $imagem_principal_inicial; ?>" 
+                         alt="<?php echo htmlspecialchars($produto_nome); ?>" 
+                         class="main-product-image" id="main-product-image">
                 </div>
             </div>
 
@@ -76,16 +87,20 @@ $prodduto_slug = "produto-12-caixa-de-som.php";
                 </div>
 
                 <div class="product-specs">
-                    <p class="spec-color" id="product-color">Cor:<span class="spec-value" id="product-color-value"></span></p>
+                    <p class="spec-color" id="product-color">Cor: <span class="spec-value" id="product-color-value"></span></p>
                     <h2 class="specs-title">O que você precisa saber sobre este produto</h2>
-                    <ul class="specs-list" id="specs-list"></ul>
+                    <ul class="specs-list" id="specs-list">
+                        </ul>
                 </div>
             </div>
 
             <aside class="purchase-sidebar">
                 <form action="adicionar_carrinho.php" method="POST">
+                    
                     <input type="hidden" name="produto_id" value="<?php echo $produto_id; ?>">
                     <input type="hidden" name="produto_nome" value="<?php echo htmlspecialchars($produto_nome); ?>">
+                    <input type="hidden" name="produto_preco" value="<?php echo $produto_preco; ?>">
+                    
                     <div class="sidebar-price-block">
                         <div class="current-price-display">
                             <span class="current-price" id="current-price-sidebar"></span>
@@ -93,7 +108,7 @@ $prodduto_slug = "produto-12-caixa-de-som.php";
                                 <input type="radio" name="priceOption" checked>
                             </label>
                         </div>
-                        <p class="free-shipping">Frete Grátis acima de R$ 19</p>
+                        <p class="free-shipping">Frete Grátis a cima de R$19</p>
                         <p class="delivery-estimate">Chega entre Quarta-feira e Quinta-feira</p>
                         <div class="installments-display">
                             <span class="installment-amount" id="installment-amount-sidebar"></span>
@@ -118,19 +133,22 @@ $prodduto_slug = "produto-12-caixa-de-som.php";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=<?php echo $prodduto_slug; ?>" class="buy-now-button">Comprar Agora</a>
+                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
                         <p>Vendido por: <span class="seller-name" id="seller-name"></span></p>
                     </div>
-                </form>
+
+                </form> 
             </aside>
         </div>
     </main>
 
-    <script src="../script/script-produto12.js"></script>
-     <?php include "../componentes/footer.php"; ?>
+    <?php include "../componentes/footer.php"; ?>
+
+    <script src="../script/script-produto12.js"></script> 
+    
 </body>
 </html>

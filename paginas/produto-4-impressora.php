@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// --- Lógica para Notificação ---
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
@@ -15,15 +14,12 @@ if (isset($_SESSION['carrinho_sucesso'])) {
     unset($_SESSION['remocao_sucesso']); 
 }
 
-// --- Variáveis de Produto (ID 4) ---
-$produto_id = 4; // ⭐️ CORREÇÃO: ID corrigido para 4
+$produto_id = 4;
 $produto_nome = "Impressora Multifuncional HP Smart Tank 521 Colorida / Via Cabo";
-$produto_preco = 730.90; // ⭐️ CORREÇÃO: Preço corrigido conforme checkout.js
-$produto_preco_formatado = "R$ 730,90"; // ⭐️ CORREÇÃO: Preço corrigido
+$produto_preco = 730.00; 
+$produto_preco_formatado = "R$ 730,00"; 
 $imagem_principal_inicial = "../imagens-produtos/impre1.jpg";
-// ⭐️ CORREÇÃO: Slug adicionado
-$produto_slug = "produto-4-impressora.php";
-// --------------------------------------------------------------------------
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -55,23 +51,7 @@ $produto_slug = "produto-4-impressora.php";
         </div>
     </header>
 
-    <div class="cart-flyout" id="cart-flyout">
-        <div class="flyout-content-wrapper">
-            <div class="flyout-header">
-                <h3>Seu Carrinho</h3>
-                <button class="close-flyout" id="close-cart-flyout">&times;</button>
-            </div>
-            <div class="flyout-body">
-                <p>Seu carrinho está vazio.</p>
-            </div>
-            <div class="flyout-footer">
-                <div class="flyout-actions">
-                    <button class="back-button-modal" id="continue-shopping">Continuar Comprando</button>
-                    <a href="checkout.php" class="checkout-button">Finalizar Compra</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php require_once 'flyout_carrinho.php'; ?>
     
     <main class="product-page-container">
         <a href="listagem-produtos.php" class="back-button">
@@ -85,17 +65,17 @@ $produto_slug = "produto-4-impressora.php";
                     </div>
                 <div class="main-image-container">
                     <img src="<?php echo $imagem_principal_inicial; ?>" 
-                        alt="<?php echo htmlspecialchars($produto_nome); ?>" 
-                        class="main-product-image" id="main-product-image">
+                         alt="<?php echo htmlspecialchars($produto_nome); ?>" 
+                         class="main-product-image" id="main-product-image">
                 </div>
             </div>
 
             <div class="product-info-details">
-                <h1 class="product-title" id="product-title"><?php echo htmlspecialchars($produto_nome); ?></h1>
+                <h1 class="product-title" id="product-title"></h1>
                 <div class="price-section">
                     <p class="price-label">À vista</p>
-                    <p class="price-value" id="price-value"><?php echo $produto_preco_formatado; ?></p>
-                    <p class="installments" id="installments-text">ou 18x de R$ 44,33 com juros</p>
+                    <p class="price-value" id="price-value"></p>
+                    <p class="installments" id="installments-text"></p>
                     <a href="#" class="payment-methods-link">ver meios de pagamento</a>
                 </div>
 
@@ -116,7 +96,7 @@ $produto_slug = "produto-4-impressora.php";
                     
                     <div class="sidebar-price-block">
                         <div class="current-price-display">
-                            <span class="current-price" id="current-price-sidebar"><?php echo $produto_preco_formatado; ?></span>
+                            <span class="current-price" id="current-price-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption" checked>
                             </label>
@@ -124,8 +104,8 @@ $produto_slug = "produto-4-impressora.php";
                         <p class="free-shipping">Frete Grátis a cima de R$19</p>
                         <p class="delivery-estimate">Chega entre Quarta-feira e Quinta-feira</p>
                         <div class="installments-display">
-                            <span class="installment-amount" id="installment-amount-sidebar">18x de R$ 44,33</span>
-                            <span class="installment-details" id="installment-details-sidebar">com juros</span>
+                            <span class="installment-amount" id="installment-amount-sidebar"></span>
+                            <span class="installment-details" id="installment-details-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption">
                             </label>
@@ -146,21 +126,22 @@ $produto_slug = "produto-4-impressora.php";
                     </div>
 
                     <div class="action-buttons">
-                        <!-- ⭐️ CORREÇÃO: Usando o slug correto -->
-                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
+                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
-                        <p>Vendido por: <span class="seller-name" id="seller-name">HP</span></p>
+                        <p>Vendido por: <span class="seller-name" id="seller-name"></span></p>
                     </div>
 
-                </form> </aside>
+                </form> 
+            </aside>
         </div>
     </main>
 
-    <script src="../script/script-produto4.js"></script> <!-- ⭐️ CORREÇÃO: script correto -->
-     <?php include "../componentes/footer.php"; ?>
+    <?php include "../componentes/footer.php"; ?>
+
+    <script src="../script/script-produto4.js"></script> 
     
 </body>
 </html>

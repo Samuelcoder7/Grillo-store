@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Lógica para mostrar a notificação
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
@@ -15,13 +14,12 @@ if (isset($_SESSION['carrinho_sucesso'])) {
     unset($_SESSION['remocao_sucesso']);
 }
 
-// Variáveis do produto
+
 $produto_id = 15;
 $produto_nome = "Sony PlayStation 4 Pro 1TB Standard cor preto onyx 2020";
 $produto_preco = 2499.00;
 $produto_preco_formatado = "R$ 2.499,00";
-$imagem_principal_inicial = "../imagens-produtos/ps4pro1.jpg";
-$prodduto_slug = "produto-15-game.php";
+$imagem_principal_inicial = "../imagens-produtos/game5.jpg";
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -31,6 +29,7 @@ $prodduto_slug = "produto-15-game.php";
     <title id="page-title"><?php echo htmlspecialchars($produto_nome); ?> - Grillo Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../estilo/style-produto.css">
+    <link rel="icon" type="image/x-icon" href="../imagem/grilo.png">
 </head>
 <body>
     
@@ -53,7 +52,7 @@ $prodduto_slug = "produto-15-game.php";
     </header>
 
     <?php require_once 'flyout_carrinho.php'; ?>
-
+    
     <main class="product-page-container">
         <a href="listagem-produtos.php" class="back-button">
             &larr; Voltar para a página de produtos
@@ -63,53 +62,50 @@ $prodduto_slug = "produto-15-game.php";
             
             <div class="product-images">
                 <div class="thumbnail-gallery" id="thumbnail-gallery">
-                    <!-- thumbnails podem ser adicionadas aqui -->
-                </div>
+                    </div>
                 <div class="main-image-container">
-                    <img src="<?php echo $imagem_principal_inicial; ?>" alt="<?php echo htmlspecialchars($produto_nome); ?>" class="main-product-image" id="main-product-image">
+                    <img src="<?php echo $imagem_principal_inicial; ?>" 
+                         alt="<?php echo htmlspecialchars($produto_nome); ?>" 
+                         class="main-product-image" id="main-product-image">
                 </div>
             </div>
 
             <div class="product-info-details">
-                <h1 class="product-title" id="product-title"><?php echo htmlspecialchars($produto_nome); ?></h1>
+                <h1 class="product-title" id="product-title"></h1>
                 <div class="price-section">
                     <p class="price-label">À vista</p>
-                    <p class="price-value" id="price-value"><?php echo $produto_preco_formatado; ?></p>
-                    <p class="installments" id="installments-text">ou 18x de R$ 138,83 sem juros</p>
+                    <p class="price-value" id="price-value"></p>
+                    <p class="installments" id="installments-text"></p>
                     <a href="#" class="payment-methods-link">ver meios de pagamento</a>
                 </div>
 
                 <div class="product-specs">
-                    <p class="spec-color" id="product-color">Cor:<span class="spec-value" id="product-color-value">acetato(preto)</span></p>
+                    <p class="spec-color" id="product-color">Cor: <span class="spec-value" id="product-color-value"></span></p>
                     <h2 class="specs-title">O que você precisa saber sobre este produto</h2>
                     <ul class="specs-list" id="specs-list">
-                        <li>Resolução máxima de saída de vídeo **3840 x 2160 px** (4K).</li>
-                        <li>Conectividade **Wi-Fi e Bluetooth** para jogos online.</li>
-                        <li>Memória **RAM de 8 GB** e **VRAM de 8 GB** para jogabilidade fluida.</li>
-                        <li>Inclui cabo **HDMI** e cabo de alimentação.</li>
-                        <li>GPU **AMD Radeon** com desempenho gráfico superior.</li>
-                    </ul>
+                        </ul>
                 </div>
             </div>
 
             <aside class="purchase-sidebar">
                 <form action="adicionar_carrinho.php" method="POST">
+                    
                     <input type="hidden" name="produto_id" value="<?php echo $produto_id; ?>">
                     <input type="hidden" name="produto_nome" value="<?php echo htmlspecialchars($produto_nome); ?>">
                     <input type="hidden" name="produto_preco" value="<?php echo $produto_preco; ?>">
-
+                    
                     <div class="sidebar-price-block">
                         <div class="current-price-display">
-                            <span class="current-price" id="current-price-sidebar"><?php echo $produto_preco_formatado; ?></span>
+                            <span class="current-price" id="current-price-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption" checked>
                             </label>
                         </div>
-                        <p class="free-shipping">Frete Grátis acima de R$19</p>
+                        <p class="free-shipping">Frete Grátis a cima de R$19</p>
                         <p class="delivery-estimate">Chega entre Quarta-feira e Quinta-feira</p>
                         <div class="installments-display">
-                            <span class="installment-amount" id="installment-amount-sidebar">18x de R$ 138,83</span>
-                            <span class="installment-details" id="installment-details-sidebar">sem juros</span>
+                            <span class="installment-amount" id="installment-amount-sidebar"></span>
+                            <span class="installment-details" id="installment-details-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption">
                             </label>
@@ -121,7 +117,7 @@ $prodduto_slug = "produto-15-game.php";
                         <p class="stock-status">Estoque Disponível</p>
                         <div class="quantity-selector">
                             <label for="quantity">Quantidade:</label>
-                            <select id="quantity" name="quantidade">
+                            <select id="quantity" name="quantidade"> 
                                 <option value="1">1 Unidade</option>
                                 <option value="2">2 Unidades</option>
                                 <option value="3">3 Unidades</option>
@@ -130,19 +126,22 @@ $prodduto_slug = "produto-15-game.php";
                     </div>
 
                     <div class="action-buttons">
-                        <a href="checkout.php?produto=<?php echo $prodduto_slug; ?>" class="buy-now-button">Comprar Agora</a>
-                        <button type="submit" class="add-to-cart-button">Adicionar ao Carrinho</button>
+                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
+                        <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
-                        <p>Vendido por: <span class="seller-name" id="seller-name">Básicos</span></p>
+                        <p>Vendido por: <span class="seller-name" id="seller-name"></span></p>
                     </div>
-                </form>
+
+                </form> 
             </aside>
         </div>
     </main>
 
-    <script src="../script/script-produto15.js"></script>
     <?php include "../componentes/footer.php"; ?>
+
+    <script src="../script/script-produto15.js"></script> 
+    
 </body>
 </html>

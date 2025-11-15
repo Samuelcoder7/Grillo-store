@@ -48,13 +48,23 @@ session_start();
                 </div>
                 <div class="form-group">
                     <label for="senha">Senha:</label>
-                    <input type="password" id="senha" name="senha" required placeholder="Sua senha">
+                    <div class="password-wrapper">
+                        <input type="password" id="senha" name="senha" required placeholder="Sua senha">
+                        <button type="button" class="toggle-senha" id="olho" aria-label="Mostrar/ocultar senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                     <small>A senha deve ter no mínimo 8 caracteres, incluindo letras maiúsculas, minúsculas, números e um caractere especial.</small>
                     <span class="error-message" id="senhaError"></span>
                 </div>
                 <div class="form-group">
                     <label for="confirmaSenha">Confirmar Senha:</label>
-                    <input type="password" id="confirmaSenha" name="confirmaSenha" required placeholder="Confirme sua senha">
+                    <div class="password-wrapper">
+                        <input type="password" id="confirmaSenha" name="confirmaSenha" required placeholder="Confirme sua senha">
+                        <button type="button" class="toggle-senha" id="olho-confirma" aria-label="Mostrar/ocultar senha">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
                     <span class="error-message" id="confirmaSenhaError"></span>
                 </div>
                 <div class="form-group">

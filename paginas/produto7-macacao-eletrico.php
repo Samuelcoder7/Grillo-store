@@ -1,32 +1,27 @@
 <?php
 session_start();
 
-// --- Lógica para Notificação (Copiado do fluxo funcional) ---
 $mostrar_notificacao_classe = '';
 $notificacao_mensagem = '';
 
 if (isset($_SESSION['carrinho_sucesso'])) {
-    // Flag de adição de produto
+   
     $mostrar_notificacao_classe = 'visible success'; 
     $notificacao_mensagem = 'Produto adicionado com sucesso!';
     unset($_SESSION['carrinho_sucesso']); 
 } elseif (isset($_SESSION['remocao_sucesso'])) {
-    // Flag de remoção de produto
+    
     $mostrar_notificacao_classe = 'visible removal'; 
     $notificacao_mensagem = 'Produto removido do carrinho.';
     unset($_SESSION['remocao_sucesso']); 
 }
 
-// --- Variáveis de Produto (USANDO DADOS DO JS ORIGINAL) ---
 $produto_id = 7;
 $produto_nome = "Macaco Elétrico 2 Toneladas 12v 100w Controle Carro";
-$produto_preco = 379.99; // Preço numérico
-$produto_preco_formatado = "R$ 379,99"; // Preço para exibição
+$produto_preco = 379.99; 
+$produto_preco_formatado = "R$ 379,99"; 
 $imagem_principal_inicial = "../imagens-produtos/macaco1.jpg";
-// ⭐️ CORREÇÃO: Slug correto para o produto 9 (definido no script-checkout.js)
-$produto_slug = "produto7-macacao-eletrico.php";
 
-// --------------------------------------------------------------------------
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -36,7 +31,7 @@ $produto_slug = "produto7-macacao-eletrico.php";
     <title id="page-title"><?php echo htmlspecialchars($produto_nome); ?> - Grillo Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../estilo/style-produto.css">
-    <link rel="icon" type="image/x-icon" href="../../imagem/grilo.png">
+    <link rel="icon" type="image/x-icon" href="../imagem/grilo.png">
 </head>
 <body>
     
@@ -58,23 +53,7 @@ $produto_slug = "produto7-macacao-eletrico.php";
         </div>
     </header>
 
-    <div class="cart-flyout" id="cart-flyout">
-        <div class="flyout-content-wrapper">
-            <div class="flyout-header">
-                <h3>Seu Carrinho</h3>
-                <button class="close-flyout" id="close-cart-flyout">&times;</button>
-            </div>
-            <div class="flyout-body">
-                <p>Seu carrinho está vazio.</p>
-            </div>
-            <div class="flyout-footer">
-                <div class="flyout-actions">
-                    <button class="back-button-modal" id="continue-shopping">Continuar Comprando</button>
-                    <a href="checkout.php" class="checkout-button">Finalizar Compra</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <?php require_once 'flyout_carrinho.php'; ?>
     
     <main class="product-page-container">
         <a href="listagem-produtos.php" class="back-button">
@@ -88,22 +67,22 @@ $produto_slug = "produto7-macacao-eletrico.php";
                     </div>
                 <div class="main-image-container">
                     <img src="<?php echo $imagem_principal_inicial; ?>" 
-                        alt="<?php echo htmlspecialchars($produto_nome); ?>" 
-                        class="main-product-image" id="main-product-image">
+                         alt="<?php echo htmlspecialchars($produto_nome); ?>" 
+                         class="main-product-image" id="main-product-image">
                 </div>
             </div>
 
             <div class="product-info-details">
-                <h1 class="product-title" id="product-title"><?php echo htmlspecialchars($produto_nome); ?></h1>
+                <h1 class="product-title" id="product-title"></h1>
                 <div class="price-section">
                     <p class="price-label">À vista</p>
-                    <p class="price-value" id="price-value"><?php echo $produto_preco_formatado; ?></p>
-                    <p class="installments" id="installments-text">ou 12x de 37,17 sem juros</p>
+                    <p class="price-value" id="price-value"></p>
+                    <p class="installments" id="installments-text"></p>
                     <a href="#" class="payment-methods-link">ver meios de pagamento</a>
                 </div>
 
                 <div class="product-specs">
-                    <p class="spec-color" id="product-color">Cor: <span class="spec-value" id="product-color-value">Preto e Branco (Cores Variadas)</span></p>
+                    <p class="spec-color" id="product-color">Cor: <span class="spec-value" id="product-color-value"></span></p>
                     <h2 class="specs-title">O que você precisa saber sobre este produto</h2>
                     <ul class="specs-list" id="specs-list">
                         </ul>
@@ -119,7 +98,7 @@ $produto_slug = "produto7-macacao-eletrico.php";
                     
                     <div class="sidebar-price-block">
                         <div class="current-price-display">
-                            <span class="current-price" id="current-price-sidebar"><?php echo $produto_preco_formatado; ?></span>
+                            <span class="current-price" id="current-price-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption" checked>
                             </label>
@@ -127,8 +106,8 @@ $produto_slug = "produto7-macacao-eletrico.php";
                         <p class="free-shipping">Frete Grátis a cima de R$19</p>
                         <p class="delivery-estimate">Chega entre Quarta-feira e Quinta-feira</p>
                         <div class="installments-display">
-                            <span class="installment-amount" id="installment-amount-sidebar">12x de R$ 37,17</span>
-                            <span class="installment-details" id="installment-details-sidebar">sem juros</span>
+                            <span class="installment-amount" id="installment-amount-sidebar"></span>
+                            <span class="installment-details" id="installment-details-sidebar"></span>
                             <label class="price-option-radio">
                                 <input type="radio" name="priceOption">
                             </label>
@@ -149,21 +128,22 @@ $produto_slug = "produto7-macacao-eletrico.php";
                     </div>
 
                     <div class="action-buttons">
-                        <!-- ⭐️ CORREÇÃO: Usando o slug correto definido no JavaScript do checkout -->
-                        <a href="checkout.php?produto=<?php echo $produto_slug; ?>" class="buy-now-button">Comprar Agora</a>
+                        <a href="checkout.php?produto=produto-<?php echo $produto_id; ?>" class="buy-now-button">Comprar Agora</a>
                         <button type="submit" class="add-to-cart-button" id="add-to-cart-button">Adicionar ao Carrinho</button>
                     </div>
 
                     <div class="seller-info">
-                        <p>Vendido por: <span class="seller-name" id="seller-name">Básicos</span></p>
+                        <p>Vendido por: <span class="seller-name" id="seller-name"></span></p>
                     </div>
 
-                </form> </aside>
+                </form> 
+            </aside>
         </div>
     </main>
 
-    <script src="../script/script-produto7.js"></script>
     <?php include "../componentes/footer.php"; ?>
+
+    <script src="../script/script-produto7.js"></script> 
     
 </body>
 </html>

@@ -39,7 +39,12 @@
             <form action="processa_login.php" method="POST">
                 <input type="email" name="email" placeholder="Email" required>
                 <br><br>
-                <input type="password" name="senha" placeholder="Senha" required>
+                <div class="password-wrapper" style="position: relative; display: flex; align-items: center; width: 100%;">
+                    <input type="password" name="senha" id="senhaLogin" placeholder="Senha" required style="width: 100%; padding-right: 35px; box-sizing: border-box;">
+                    <button type="button" class="toggle-senha" id="olhoLogin" aria-label="Mostrar/ocultar senha" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: transparent; border: none; cursor: pointer; font-size: 1rem; color: #555; display: flex; align-items: center; justify-content: center; padding: 0;">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
                 <br><br>
                 <input class="inputSubmit" type="submit" name="submit" value="Entrar">
             </form>

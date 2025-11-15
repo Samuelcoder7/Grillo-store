@@ -146,6 +146,29 @@ body.dark-mode .footer-columns {
     transform: translateY(-1px);
 }
 
+
+/* ====================================
+   5. RODAPÉ (FOOTER)
+   ==================================== */
+.footer {
+    background-color: #61A400; 
+    color: white;
+    padding: 25px 0 10px; 
+    margin-top: 30px;
+    font-size: 0.9em;
+}
+.footer-container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.footer-columns { display: flex; justify-content: space-between; gap: 30px; padding-bottom: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); margin-bottom: 15px; flex-wrap: wrap; }
+.footer-col { flex: 1 1 200px; }
+.footer-title { font-size: 1.1em; font-weight: 700; margin-bottom: 10px; color: #fff; }
+.footer-col ul { list-style: none; padding: 0; }
+.footer-col ul li { margin-bottom: 5px; }
+.footer-col a { color: #fff; transition: color 0.2s; }
+.footer-col a:hover { color: #000; }
+.social-links a { color: #fff; transition: color 0.2s; }
+.social-links a:hover { color: #000; }
+.footer-bottom { text-align: center; padding-top: 5px; color: #f0f0f0; font-size: 0.8em; }
+
 /* ====================================
    6. ESTILOS DO POP-UP DE NOTIFICAÇÃO (TOAST)
    ==================================== */

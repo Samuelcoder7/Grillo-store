@@ -2,6 +2,256 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Script carregado - iniciando...');
 
+    // Variável global (simulada) para verificar login. Assume-se que ela é definida no HTML/PHP.
+    // Ex: <script>window.isUserLoggedIn = <?php echo isset($_SESSION['user_id']) ? 'true' : 'false'; ?>;</script>
+    const isUserLoggedIn = window.isUserLoggedIn === true || window.isUserLoggedIn === 'true'; 
+
+    // =========================================================================
+    // --- FUNÇÕES DE UTILIDADE E MODAIS ---
+    // =========================================================================
+
+    const formatCurrency = (value) => {
+        // Garante que o valor é um número antes de formatar
+        return (parseFloat(value) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    };
+
+    function displayInfoPopup(message, title = 'Informação') {
+        alert(title + ': ' + message);
+    }
+
+    // Certificar que os modais de bloqueio e seus controles existem antes de usar
+    const blockModalCep = document.getElementById('block-modal-cep');
+    const closeBlockModalCep = document.getElementById('close-block-modal-cep');
+    const blockModalProduct = document.getElementById('block-modal-product');
+    const closeBlockModalProduct = document.getElementById('close-block-modal-product');
+    const cartModal = document.getElementById('cart-modal');
+
+    // Funções para mostrar e esconder modal (Ajustada para usar 'flex')
+    function showModal(modalElement, event = null) {
+        if (event) event.preventDefault();
+        if (modalElement) {
+            modalElement.style.display = 'flex';
+            modalElement.classList.add('show');
+        }
+    }
+
+    function hideModal(modalElement) {
+        if (modalElement) {
+            modalElement.style.display = 'none';
+            modalElement.classList.remove('show');
+        }
+    }
+
+    // =========================================================================
+    // --- 1. LÓGICA DO CARRINHO (AJAX para Renderização e Remoção) ---
+    // =========================================================================
+
+    const cartItemsContainer = document.getElementById('cart-items-container');
+    const emptyCartMessage = document.getElementById('empty-cart-message');
+    const cartTotalValue = document.getElementById('cart-total-value');
+    const cartBadgeCount = document.getElementById('cart-badge-count');
+
+    /**
+     * Carrega os dados do carrinho via AJAX e renderiza os itens no modal.
+     */
+    function renderCart() {
+        if (!cartItemsContainer || !emptyCartMessage || !cartTotalValue) return;
+
+        // **AJUSTE O CAMINHO SE NECESSÁRIO**
+        fetch('get_carrinho_data.php') 
+            .then(response => response.json())
+            .then(data => {
+                let total = 0;
+                let totalItems = 0;
+                cartItemsContainer.innerHTML = ''; // Limpa os itens atuais
+
+                if (data.carrinho && data.carrinho.length > 0) {
+                    emptyCartMessage.style.display = 'none';
+                    
+                    data.carrinho.forEach(item => {
+                        const preco = parseFloat(item.preco);
+                        const quantidade = parseInt(item.quantidade);
+
+                        const itemTotal = preco * quantidade;
+                        total += itemTotal;
+                        totalItems += quantidade;
+
+                        const itemHtml = `
+                            <div class="cart-item" data-produto-id="${item.id}">
+                                <div class="item-details">
+                                    <h4>${item.nome}</h4>
+                                    <p>${formatCurrency(item.preco)} x ${quantidade} = 
+                                        <span style="font-weight: bold;">${formatCurrency(itemTotal)}</span>
+                                    </p>
+                                </div>
+                                <button class="btn-remover-item" data-produto-id="${item.id}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        `;
+                        cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
+                    });
+                } else {
+                    emptyCartMessage.style.display = 'block';
+                }
+
+                // Atualiza o total e o badge
+                cartTotalValue.textContent = formatCurrency(total);
+                if (cartBadgeCount) {
+                    cartBadgeCount.textContent = totalItems;
+                }
+
+            })
+            .catch(error => {
+                console.error('Erro ao renderizar o carrinho:', error);
+                if (emptyCartMessage) emptyCartMessage.style.display = 'block';
+                cartItemsContainer.innerHTML = '';
+                cartTotalValue.textContent = formatCurrency(0);
+            });
+    }
+
+    /**
+     * Envia o produto para o PHP adicionar à sessão.
+     */
+    function adicionarAoCarrinho(produtoId, nome, preco) {
+        // **AJUSTE O CAMINHO SE NECESSÁRIO**
+        fetch('adicionar_ao_carrinho.php', { 
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `produto_id=${produtoId}&nome=${encodeURIComponent(nome)}&preco=${preco}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'sucesso') {
+                displayInfoPopup(`"${nome}" foi adicionado ao seu carrinho!`, 'Produto Adicionado');
+                
+                // Atualiza o badge do carrinho
+                if (cartBadgeCount && data.cart_count !== undefined) {
+                    cartBadgeCount.textContent = data.cart_count;
+                }
+
+                // Se o modal estiver aberto, atualiza o conteúdo
+                if (cartModal && cartModal.style.display === 'flex') {
+                    renderCart(); 
+                }
+
+            } else {
+                displayInfoPopup(`Erro ao adicionar o produto: ${data.message || 'Erro desconhecido.'}`, 'Erro no Carrinho');
+            }
+        })
+        .catch(error => {
+            console.error('Erro na comunicação com o servidor (adicionar):', error);
+            displayInfoPopup('Houve um erro de rede ao tentar adicionar o produto.', 'Erro de Rede');
+        });
+    }
+
+    /**
+     * Remove um item do carrinho via AJAX.
+     */
+    function removerItemDoCarrinho(produtoId) {
+        // **AJUSTE O CAMINHO SE NECESSÁRIO**
+        fetch('remover_carrinho_principal.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `produto_id=${produtoId}` 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'sucesso') {
+                // Atualiza a visualização do carrinho (badge e total)
+                renderCart(); 
+            } else {
+                console.error('Erro ao remover:', data.message);
+                displayInfoPopup(`Erro ao remover o produto ${produtoId}.`, 'Erro de Remoção');
+            }
+        })
+        .catch(error => {
+            console.error('Erro na comunicação com o servidor (remover):', error);
+            displayInfoPopup('Houve um erro de rede ao tentar remover o produto.', 'Erro de Rede');
+        });
+    }
+
+
+    // =========================================================================
+    // --- 2. CONFIGURAÇÃO DO MODAL DO CARRINHO (Novo Elemento) ---
+    // =========================================================================
+    
+    const cartBtn = document.getElementById('cart-btn'); // O gatilho para abrir o modal do carrinho
+    const closeCartBtn = cartModal ? cartModal.querySelector('.close-btn') : null;
+
+    if (cartBtn && cartModal) {
+        // Evento para abrir o modal do carrinho
+        cartBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // CHAMA A FUNÇÃO PARA CARREGAR OS DADOS ANTES DE ABRIR
+            renderCart(); 
+            showModal(cartModal);
+        });
+
+        // Evento para fechar modal do carrinho
+        if (closeCartBtn) {
+            closeCartBtn.addEventListener('click', function() {
+                hideModal(cartModal);
+            });
+        }
+
+        // Fechar modal ao clicar fora
+        cartModal.addEventListener('click', function(e) {
+            if (e.target === cartModal) {
+                hideModal(cartModal);
+            }
+        });
+    }
+
+    // =========================================================================
+    // --- 3. INICIALIZAÇÃO DE EVENTOS DE PRODUTO E CARRINHO ---
+    // =========================================================================
+    
+    // --- Adicionar ao carrinho (AGORA COM AJAX) ---
+    const addToCartButtons = document.querySelectorAll('.btn-add-to-cart');
+
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            
+            // Pega os dados dos atributos data-
+            const produtoId = button.getAttribute('data-produto-id');
+            const nome = button.getAttribute('data-nome');
+            const preco = button.getAttribute('data-preco'); 
+
+            if (produtoId && nome && preco) {
+                adicionarAoCarrinho(produtoId, nome, preco);
+            } else {
+                console.error("Dados do produto faltando no botão de carrinho.", button);
+                displayInfoPopup("Erro: Dados do produto incompletos.", 'Erro');
+            }
+        });
+    });
+
+    // --- Delegação de eventos para Remover do Carrinho (Botão dentro do modal) ---
+    if (cartItemsContainer) {
+        cartItemsContainer.addEventListener('click', (event) => {
+            const removerButton = event.target.closest('.btn-remover-item');
+
+            if (removerButton) {
+                const produtoId = removerButton.getAttribute('data-produto-id');
+                if (produtoId) {
+                    removerItemDoCarrinho(produtoId);
+                }
+            }
+        });
+    }
+    
+    // =========================================================================
+    // --- OUTROS CÓDIGOS EXISTENTES (Mantidos da sua estrutura) ---
+    // =========================================================================
+
+
     // -------------------------------------------------------------------------
     // --- NOVO CARROSSEL ---
     // -------------------------------------------------------------------------
@@ -15,8 +265,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let newAutoPlayInterval;
 
     if (newSlides.length > 0 && newCarouselTrack && newCarouselDotsContainer) {
-        console.log('Inicializando carrossel...');
-
         function createNewDots() {
             newCarouselDotsContainer.innerHTML = '';
             newSlides.forEach((_, index) => {
@@ -91,64 +339,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // -------------------------------------------------------------------------
     // --- MODAL CEP ---
     // -------------------------------------------------------------------------
-    console.log('Configurando modal CEP...');
-
+    
     const cepModal = document.getElementById('cep-modal');
     const closeCepBtn = document.getElementById('close-cep-modal');
     const headerCepBtn = document.getElementById('header-cep-btn');
 
-    // Verificar se os elementos existem
-    console.log('CEP Modal:', cepModal);
-    console.log('Close CEP Button:', closeCepBtn);
-    console.log('Header CEP Button:', headerCepBtn);
-
-    // Funções para mostrar e esconder modal
-    function showModal(modalElement, event = null) {
-        if (event) event.preventDefault();
-        console.log('Abrindo modal:', modalElement);
-        if (modalElement) {
-            modalElement.style.display = 'flex';
-            modalElement.classList.add('show');
-        }
-    }
-
-    function hideModal(modalElement) {
-        console.log('Fechando modal:', modalElement);
-        if (modalElement) {
-            modalElement.style.display = 'none';
-            modalElement.classList.remove('show');
-        }
-    }
-
-    // Certificar que os modais de bloqueio e seus controles existem antes de usar
-    const blockModalCep = document.getElementById('block-modal-cep');
-    const closeBlockModalCep = document.getElementById('close-block-modal-cep');
-
-    const blockModalProduct = document.getElementById('block-modal-product');
-    const closeBlockModalProduct = document.getElementById('close-block-modal-product');
-
     // Evento para abrir modal CEP
     if (headerCepBtn) {
         headerCepBtn.addEventListener('click', function(e) {
-            console.log('Botão CEP clicado');
             e.preventDefault();
-                // Se usuário logado: abrir modal de CEP; caso contrário, mostrar modal de bloqueio
-                // Usar checagem 'truthy' para ser tolerante a strings 'true'/'false' vindas do servidor
-                if (window.isUserLoggedIn) {
-                    showModal(cepModal);
+            if (isUserLoggedIn) {
+                showModal(cepModal);
+            } else {
+                if (blockModalCep) {
+                    showModal(blockModalCep);
                 } else {
-                    console.log('Usuário não logado - mostrando block modal de CEP');
-                    if (blockModalCep) {
-                        showModal(blockModalCep);
-                    } else {
-                        // fallback: mostrar o cepModal mesmo (não ideal)
-                        console.warn('blockModalCep não encontrado; abrindo cepModal como fallback');
-                        showModal(cepModal);
-                    }
+                    console.warn('blockModalCep não encontrado; abrindo cepModal como fallback');
+                    showModal(cepModal);
                 }
+            }
         });
-    } else {
-        console.log('Botão header CEP não encontrado');
     }
 
     // Evento para fechar modal CEP
@@ -171,9 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- BUSCA DE CEP ---
     // -------------------------------------------------------------------------
     const cepInput = document.getElementById('cep');
-    const cepForm = document.getElementById('cep-form');
     const logradouroInput = document.getElementById('logradouro');
-    const numeroInput = document.getElementById('numero');
     const bairroInput = document.getElementById('bairro');
     const cidadeInput = document.getElementById('cidade');
     const estadoInput = document.getElementById('estado');
@@ -204,11 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (bairroInput && !bairroInput.value) bairroInput.value = data.bairro || '';
         if (cidadeInput && !cidadeInput.value) cidadeInput.value = data.localidade || '';
         if (estadoInput && !estadoInput.value) estadoInput.value = data.uf || '';
-    }
-
-    function displayInfoPopup(message, title = 'Informação') {
-        // Criar popup simples
-        alert(title + ': ' + message);
     }
 
     // Buscar CEP
@@ -278,7 +481,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (viewAllButton) {
         viewAllButton.addEventListener('click', function(e) {
-            if (!window.isUserLoggedIn) {
+            if (!isUserLoggedIn) {
                 e.preventDefault();
                 if (blockModalProduct) {
                     showModal(blockModalProduct);
@@ -287,7 +490,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handlers para fechar e clicar fora do modal de CEP
+    // Handlers para fechar e clicar fora do modal de CEP de bloqueio
     if (closeBlockModalCep && blockModalCep) {
         closeBlockModalCep.addEventListener('click', function() {
             hideModal(blockModalCep);
@@ -300,7 +503,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Handlers para fechar e clicar fora do modal de PRODUCT
+    // Handlers para fechar e clicar fora do modal de PRODUCT de bloqueio
     if (closeBlockModalProduct && blockModalProduct) {
         closeBlockModalProduct.addEventListener('click', function() {
             hideModal(blockModalProduct);
@@ -314,23 +517,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // -------------------------------------------------------------------------
-    // --- PRODUTOS ---
+    // --- PRODUTOS (Cards Clicáveis) ---
     // -------------------------------------------------------------------------
-    const addToCartButtons = document.querySelectorAll('.btn-add-to-cart');
+    
     const productCards = document.querySelectorAll('.product-card');
 
-    // Adicionar ao carrinho
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const productCard = button.closest('.product-card');
-            const productTitle = productCard.querySelector('.product-title').textContent;
-            console.log('Produto adicionado ao carrinho:', productTitle);
-            displayInfoPopup(`"${productTitle}" foi adicionado ao seu carrinho!`, 'Produto Adicionado');
-        });
-    });
-
-    // Cards clicáveis
+    // Cards clicáveis (redirecionamento)
     productCards.forEach(card => {
         let url = card.getAttribute('data-url');
         if (url) {
@@ -356,6 +548,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         }
+    });
+
+    // -------------------------------------------------------------------------
+    // --- WISHLIST (MANTIDO) ---
+    // -------------------------------------------------------------------------
+    const wishlistButtons = document.querySelectorAll('.wishlist-btn');
+
+    wishlistButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            e.preventDefault(); 
+            
+            const icon = button.querySelector('i');
+            icon.classList.toggle('far');
+            icon.classList.toggle('fas');
+            
+            if (icon.classList.contains('fas')) {
+                displayInfoPopup('Produto adicionado à sua lista de desejos!', 'Lista de Desejos');
+            } else {
+                displayInfoPopup('Produto removido da sua lista de desejos!', 'Lista de Desejos');
+            }
+        });
     });
 
     console.log('Script inicializado com sucesso!');
