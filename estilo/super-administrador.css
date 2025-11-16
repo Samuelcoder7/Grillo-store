@@ -1,0 +1,272 @@
+/* ============================================================================
+   IMPORTAÇÃO DE FONTES
+   =========================================================================== */
+/* Importa a fonte 'Roboto' do Google Fonts em três pesos: 400 (regular),
+   500 (medium) e 700 (bold). Será utilizada como fonte padrão de todo o site. */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* ============================================================================
+   VARIÁVEIS CSS (Custom Properties)
+   =========================================================================== */
+/* Define um conjunto de variáveis reutilizáveis para cores e espaçamentos.
+   Isso permite manter consistência visual e facilitar mudanças futuras em
+   todo o CSS sem necessidade de alterar cada propriedade individualmente. */
+:root {
+    /* Cor primária do projeto - verde vibrante usado em destaque e CTAs */
+    --primary-color: #30dd59;
+    
+    /* Cor secundária - cinza muito claro para fundos alternativos */
+    --secondary-color: #f8f9fa;
+    
+    /* Cor de texto padrão - preto escuro para melhor legibilidade */
+    --text-color: #333;
+    
+    /* Cor de texto secundário - cinza médio para textos menos importantes */
+    --light-text-color: #666;
+    
+    /* Cor de borda - cinza claro para separar elementos */
+    --border-color: #dee2e6;
+    
+    /* Cor de fundo da página - cinza muito claro e suave */
+    --bg-color: #f1f2f3;
+}
+
+/* ============================================================================
+   RESET GLOBAL
+   =========================================================================== */
+/* Aplica estilos de reset em TODOS os elementos da página (*) para remover
+   estilos padrão do navegador e garantir consistência cross-browser. */
+* {
+    /* box-sizing: border-box garante que padding e border sejam inclusos
+       na largura/altura total do elemento, evitando cálculos complexos. */
+    box-sizing: border-box;
+    
+    /* Remove margem padrão de todos os elementos */
+    margin: 0;
+    
+    /* Remove preenchimento padrão de todos os elementos */
+    padding: 0;
+}
+
+/* ============================================================================
+   ESTILOS DO CORPO (BODY)
+   =========================================================================== */
+/* Define os estilos base que afetam toda a página */
+body {
+    /* Usa a fonte Roboto importada do Google Fonts como padrão,
+       com fallback para fonte genérica 'sans-serif' se Roboto não carregar */
+    font-family: 'Roboto', sans-serif;
+    
+    /* Define espaçamento entre linhas de texto para melhor legibilidade
+       (1.6x o tamanho da fonte) */
+    line-height: 1.6;
+    
+    /* Define a cor de texto padrão para toda a página */
+    color: var(--text-color);
+    
+    /* Define a cor de fundo da página usando variável CSS */
+    background-color: var(--bg-color);
+}
+
+
+/* ============================================================================
+   SEÇÃO: ESTILOS DO TÍTULO (HEADER)
+   =========================================================================== */
+/* A classe .Titulo contém o título principal da página do super administrador.
+   Utiliza um gradiente de cores verdes para criar destaque visual. */
+.Titulo {
+    /* Cria um gradiente linear de 135 graus (diagonal) partindo do verde
+       primário (#30dd59) até um verde mais escuro (#28c14e), criando efeito
+       de profundidade e modernidade. */
+    background: linear-gradient(135deg, var(--primary-color) 0%, #28c14e 100%);
+    
+    /* Define a cor do texto dentro do título como branco para contraste
+       máximo contra o fundo verde. */
+    color: white;
+    
+    /* Adiciona espaço interno de 40px no topo/bottom e 20px nas laterais,
+       criando uma área respirável ao redor do conteúdo. */
+    padding: 40px 20px;
+    
+    /* Centraliza todo o conteúdo horizontalmente dentro do título */
+    text-align: center;
+    
+    /* Adiciona uma sombra sutil de 2px (deslocamento) com 8px de borramento
+       e 10% de opacidade preta, criando profundidade visual. */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    
+    /* Adiciona espaço em branco após o título para separação visual
+       do conteúdo que vem depois. */
+    margin-bottom: 30px;
+}
+
+/* Estilos específicos para o elemento H1 dentro do título */
+.Titulo h1 {
+    /* Define o tamanho da fonte como 2.2 vezes o tamanho padrão,
+       criando um título grande e impactante. */
+    font-size: 2.2rem;
+    
+    /* Define o peso da fonte para 700 (bold), deixando o título mais
+       prominente e visualmente pesado. */
+    font-weight: 700;
+    
+    /* Remove a margem padrão do h1 para controle perfeito do espaçamento */
+    margin: 0;
+    
+    /* Aumenta o espaço entre letras em 0.5 pixels para elegância e
+       melhor legibilidade em textos grandes. */
+    letter-spacing: 0.5px;
+}
+
+
+/* ============================================================================
+   SEÇÃO: ESTILOS DA NAVEGAÇÃO
+   =========================================================================== */
+/* Container principal da navegação com os botões de menu */
+.Botoes.navegacao {
+    /* Define uma largura máxima de 1200px para manter o layout em
+       proporções adequadas em telas muito grandes. */
+    max-width: 1200px;
+    
+    /* Centraliza horizontalmente o container dentro da página usando
+       margem automática. */
+    margin: 0 auto;
+    
+    /* Adiciona espaço interno de 20px nas laterais para não ficar
+       colado nas bordas em telas pequenas. */
+    padding: 0 20px;
+}
+
+/* Elemento NAV que contém a lista de links de navegação */
+.Botoes.navegacao nav {
+    /* Fundo branco para contrastar com o fundo cinza da página */
+    background-color: white;
+    
+    /* Arredonda os cantos com 8px de raio para design moderno */
+    border-radius: 8px;
+    
+    /* Adiciona sombra leve de 2px com 4px de borramento para criar
+       elevação/profundidade visual */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+    
+    /* Esconde qualquer conteúdo que extrapolaria os cantos arredondados */
+    overflow: hidden;
+}
+
+/* Lista não ordenada (UL) que contém os itens de navegação */
+.Botoes.navegacao nav ul {
+    /* Remove o ponto/bullet padrão de listas */
+    list-style: none;
+    
+    /* Usa flexbox para exibir itens lado a lado (horizontalmente) */
+    display: flex;
+    
+    /* Permite que itens quebrem para a próxima linha se não couberem
+       (importante para responsividade). */
+    flex-wrap: wrap;
+    
+    /* Remove espaço entre itens - todos ficam unidos */
+    gap: 0;
+    
+    /* Remove margem padrão da UL */
+    margin: 0;
+    
+    /* Remove preenchimento padrão da UL */
+    padding: 0;
+}
+
+/* Cada item da lista (LI) que contém um link de navegação */
+.Botoes.navegacao nav li {
+    /* Faz cada item ocupar uma fração igual do espaço disponível */
+    flex: 1;
+    
+    /* Define uma largura mínima de 180px para que nunca fique muito
+       apertado em telas grandes. */
+    min-width: 180px;
+    
+    /* Adiciona uma linha vertical (borda) à direita de cada item
+       para separação visual. */
+    border-right: 1px solid var(--border-color);
+}
+
+/* Remove a borda do último item para evitar linha extra no final */
+.Botoes.navegacao nav li:last-child {
+    border-right: none;
+}
+
+/* Links (A) dentro dos itens de navegação */
+.Botoes.navegacao nav a {
+    /* Transforma o link em um bloco para ocupar espaço completo do LI */
+    display: block;
+    
+    /* Adiciona espaço interno ao redor do texto do link */
+    padding: 15px 20px;
+    
+    /* Remove o sublinhado padrão dos links */
+    text-decoration: none;
+    
+    /* Define a cor do texto do link */
+    color: var(--text-color);
+    
+    /* Deixa o texto do link um pouco mais pesado (medium weight) */
+    font-weight: 500;
+    
+    /* Suaviza transições de propriedades em 0.3 segundos quando há
+       mudanças (importante para efeitos hover). */
+    transition: all 0.3s ease;
+    
+    /* Centraliza o texto dentro do link */
+    text-align: center;
+    
+    /* Adiciona uma borda esquerda invisível (transparente) de 4px
+       que mudará de cor ao passar o mouse. */
+    border-left: 4px solid transparent;
+}
+
+/* Estilos ao passar o mouse sobre os links de navegação */
+.Botoes.navegacao nav a:hover {
+    /* Muda o fundo para cinza claro quando o usuário passa o mouse */
+    background-color: var(--secondary-color);
+    
+    /* Muda a cor do texto para verde primário no hover */
+    color: var(--primary-color);
+    
+    /* A borda esquerda que era transparente fica verde ao passar o mouse,
+       criando um indicador visual da opção selecionada/com foco. */
+    border-left-color: var(--primary-color);
+}
+
+
+/* ============================================================================
+   SEÇÃO: MEDIA QUERIES (RESPONSIVIDADE)
+   =========================================================================== */
+/* As media queries ajustam os estilos CSS baseados no tamanho da tela.
+   @media (max-width: 768px) significa: "aplique estes estilos quando a
+   largura máxima da tela for 768px ou menor" (típico para tablets e celulares). */
+@media (max-width: 768px) {
+    /* Reduz o tamanho do título em telas pequenas para melhor aproveitamento
+       de espaço e manter proporcionalidade visual. */
+    .Titulo h1 {
+        font-size: 1.8rem;
+    }
+
+    /* Em telas pequenas, a navegação muda de horizontal para vertical */
+    .Botoes.navegacao nav ul {
+        /* flex-direction: column empilha os items verticalmente em vez de
+           exibi-los lado a lado. */
+        flex-direction: column;
+    }
+
+    /* Em modo mobile, remove a borda direita dos itens */
+    .Botoes.navegacao nav li {
+        border-right: none;
+        /* Adiciona uma borda inferior (linha horizontal) para separação
+           visual entre os itens empilhados. */
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    /* Remove a borda do último item para evitar linha extra no final */
+    .Botoes.navegacao nav li:last-child {
+        border-bottom: none; /* Remove a borda inferior do último item */
+    }
+}
