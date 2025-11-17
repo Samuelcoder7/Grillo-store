@@ -150,6 +150,21 @@ body {
     color: var(--light-text-color);
 }
 
+/* Botão específico de acesso admin (aparência destacada) */
+.btn-admin {
+    background: linear-gradient(90deg,#30dd59 0%,#28c14e 100%);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 6px 16px rgba(40,193,78,0.16);
+    transition: transform .14s ease, box-shadow .14s ease;
+}
+.btn-admin:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 26px rgba(40,193,78,0.22);
+}
+
 /* Dark Mode Toggle - Combinação 🔆🌙 */
 .darkmode-container {
     display: flex;

@@ -37,6 +37,14 @@
             ?>
 
             <form action="processa_login.php" method="POST">
+                <?php
+                // Preserva parâmetro 'next' (ex: super-admin) passado via GET para que o processador
+                // de login saiba para onde redirecionar após autenticar.
+                $next = isset($_GET['next']) ? htmlspecialchars($_GET['next'], ENT_QUOTES) : '';
+                if (!empty($next)) {
+                    echo '<input type="hidden" name="next" value="' . $next . '">';
+                }
+                ?>
                 <input type="email" name="email" placeholder="Email" required>
                 <br><br>
                 <div class="password-wrapper" style="position: relative; display: flex; align-items: center; width: 100%;">

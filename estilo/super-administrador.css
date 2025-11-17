@@ -270,3 +270,56 @@ body {
         border-bottom: none; /* Remove a borda inferior do último item */
     }
 }
+
+/* Container */
+.super-admin-container {
+  display: flex;
+  justify-content: center; /* centraliza horizontalmente */
+  align-items: center;
+  margin: 20px 0;
+}
+
+/* Botão estilizado (link com aparência de botão) */
+.super-admin-btn {
+  display: inline-flex;
+  gap: .6rem;
+  align-items: center;
+  background: linear-gradient(90deg,#30dd59 0%,#28c14e 100%);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  box-shadow: 0 6px 18px rgba(40,193,78,0.18);
+  transition: transform .14s ease, box-shadow .14s ease, opacity .12s ease;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Ícone */
+.super-admin-btn .fa {
+  font-size: 1.06rem;
+  line-height: 1;
+}
+
+/* Hover / focus / active */
+.super-admin-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(40,193,78,0.22);
+  opacity: 0.98;
+}
+.super-admin-btn:active { transform: translateY(0); }
+.super-admin-btn:focus {
+  outline: 3px solid rgba(48,221,89,0.18);
+  outline-offset: 3px;
+}
+
+/* Responsividade: botão menor em telas pequenas */
+@media (max-width: 480px) {
+  .super-admin-btn {
+    padding: 8px 12px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+  }
+}

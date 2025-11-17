@@ -184,6 +184,10 @@ $cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['c
 
                     <!-- Botão de Login (estilos especiais btn btn-secondary com ID para JavaScript) -->
                     <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
+                    <!-- Botão específico para acesso administrativo: envia o usuário para a página de login
+                         com o parâmetro `next=super-admin`. Se o login for bem-sucedido e o usuário for
+                         super admin, será redirecionado para o painel. -->
+                    <li><a href="login.php?next=super-admin" class="btn btn-admin" id="admin-login-btn">Acesso Admin</a></li>
                 <?php endif; ?>
 
                 <!-- CARRINHO DE COMPRAS
@@ -215,12 +219,19 @@ $cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['c
                 </button>
             </div>
 
-            <a href="super-administrador.php">
-                <button id="superAdminPanel" class="btn-super-admin" aria-label="Acessar Painel do Super Administrador">
-                    <!-- Ícone de escudo (super admin) -->
-                    <span class="shield-icon">🛡️</span>
-                </button>        
+            <!-- SEÇÃO: BOTÃO DO SUPER ADMINISTRADOR
+                 ====================================================================
+                 Mostra o botão/link para o painel do super administrador
+                 apenas se o usuário atual for um super administrador. -->
 
+            <?php if (isset($_SESSION['usuario_is_super_admin']) && $_SESSION['usuario_is_super_admin'] == 1): ?>
+              <div class="super-admin-container">
+                <a class="super-admin-btn" href="super-administrador.php" title="Acessar Painel do Super Administrador">
+                  <i class="fa fa-user-shield" aria-hidden="true"></i>
+                  Painel Super Admin
+                </a>
+              </div>
+            <?php endif; ?>
 
         </div>
     </nav>
@@ -381,7 +392,7 @@ $cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['c
                 <div class="product-card" data-url="produto-16-xbox.php">
                     <div class="product-badge">-40%</div>
                     <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-                    <img src="../imagens-produtos/box1.jpg" alt="Xbox 360" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlhib3g8L3RleHQ+PC9zdmc+'">
+                    <img src="../imagens-produtos/box1.jpg" alt="Xbox 360" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPlhib3g8L3RleHQ+PC9zdmc+'">
                     <div class="product-info">
                         <p class="product-category">Games</p>
                         <h3 class="product-title">Microsoft Xbox 360 Super 250GB</h3>
@@ -406,7 +417,7 @@ $cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['c
                 <div class="product-card" data-url="produto-1-camiseta-basica.php">
                     <div class="product-badge">-20%</div>
                     <button class="wishlist-btn"><i class="far fa-heart"></i></button>
-                    <img src="../imagens-produtos/camisa1.jpg" alt="Kit Camiseta Básica" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNhbWlzZXRhPC90ZXh0Pjwvc3ZnPg=='">
+                    <img src="../imagens-produtos/camisa1.jpg" alt="Kit Camiseta Básica" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIwMCIgeG1zbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjhmOWZhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzY2NjY2NiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii4zZW0iPkNhbWlzZXRhPC90ZXh0Pjwvc3ZnPg=='">
                     <div class="product-info">
                         <p class="product-category">Moda</p>
                         <h3 class="product-title">Kit Camiseta Básica Masculina - 3 Peças</h3>
