@@ -37,14 +37,6 @@
             ?>
 
             <form action="processa_login.php" method="POST">
-                <?php
-                // Preserva parâmetro 'next' (ex: super-admin) passado via GET para que o processador
-                // de login saiba para onde redirecionar após autenticar.
-                $next = isset($_GET['next']) ? htmlspecialchars($_GET['next'], ENT_QUOTES) : '';
-                if (!empty($next)) {
-                    echo '<input type="hidden" name="next" value="' . $next . '">';
-                }
-                ?>
                 <input type="email" name="email" placeholder="Email" required>
                 <br><br>
                 <div class="password-wrapper" style="position: relative; display: flex; align-items: center; width: 100%;">
@@ -63,30 +55,9 @@
         </div>
     </main>
 
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Links Úteis</h3>
-                <ul>
-                    <li><a href="#">Sobre Nós</a></li>
-                    <li><a href="#">Contato</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Grillo Store</h3>
-                <p>&copy; 2024 Grillo Store. Todos os direitos reservados.</p>
-            </div>
-            <div class="footer-column">
-                <h3>Redes Sociais</h3>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+    
+    <?php include "../componentes/footer.php"; ?>
+
 
     <script src="../script/script-login.js"></script>
     <script>window.isUserLoggedIn = <?= isset($_SESSION['usuario_id'])? 'true':'false' ?>;</script>

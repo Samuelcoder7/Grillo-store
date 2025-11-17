@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 24/10/2025 às 23:13
+-- Tempo de geração: 17/11/2025 às 22:51
 -- Versão do servidor: 10.4.32-MariaDB
--- Versão do PHP: 8.2.12
+-- Versão do PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -39,13 +39,6 @@ CREATE TABLE `enderecos` (
   `cep` varchar(10) NOT NULL,
   `tipo` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `enderecos`
---
-
-INSERT INTO `enderecos` (`id`, `usuario_id`, `logradouro`, `numero`, `complemento`, `bairro`, `cidade`, `estado`, `cep`, `tipo`) VALUES
-(1, 5, 'Rua Maestro Ferreira Filho', '72', '', 'Campo Grande', 'Rio de Janeiro', 'RJ', '23075-050', 'principal');
 
 -- --------------------------------------------------------
 
@@ -114,15 +107,9 @@ CREATE TABLE `usuarios` (
   `cpf` varchar(14) DEFAULT NULL,
   `data_nascimento` date DEFAULT NULL,
   `telefone` varchar(20) DEFAULT NULL,
-  `data_cadastro` datetime NOT NULL DEFAULT current_timestamp()
+  `data_cadastro` datetime NOT NULL DEFAULT current_timestamp(),
+  `is_super_admin` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nome_completo`, `email`, `senha`, `cpf`, `data_nascimento`, `telefone`, `data_cadastro`) VALUES
-(5, 'SAMUEL', 'sdvr2017@gmail.com', '$2y$10$3411pTWEdGgsH9GkgVOrc.ZeEN2OnssXeHk45U6CKiACdY.cQh0bC', '188.732.427-58', '2004-06-07', '(21) 99286-3887', '2025-10-24 05:24:45');
 
 --
 -- Índices para tabelas despejadas
@@ -146,7 +133,8 @@ ALTER TABLE `produtos`
 --
 ALTER TABLE `usuarios`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `idx_is_super_admin` (`is_super_admin`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
@@ -156,7 +144,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `enderecos`
 --
 ALTER TABLE `enderecos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
@@ -168,7 +156,7 @@ ALTER TABLE `produtos`
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restrições para tabelas despejadas

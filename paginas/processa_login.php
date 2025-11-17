@@ -32,8 +32,7 @@ if (isset($_POST['submit'])) {
 
     try {
         // 2. Consulta Preparada: Busca o usuário apenas pelo email
-        // Inclui a coluna is_super_admin para poder armazenar a flag na sessão
-        $sql = "SELECT id, nome_completo, email, senha, is_super_admin FROM usuarios WHERE email = ?";
+        $sql = "SELECT id, nome_completo, email, senha FROM usuarios WHERE email = ?";
 
         // Prepara a instrução
         $stmt = $conexao->prepare($sql);
@@ -70,30 +69,11 @@ if (isset($_POST['submit'])) {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_nome'] = $usuario['nome_completo'];
                 $_SESSION['usuario_email'] = $usuario['email'];
-                // Flag de super admin (0/1) — usada para validação de acesso às áreas administrativas
-                // OBS: A coluna `is_super_admin` precisa existir na tabela `usuarios` (veja scripts SQL se não existir)
-                $_SESSION['usuario_is_super_admin'] = isset($usuario['is_super_admin']) ? $usuario['is_super_admin'] : 0;
 
                 // DEBUG
                 error_log("Login bem-sucedido para: " . $usuario['email']);
 
-                // Decide para onde redirecionar após login com base no parâmetro 'next'
-                // Prioriza $_POST (form), mas aceita também $_GET
-                $next = '';
-                if (isset($_POST['next']) && !empty($_POST['next'])) {
-                    $next = $_POST['next'];
-                } elseif (isset($_GET['next']) && !empty($_GET['next'])) {
-                    $next = $_GET['next'];
-                }
-
-                // Se foi requisitado acesso ao painel de super admin e o usuário for super admin,
-                // redireciona para o painel. Caso contrário, cai na página principal.
-                if ($next === 'super-admin' && isset($_SESSION['usuario_is_super_admin']) && $_SESSION['usuario_is_super_admin'] == 1) {
-                    header('Location: super-administrador.php');
-                    exit;
-                }
-
-                // Redireciona para a página principal por padrão
+                // Redireciona para a página principal
                 header('Location: Principal.php');
                 exit;
             } else {
