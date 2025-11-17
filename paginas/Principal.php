@@ -32,6 +32,7 @@ $cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['c
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grillo Store</title>
     <link rel="stylesheet" href="../estilo/estilo-pgprincipal.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="../estilo/super-administrador.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="../script/script-principal.js" defer></script>
     <link rel="icon" href="../imagem-grilo/grilo.png" type="image/x-icon">
@@ -58,10 +59,7 @@ $cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['c
                     <img src="../imagem-grilo/grilo.png" alt="Grillo Store"> Grillo Store
                 </div>
             </div>
-            <form class="search-bar">
-                <input type="text" placeholder="Buscar produtos...">
-                <i class="fas fa-search"></i>
-            </form>
+            
             <ul class="nav-links">
                 <?php if (isset($_SESSION['usuario_nome'])): ?>
                     <li><a href="minha_conta.php"><i class="fas fa-user"></i> Olá, <?= $_SESSION['usuario_nome']; ?></a></li>
@@ -71,6 +69,23 @@ $cart_count = isset($_SESSION['carrinho']) ? array_sum(array_column($_SESSION['c
                     <li><a href="cadastro.php" class="btn btn-primary">Cadastro</a></li>
                     <li><a href="login.php" class="btn btn-secondary" id="login-btn">Login</a></li>
                 <?php endif; ?>
+
+                <?php
+                // Mostrar botão do Painel do Super Administrador apenas para emails permitidos
+                $super_admins = [
+                    'sdvr2017@gmail.com',
+                    'pabloviniciusog@gmail.com',
+                    'Beatriz.ffsilva16@gmail.com',
+                    'gabrielsuliano240@gmail.com'
+                ];
+
+                if (isset($_SESSION['usuario_email']) && in_array($_SESSION['usuario_email'], $super_admins)) {
+                    // Usa a classe .super-admin-btn para manter padrão visual do projeto
+                    echo '<li><a href="super-administrador.php" class="super-admin-btn" style="display:inline-flex; align-items:center; gap:.5rem;">';
+                    echo '<i class="fas fa-user-shield"></i> Painel Admin';
+                    echo '</a></li>';
+                }
+                ?>
 
                 <li class="cart-link">
                     <a href="#" id="cart-btn">

@@ -44,7 +44,8 @@
 $emails_permitidos = [
     'sdvr2017@gmail.com',           // SAMUEL - Admin 
     'pabloviniciusog@gmail.com',    // PABLO - Admin
-    'Beatriz.ffsilva16@gmail.com'   // BEATRIZ - Admin 
+    'Beatriz.ffsilva16@gmail.com',  // BEATRIZ - Admin
+    'gabrielsuliano240@gmail.com'     // GABRIEL - Admin
 ];
 
 /**
