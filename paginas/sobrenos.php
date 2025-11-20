@@ -57,7 +57,7 @@
                     </div>
 
                     <div class="dev-card">
-                        <img class="dev-image" src="../imagem/valentim.jpg" alt="Samuel Valentim" onerror="this.src='https://via.placeholder.com/100x100/28a745/ffffff?text=S'">
+                        <img class="dev-image" src="../imagem/Valentim.jpeg" alt="Samuel Valentim" onerror="this.src='https://via.placeholder.com/100x100/28a745/ffffff?text=S'">
                         <div class="dev-info">
                             <h3>Samuel Valentim</h3>
                             <p>Desenvolvedor</p>
@@ -65,7 +65,7 @@
                     </div>
 
                     <div class="dev-card">
-                        <img class="dev-image" src="../imagem/pablo.jpg" alt="Pablo Vinicius" onerror="this.src='https://via.placeholder.com/100x100/28a745/ffffff?text=P'">
+                        <img class="dev-image" src="../imagem/pablo.jpeg" alt="Pablo Vinicius" onerror="this.src='https://via.placeholder.com/100x100/28a745/ffffff?text=P'">
                         <div class="dev-info">
                             <h3>Pablo Vinicius</h3>
                             <p>Desenvolvedor</p>

@@ -137,7 +137,7 @@
         document.querySelectorAll('.popup').forEach(popup => {
             popup.addEventListener('click', function(e) {
                 if(e.target === this) {
-                    this.style.display = 'none';
+                    this.style.display = 'none';// Fecha o popup ao clicar fora do conteúdo
                 }
             });
         });

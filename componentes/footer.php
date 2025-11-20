@@ -22,7 +22,4 @@
             </div>
        </div>
 </footer>
-
-        </div>
-    </div>
-</footer>
+<!-- Fechamento correto do footer (removidos fechamentos duplicados que quebravam o HTML). -->

@@ -59,3 +59,16 @@
 .social-icons a:hover {
     color: #d4fdd4;
 }
+
+/* Mantém footer verde no dark-mode (ou ajuste a cor desejada) */
+body.dark-mode .main-footer {
+    background-color: #28a745;
+    color: #ffffff;
+}
+.main-footer {
+    background-color: #30dd59 !important;
+}   
+body.dark-mode .main-footer {
+    background-color: #28a745 !important;
+}
+
