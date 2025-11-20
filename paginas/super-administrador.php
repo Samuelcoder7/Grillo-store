@@ -37,6 +37,7 @@ if ($resultado) {
 	<title>Painel Super Administrador - Grillo Store</title>
 	<link rel="stylesheet" href="../estilo/super-administrador.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
@@ -81,13 +82,32 @@ if ($resultado) {
 						<textarea name="descricao" placeholder="Descrição" rows="4" style="width:100%; padding:10px;"><?= $produto_editar ? htmlspecialchars($produto_editar['descricao']) : '' ?></textarea>
 					</div>
 					<div style="margin-top:10px; display:flex; gap:8px;">
-						<button class="super-admin-btn" type="submit"><?= $produto_editar ? 'Salvar Alterações' : 'Adicionar Produto' ?></button>
-						<?php if ($produto_editar): ?>
-							<a href="super-administrador.php" style="align-self:center; color:#666;">Cancelar edição</a>
-						<?php endif; ?>
-					</div>
-				</form>
+                        <button class="super-admin-btn" type="submit"><?= $produto_editar ? 'Salvar Alterações' : 'Adicionar Produto' ?></button>
+
+                        <?php if (!$produto_editar): ?>
+                            <a class="super-admin-btn" 
+                               style="background:#007bff; padding:10px 15px; text-decoration:none; display:inline-block; border-radius:4px; color:white; cursor:pointer;" 
+                               href="gerar_pdf.php" 
+                               target="_blank">
+                                Gerar PDF
+                            </a>
+                        <?php endif; ?>
+
+
+                        <?php if ($produto_editar): ?>
+                            <a href="super-administrador.php" style="align-self:center; color:#666;">Cancelar edição</a>
+                        <?php endif; ?>
+                    </div>
+                </form>
 			</section>
+
+			<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05); margin-bottom:20px; margin-top:20px;">
+    <h2>📈 Valor Total de Estoque por Categoria</h2>
+    <div style="max-width: 800px; margin: 0 auto; margin-top: 20px;">
+        <canvas id="graficoEstoqueCategoria"></canvas>
+    </div>
+</section>
+<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05);">
 
 			<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05);">
 				<h2>Lista de Produtos</h2>
@@ -130,6 +150,7 @@ if ($resultado) {
 	</div>
 
 	<?php include "../componentes/footer.php"; ?>
+	<script src="../script/super-administrador.js"></script>
 
 </body>
 </html>
