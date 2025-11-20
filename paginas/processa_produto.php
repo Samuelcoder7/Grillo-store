@@ -1,81 +1,52 @@
 <?php
-session_start();
-require_once('middleware-super-admin.php');
 require_once('conexao.php');
 
-// Retorna para a página admin com mensagem
-function redirect($msg = '', $success = true) {
-    $tipo = $success ? 'ok' : 'erro';
-    header("Location: super-administrador.php?$tipo=" . urlencode($msg));
-    exit;
-}
+$acao = $_POST['acao'] ?? '';
 
-$acao = isset($_POST['acao']) ? $_POST['acao'] : '';
+if ($acao === 'create' || $acao === 'update') {
+    $nome = $_POST['nome'];
+    $categoria = $_POST['categoria'];
+    $preco = $_POST['preco'];
+    $estoque = $_POST['estoque'];
+    $descricao = $_POST['descricao'];
 
-if ($acao === 'create') {
-    $nome = trim($_POST['nome'] ?? '');
-    $descricao = trim($_POST['descricao'] ?? '');
-    $preco = floatval($_POST['preco'] ?? 0);
-    $estoque = intval($_POST['estoque'] ?? 0);
-    $categoria = trim($_POST['categoria'] ?? '');
+    // Upload da imagem
+    $imagem = null;
+    if (!empty($_FILES['imagem']['name'])) {
+        $nomeImagem = time() . "_" . basename($_FILES['imagem']['name']);
+        $caminho = "uploads/" . $nomeImagem;
 
-    if ($nome === '') {
-        redirect('Nome do produto é obrigatório.', false);
+        if (move_uploaded_file($_FILES['imagem']['tmp_name'], $caminho)) {
+            $imagem = $nomeImagem;
+        }
     }
 
-    $sql = "INSERT INTO produtos (nome, descricao, preco, estoque, categoria) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conexao->prepare($sql);
-    if (!$stmt) redirect('Erro de preparação SQL: ' . $conexao->error, false);
-
-    $stmt->bind_param('ssdis', $nome, $descricao, $preco, $estoque, $categoria);
-    $executou = $stmt->execute();
-    $stmt->close();
-
-    if ($executou) {
-        redirect('Produto criado com sucesso.');
-    } else {
-        redirect('Falha ao criar produto: ' . $conexao->error, false);
+    if ($acao === 'create') {
+        $stmt = $conexao->prepare("INSERT INTO produtos (nome, categoria, preco, estoque, descricao, imagem) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdiis", $nome, $categoria, $preco, $estoque, $descricao, $imagem);
+        $stmt->execute();
+        header("Location: super-administrador.php?ok=Produto adicionado com sucesso!");
     }
 
-} elseif ($acao === 'update') {
-    $id = intval($_POST['id'] ?? 0);
-    $nome = trim($_POST['nome'] ?? '');
-    $descricao = trim($_POST['descricao'] ?? '');
-    $preco = floatval($_POST['preco'] ?? 0);
-    $estoque = intval($_POST['estoque'] ?? 0);
-    $categoria = trim($_POST['categoria'] ?? '');
-
-    if ($id <= 0) redirect('ID inválido para edição.', false);
-    if ($nome === '') redirect('Nome do produto é obrigatório.', false);
-
-    $sql = "UPDATE produtos SET nome = ?, descricao = ?, preco = ?, estoque = ?, categoria = ? WHERE id = ?";
-    $stmt = $conexao->prepare($sql);
-    if (!$stmt) redirect('Erro de preparação SQL: ' . $conexao->error, false);
-
-    $stmt->bind_param('ssdisi', $nome, $descricao, $preco, $estoque, $categoria, $id);
-    $executou = $stmt->execute();
-    $stmt->close();
-
-    if ($executou) redirect('Produto atualizado com sucesso.');
-    else redirect('Falha ao atualizar: ' . $conexao->error, false);
-
-} elseif ($acao === 'delete') {
-    $id = intval($_POST['id'] ?? 0);
-    if ($id <= 0) redirect('ID inválido para exclusão.', false);
-
-    $sql = "DELETE FROM produtos WHERE id = ?";
-    $stmt = $conexao->prepare($sql);
-    if (!$stmt) redirect('Erro de preparação SQL: ' . $conexao->error, false);
-
-    $stmt->bind_param('i', $id);
-    $executou = $stmt->execute();
-    $stmt->close();
-
-    if ($executou) redirect('Produto excluído com sucesso.');
-    else redirect('Falha ao excluir: ' . $conexao->error, false);
-
-} else {
-    redirect('Ação inválida.', false);
+    if ($acao === 'update') {
+        $id = $_POST['id'];
+        if ($imagem) {
+            $stmt = $conexao->prepare("UPDATE produtos SET nome=?, categoria=?, preco=?, estoque=?, descricao=?, imagem=? WHERE id=?");
+            $stmt->bind_param("ssdiisi", $nome, $categoria, $preco, $estoque, $descricao, $imagem, $id);
+        } else {
+            $stmt = $conexao->prepare("UPDATE produtos SET nome=?, categoria=?, preco=?, estoque=?, descricao=? WHERE id=?");
+            $stmt->bind_param("ssdisi", $nome, $categoria, $preco, $estoque, $descricao, $id);
+        }
+        $stmt->execute();
+        header("Location: super-administrador.php?ok=Produto atualizado com sucesso!");
+    }
 }
 
+if ($acao === 'delete') {
+    $id = $_POST['id'];
+    $stmt = $conexao->prepare("DELETE FROM produtos WHERE id=?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    header("Location: super-administrador.php?ok=Produto excluído com sucesso!");
+}
 ?>

@@ -31,7 +31,7 @@ $nao_lidas = $count_result->fetch_assoc()['total_nao_lidas'];
 <body>
     <!-- HEADER -->
     <header class="auth-header">
-        <a href="Principal.php" class="back-link">
+        <a href="super-administrador.php" class="back-link">
             <i class="fas fa-arrow-left"></i> Voltar
         </a>
         <div class="logo-container">

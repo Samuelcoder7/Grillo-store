@@ -31,6 +31,7 @@ if ($resultado) {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,9 +40,17 @@ if ($resultado) {
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
+
 <body>
 
 	<div class="Titulo">
+		<!-- aqui coloque um botão de voltar para a página principal -->
+		<div class="botao-voltar">
+			<button onclick="window.location.href='Principal.php'" class="back-button">
+				<i class="fas fa-arrow-left"></i> Voltar
+			</button>
+		</div>
+		
 		<h1>Painel do Super Administrador</h1>
 	</div>
 
@@ -59,15 +68,17 @@ if ($resultado) {
 		<div style="width:95%; max-width:1200px;">
 
 			<?php if ($sucesso): ?>
-				<div style="background:#e6ffed; color:#124b21; padding:12px; border-radius:6px; margin-bottom:10px;"><?=htmlspecialchars($sucesso)?></div>
-			<?php endif; ?>
+				<div style="background:#e6ffed; color:#124b21; padding:12px; border-radius:6px; margin-bottom:10px;"><?= htmlspecialchars($sucesso) ?></div>
+			<?php endif; ?> <!-- Mensagem de sucesso -->
 			<?php if ($erro): ?>
-				<div style="background:#ffecec; color:#8a1f1f; padding:12px; border-radius:6px; margin-bottom:10px;"><?=htmlspecialchars($erro)?></div>
+				<div style="background:#ffecec; color:#8a1f1f; padding:12px; border-radius:6px; margin-bottom:10px;"><?= htmlspecialchars($erro) ?></div>
 			<?php endif; ?>
 
 			<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05); margin-bottom:20px;">
 				<h2><?= $produto_editar ? 'Editar Produto' : 'Adicionar Produto' ?></h2>
-				<form action="processa_produto.php" method="POST">
+
+				<!-- Formulário de adicionar/editar produto -->
+				<form action="processa_produto.php" method="POST" enctype="multipart/form-data">
 					<input type="hidden" name="acao" value="<?= $produto_editar ? 'update' : 'create' ?>">
 					<?php if ($produto_editar): ?>
 						<input type="hidden" name="id" value="<?= $produto_editar['id'] ?>">
@@ -81,70 +92,80 @@ if ($resultado) {
 					<div style="margin-top:10px;">
 						<textarea name="descricao" placeholder="Descrição" rows="4" style="width:100%; padding:10px;"><?= $produto_editar ? htmlspecialchars($produto_editar['descricao']) : '' ?></textarea>
 					</div>
+
+					<!-- Campo de imagem adicionado -->
+					<div style="margin-top:10px;">
+						<label>Imagem do produto:</label>
+						<input type="file" name="imagem" accept="image/*">
+						<?php if ($produto_editar && !empty($produto_editar['imagem'])): ?>
+							<p>Imagem atual:</p>
+							<img src="uploads/<?= htmlspecialchars($produto_editar['imagem']) ?>" alt="Imagem do produto" style="max-width:150px; border:1px solid #ccc; padding:4px;">
+						<?php endif; ?>
+					</div>
+
 					<div style="margin-top:10px; display:flex; gap:8px;">
-                        <button class="super-admin-btn" type="submit"><?= $produto_editar ? 'Salvar Alterações' : 'Adicionar Produto' ?></button>
+						<button class="super-admin-btn" type="submit"><?= $produto_editar ? 'Salvar Alterações' : 'Adicionar Produto' ?></button>
 
-                        <?php if (!$produto_editar): ?>
-                            <a class="super-admin-btn" 
-                               style="background:#007bff; padding:10px 15px; text-decoration:none; display:inline-block; border-radius:4px; color:white; cursor:pointer;" 
-                               href="gerar_pdf.php" 
-                               target="_blank">
-                                Gerar PDF
-                            </a>
-                        <?php endif; ?>
+						<?php if (!$produto_editar): ?>
+							<a class="super-admin-btn"
+								style="background:#007bff; padding:10px 15px; text-decoration:none; display:inline-block; border-radius:4px; color:white; cursor:pointer;"
+								href="gerar_pdf.php"
+								target="_blank">
+								Gerar PDF
+							</a>
+						<?php endif; ?>
 
-
-                        <?php if ($produto_editar): ?>
-                            <a href="super-administrador.php" style="align-self:center; color:#666;">Cancelar edição</a>
-                        <?php endif; ?>
-                    </div>
-                </form>
+						<?php if ($produto_editar): ?>
+							<a href="super-administrador.php" style="align-self:center; color:#666;">Cancelar edição</a>
+						<?php endif; ?>
+					</div>
+				</form>
 			</section>
 
 			<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05); margin-bottom:20px; margin-top:20px;">
-    <h2>📈 Valor Total de Estoque por Categoria</h2>
-    <div style="max-width: 800px; margin: 0 auto; margin-top: 20px;">
-        <canvas id="graficoEstoqueCategoria"></canvas>
-    </div>
-</section>
-<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05);">
-
-			<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05);">
-				<h2>Lista de Produtos</h2>
-				<div style="overflow:auto; margin-top:10px;">
-					<table style="width:100%; border-collapse:collapse;">
-						<thead>
-							<tr style="background:#f8f9fa; text-align:left;">
-								<th style="padding:8px; border-bottom:1px solid #eee;">ID</th>
-								<th style="padding:8px; border-bottom:1px solid #eee;">Nome</th>
-								<th style="padding:8px; border-bottom:1px solid #eee;">Preço</th>
-								<th style="padding:8px; border-bottom:1px solid #eee;">Estoque</th>
-								<th style="padding:8px; border-bottom:1px solid #eee;">Categoria</th>
-								<th style="padding:8px; border-bottom:1px solid #eee;">Ações</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ($produtos as $p): ?>
-								<tr>
-									<td style="padding:10px; vertical-align:middle;"><?= $p['id'] ?></td>
-									<td style="padding:10px; vertical-align:middle;"><?= htmlspecialchars($p['nome']) ?></td>
-									<td style="padding:10px; vertical-align:middle;">R$ <?= number_format($p['preco'], 2, ',', '.') ?></td>
-									<td style="padding:10px; vertical-align:middle;"><?= $p['estoque'] ?></td>
-									<td style="padding:10px; vertical-align:middle;"><?= htmlspecialchars($p['categoria']) ?></td>
-									<td style="padding:10px; vertical-align:middle;">
-										<a class="super-admin-btn" style="background:#556bff; padding:7px 12px; text-decoration:none; margin-right:8px;" href="super-administrador.php?editar=<?= $p['id'] ?>">Editar</a>
-										<form action="processa_produto.php" method="POST" style="display:inline;" onsubmit="return confirm('Deseja realmente excluir este produto?');">
-											<input type="hidden" name="acao" value="delete">
-											<input type="hidden" name="id" value="<?= $p['id'] ?>">
-											<button class="super-admin-btn" type="submit" style="background:#ff5c5c;">Excluir</button>
-										</form>
-									</td>
-								</tr>
-							<?php endforeach; ?>
-						</tbody>
-					</table>
+				<h2>📈 Valor Total de Estoque por Categoria</h2>
+				<div style="max-width: 800px; margin: 0 auto; margin-top: 20px;">
+					<canvas id="graficoEstoqueCategoria"></canvas>
 				</div>
 			</section>
+			<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05);">
+
+				<section style="background:white; padding:18px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.05);">
+					<h2>Lista de Produtos</h2>
+					<div style="overflow:auto; margin-top:10px;">
+						<table style="width:100%; border-collapse:collapse;">
+							<thead>
+								<tr style="background:#f8f9fa; text-align:left;">
+									<th style="padding:8px; border-bottom:1px solid #eee;">ID</th>
+									<th style="padding:8px; border-bottom:1px solid #eee;">Nome</th>
+									<th style="padding:8px; border-bottom:1px solid #eee;">Preço</th>
+									<th style="padding:8px; border-bottom:1px solid #eee;">Estoque</th>
+									<th style="padding:8px; border-bottom:1px solid #eee;">Categoria</th>
+									<th style="padding:8px; border-bottom:1px solid #eee;">Ações</th>
+								</tr>
+							</thead>
+							<tbody>
+								<?php foreach ($produtos as $p): ?>
+									<tr>
+										<td style="padding:10px; vertical-align:middle;"><?= $p['id'] ?></td>
+										<td style="padding:10px; vertical-align:middle;"><?= htmlspecialchars($p['nome']) ?></td>
+										<td style="padding:10px; vertical-align:middle;">R$ <?= number_format($p['preco'], 2, ',', '.') ?></td>
+										<td style="padding:10px; vertical-align:middle;"><?= $p['estoque'] ?></td>
+										<td style="padding:10px; vertical-align:middle;"><?= htmlspecialchars($p['categoria']) ?></td>
+										<td style="padding:10px; vertical-align:middle;">
+											<a class="super-admin-btn" style="background:#556bff; padding:7px 12px; text-decoration:none; margin-right:8px;" href="super-administrador.php?editar=<?= $p['id'] ?>">Editar</a>
+											<form action="processa_produto.php" method="POST" style="display:inline;" onsubmit="return confirm('Deseja realmente excluir este produto?');">
+												<input type="hidden" name="acao" value="delete">
+												<input type="hidden" name="id" value="<?= $p['id'] ?>">
+												<button class="super-admin-btn" type="submit" style="background:#ff5c5c;">Excluir</button>
+											</form>
+										</td>
+									</tr>
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					</div>
+				</section>
 
 		</div>
 	</div>
@@ -153,5 +174,5 @@ if ($resultado) {
 	<script src="../script/super-administrador.js"></script>
 
 </body>
-</html>
 
+</html>

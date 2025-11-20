@@ -323,3 +323,12 @@ body {
     border-radius: 8px;
   }
 }
+.botão-voltar {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+   position: relative;
+}
