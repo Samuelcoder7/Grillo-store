@@ -1,123 +1,205 @@
 /* ============================================================================
-   IMPORTAÇÃO DE FONTES
-   =========================================================================== */
-/* Importa a fonte 'Roboto' do Google Fonts em três pesos: 400 (regular),
-   500 (medium) e 700 (bold). Será utilizada como fonte padrão de todo o site. */
+    IMPORTAÇÃO DE FONTES
+    =========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
 
 /* ============================================================================
-   VARIÁVEIS CSS (Custom Properties)
-   =========================================================================== */
-/* Define um conjunto de variáveis reutilizáveis para cores e espaçamentos.
-   Isso permite manter consistência visual e facilitar mudanças futuras em
-   todo o CSS sem necessidade de alterar cada propriedade individualmente. */
+    VARIÁVEIS CSS (Custom Properties) - ATUALIZADAS PARA DARK MODE
+    =========================================================================== */
 :root {
-    /* Cor primária do projeto - verde vibrante usado em destaque e CTAs */
+    /* Cores Principais */
     --primary-color: #30dd59;
+    --primary-hover-color: #28c14e;
     
-    /* Cor secundária - cinza muito claro para fundos alternativos */
-    --secondary-color: #f8f9fa;
-    
-    /* Cor de texto padrão - preto escuro para melhor legibilidade */
-    --text-color: #333;
-    
-    /* Cor de texto secundário - cinza médio para textos menos importantes */
-    --light-text-color: #666;
-    
-    /* Cor de borda - cinza claro para separar elementos */
-    --border-color: #dee2e6;
-    
-    /* Cor de fundo da página - cinza muito claro e suave */
-    --bg-color: #f1f2f3;
+    /* Cores do Tema CLARO */
+    --bg-color: #f1f2f3;           /* Fundo da página (Cinza Suave) */
+    --card-bg-color: #ffffff;      /* Fundo de cards/seções (Branco) */
+    --secondary-color: #f8f9fa;    /* Fundo de elementos secundários/hover (Cinza Claro) */
+    --text-color: #333;            /* Texto principal (Preto) */
+    --light-text-color: #666;      /* Texto secundário (Cinza Médio) */
+    --border-color: #dee2e6;       /* Cor de borda/linha (Cinza Claro) */
+    --shadow-color: rgba(0,0,0,0.08); /* Cor da sombra */
 }
 
+/* Modo Escuro */
+body.dark-mode {
+    /* Cores do Tema ESCURO */
+    --bg-color: #1a1a1a;            /* Fundo da página (Preto Sutil) */
+    --card-bg-color: #2c2c2c;       /* Fundo de cards/seções (Cinza Escuro) */
+    --secondary-color: #383838;     /* Fundo de elementos secundários/hover */
+    --text-color: #f0f0f0;          /* Texto principal (Branco Claro) */
+    --light-text-color: #b0b0b0;    /* Texto secundário (Cinza Claro) */
+    --border-color: #444;           /* Cor de borda/linha (Cinza Escuro) */
+    --shadow-color: rgba(0,0,0,0.4); /* Cor da sombra mais intensa */
+}
+
+
 /* ============================================================================
-   RESET GLOBAL
-   =========================================================================== */
-/* Aplica estilos de reset em TODOS os elementos da página (*) para remover
-   estilos padrão do navegador e garantir consistência cross-browser. */
+    RESET GLOBAL
+    =========================================================================== */
 * {
-    /* box-sizing: border-box garante que padding e border sejam inclusos
-       na largura/altura total do elemento, evitando cálculos complexos. */
     box-sizing: border-box;
-    
-    /* Remove margem padrão de todos os elementos */
     margin: 0;
-    
-    /* Remove preenchimento padrão de todos os elementos */
     padding: 0;
 }
 
 /* ============================================================================
-   ESTILOS DO CORPO (BODY)
-   =========================================================================== */
-/* Define os estilos base que afetam toda a página */
+    ESTILOS DO CORPO (BODY)
+    =========================================================================== */
 body {
-    /* Usa a fonte Roboto importada do Google Fonts como padrão,
-       com fallback para fonte genérica 'sans-serif' se Roboto não carregar */
     font-family: 'Roboto', sans-serif;
-    
-    /* Define espaçamento entre linhas de texto para melhor legibilidade
-       (1.6x o tamanho da fonte) */
     line-height: 1.6;
-    
-    /* Define a cor de texto padrão para toda a página */
     color: var(--text-color);
-    
-    /* Define a cor de fundo da página usando variável CSS */
     background-color: var(--bg-color);
+    /* Transição para suavizar a mudança entre temas */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
 /* ============================================================================
-   SEÇÃO: ESTILOS DO TÍTULO (HEADER)
-   =========================================================================== */
-/* A classe .Titulo contém o título principal da página do super administrador.
-   Utiliza um gradiente de cores verdes para criar destaque visual. */
+    SEÇÃO: ESTILOS DO TÍTULO (HEADER) - ADAPTAÇÃO
+    =========================================================================== */
+/* A classe .Titulo mantém o gradiente de fundo fixo, mas precisamos
+   redefinir o layout para incluir os botões. */
 .Titulo {
-    /* Cria um gradiente linear de 135 graus (diagonal) partindo do verde
-       primário (#30dd59) até um verde mais escuro (#28c14e), criando efeito
-       de profundidade e modernidade. */
-    background: linear-gradient(135deg, var(--primary-color) 0%, #28c14e 100%);
-    
-    /* Define a cor do texto dentro do título como branco para contraste
-       máximo contra o fundo verde. */
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-hover-color) 100%);
     color: white;
-    
-    /* Adiciona espaço interno de 40px no topo/bottom e 20px nas laterais,
-       criando uma área respirável ao redor do conteúdo. */
-    padding: 40px 20px;
-    
-    /* Centraliza todo o conteúdo horizontalmente dentro do título */
+    padding: 20px; /* Reduzido para dar espaço ao conteúdo */
     text-align: center;
-    
-    /* Adiciona uma sombra sutil de 2px (deslocamento) com 8px de borramento
-       e 10% de opacidade preta, criando profundidade visual. */
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    
-    /* Adiciona espaço em branco após o título para separação visual
-       do conteúdo que vem depois. */
     margin-bottom: 30px;
+    
+    /* NOVO: Flexbox para posicionar os botões e o H1 */
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    position: relative;
 }
 
-/* Estilos específicos para o elemento H1 dentro do título */
 .Titulo h1 {
-    /* Define o tamanho da fonte como 2.2 vezes o tamanho padrão,
-       criando um título grande e impactante. */
     font-size: 2.2rem;
-    
-    /* Define o peso da fonte para 700 (bold), deixando o título mais
-       prominente e visualmente pesado. */
     font-weight: 700;
-    
-    /* Remove a margem padrão do h1 para controle perfeito do espaçamento */
-    margin: 0;
-    
-    /* Aumenta o espaço entre letras em 0.5 pixels para elegância e
-       melhor legibilidade em textos grandes. */
+    margin: 10px 0 0 0; /* Espaço após o h1 */
     letter-spacing: 0.5px;
 }
 
+/* Container dos Botões de Voltar e Dark Mode */
+.header-controls {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Estilo do Botão Voltar (back-button) */
+.back-button {
+    /* Inverte as cores para ficarem em destaque no fundo verde */
+    background: white;
+    color: var(--primary-hover-color);
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+}
+
+.back-button:hover {
+    background: #e0e0e0;
+    transform: scale(1.02);
+}
+
+/* Estilo do Botão Dark Mode */
+.darkmode-container button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: white; /* Cor branca para o ícone no fundo verde */
+    padding: 5px;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.darkmode-container button:hover {
+    color: var(--secondary-color);
+    transform: rotate(15deg);
+}
+
+.darkmode-container button svg {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+/* ============================================================================
+    ADAPTAÇÃO DE SEÇÕES E COMPONENTES PARA DARK MODE
+    =========================================================================== */
+
+/* Container Principal do Conteúdo */
+.super-admin-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+/* Estilos para todas as sections, formularios e divs que usam branco como fundo no HTML */
+.super-admin-container section, 
+.Botoes.navegacao nav,
+.super-admin-container div[style*="background:white"],
+.super-admin-container div[style*="background:#e6ffed"],
+.super-admin-container div[style*="background:#ffecec"] {
+    background: var(--card-bg-color) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color); /* Adiciona borda sutil */
+    box-shadow: 0 6px 18px var(--shadow-color) !important;
+    transition: background-color 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Adaptação das mensagens de sucesso/erro */
+/* Sucesso */
+div[style*="background:#e6ffed"] {
+    background: var(--card-bg-color) !important;
+    color: var(--primary-color) !important;
+}
+/* Erro */
+div[style*="background:#ffecec"] {
+    background: var(--card-bg-color) !important;
+    color: #cc3333 !important;
+}
+
+
+/* Estilos de Formulário (Inputs e Textareas) */
+input[type="text"],
+input[type="number"],
+textarea {
+    background-color: var(--secondary-color) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--border-color) !important;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Tabela */
+.super-admin-container table {
+    color: var(--text-color);
+}
+
+.super-admin-container th {
+    /* Fundo do cabeçalho da tabela */
+    background: var(--secondary-color) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    color: var(--text-color) !important;
+}
+
+.super-admin-container td {
+    border-bottom: 1px solid var(--border-color) !important;
+}
 
 /* ============================================================================
    SEÇÃO: ESTILOS DA NAVEGAÇÃO
@@ -126,7 +208,7 @@ body {
 .Botoes.navegacao {
     /* Define uma largura máxima de 1200px para manter o layout em
        proporções adequadas em telas muito grandes. */
-    max-width: 1200px;
+    max-width: 600px;
     
     /* Centraliza horizontalmente o container dentro da página usando
        margem automática. */

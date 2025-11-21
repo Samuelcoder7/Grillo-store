@@ -90,31 +90,8 @@ $nao_lidas = $count_result->fetch_assoc()['total_nao_lidas'];
         <?php endwhile; ?>
     </div>
 
-    <!-- FOOTER -->
-    <footer class="main-footer">
-        <div class="footer-content">
-            <div class="footer-column">
-                <h3>Links Úteis</h3>
-                <ul>
-                    <li><a href="#">Sobre Nós</a></li>
-                    <li><a href="#">Contato</a></li>
-                    <li><a href="#">FAQ</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Grillo Store</h3>
-                <p>&copy; 2024 Grillo Store. Todos os direitos reservados.</p>
-            </div>
-            <div class="footer-column">
-                <h3>Redes Sociais</h3>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                </div>
-            </div>
-        </div>
-    </footer>
+     <?php include "../componentes/footer.php"; ?>
+
 
     <!-- SCRIPT CORRIGIDO -->
     <script>

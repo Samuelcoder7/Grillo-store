@@ -44,23 +44,29 @@ if ($resultado) {
 <body>
 
 	<div class="Titulo">
-		<!-- aqui coloque um botão de voltar para a página principal -->
-		<div class="botao-voltar">
-			<button onclick="window.location.href='Principal.php'" class="back-button">
-				<i class="fas fa-arrow-left"></i> Voltar
-			</button>
-		</div>
-		
-		<h1>Painel do Super Administrador</h1>
-	</div>
+        <div class="header-controls">
+            <div class="botao-voltar">
+                <button onclick="window.location.href='Principal.php'" class="back-button">
+                    <i class="fas fa-arrow-left"></i> Voltar
+                </button>
+            </div>
+
+            <div class="darkmode-container">
+                <button id="darkModeToggle" aria-label="Alternar modo escuro"></button>
+            </div>
+        </div>
+        
+        <h1>Painel do Super Administrador</h1>
+    </div>
 
 	<div class="Botoes navegacao">
 		<nav>
 			<ul>
-				<li><a href="super-administrador.php">Produtos</a></li>
-				<li><a href="gerenciar_produtor.php">Produtores</a></li>
+				
+				<li><a href="listagem-produtos.php">Listagem de Produtos</a></li>
 				<li><a href="painel_mensagens.php">Mensagens</a></li>
-			</ul>
+			
+			</ul>	
 		</nav>
 	</div>
 
