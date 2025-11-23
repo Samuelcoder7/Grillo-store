@@ -17,7 +17,7 @@
                 <h3>Redes Sociais</h3>
                 <div class="social-icons">
                     <a href="https://www.instagram.com/grillo_store_oficial/?next=%2F"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://wa.me/5521998436606?" target="_blank"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
        </div>
